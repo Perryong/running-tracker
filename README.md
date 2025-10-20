@@ -2,8 +2,6 @@
 
 A personal visualization of my running journey, synced from Garmin Connect.
 
-![Running Page Demo](https://user-images.githubusercontent.com/15976103/98808834-c02f1d80-2457-11eb-9a7c-70e91faa5e30.gif)
-
 ## 📊 Stats Overview
 
 Track my running activities with beautiful visualizations including:
