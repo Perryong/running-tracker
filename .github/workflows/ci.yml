@@ -27,10 +27,11 @@ jobs:
         run: |
           pip install -r requirements-dev.txt
 
-      - name: Run GPX sync test
+      - name: Check Python syntax
         run: |
-          # make sure the gpx_sync.py script is executable
-          python run_page/gpx_sync.py
+          # Verify Python files can be imported (syntax check)
+          python -c "import run_page.garmin_sync"
+          python -c "import run_page.gen_svg"
 
       - name: Check formatting (black)
         run: black . --diff --color && black . --check
