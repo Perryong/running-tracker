@@ -391,7 +391,9 @@ async def download_new_activities(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "secret_string", nargs="?", help="secret_string fro get_garmin_secret.py or from secret.txt"
+        "secret_string",
+        nargs="?",
+        help="secret_string fro get_garmin_secret.py or from secret.txt",
     )
     parser.add_argument(
         "--is-cn",
@@ -427,8 +429,8 @@ if __name__ == "__main__":
     file_type = options.download_file_type
     is_only_running = options.only_run
     if secret_string is None:
-        if os.path.exists('secret.txt'):
-            with open('secret.txt', 'r', encoding='utf-8') as f:
+        if os.path.exists("secret.txt"):
+            with open("secret.txt", "r", encoding="utf-8") as f:
                 secret_string = f.read().strip()
         if secret_string is None:
             print("Missing argument nor valid configuration file")
