@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Visualization Template</title>
+
+    <!-- Leaflet CSS - Required for map styling -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+    <!-- Custom CSS for our application -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- This is where the map will be rendered -->
+    <div id="map"></div>
+
+    <!-- 
+      PLUG AND PLAY SECTION
+      - Leaflet.js: The core mapping library
+      - config.js: All your custom settings (EDIT THIS!)
+      - app.js: The application logic that uses the config
+    -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
