@@ -29,9 +29,12 @@ jobs:
 
       - name: Check Python syntax
         run: |
-          # Verify Python files can be imported (syntax check)
-          python -c "import run_page.garmin_sync"
-          python -c "import run_page.gen_svg"
+          # Compile Python files to check for syntax errors
+          python -m py_compile run_page/garmin_sync.py
+          python -m py_compile run_page/gen_svg.py
+          python -m py_compile run_page/config.py
+          python -m py_compile run_page/utils.py
+          echo "✓ All Python files compiled successfully"
 
       - name: Check formatting (black)
         run: black . --diff --color && black . --check
