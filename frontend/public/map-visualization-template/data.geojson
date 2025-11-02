@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Marina Bay Sands",
+        "description": "An iconic integrated resort featuring a hotel, casino, shopping mall, and the world's largest rooftop infinity pool.",
+        "type": "restaurant"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8599, 1.2834]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gardens by the Bay",
+        "description": "A futuristic nature park featuring the famous Supertree Grove and climate-controlled conservatories.",
+        "type": "park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8636, 1.2816]
+      }
+    }
+  ]
+}

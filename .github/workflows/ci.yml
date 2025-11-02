@@ -1,0 +1,74 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  python_lint_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: ['3.11', '3.12', '3.13'] # Added Python 3.13 to the matrix
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python ${{ matrix.python-version }}
+        id: setup_python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: 'backend/requirements.txt'
+
+      - name: Install dependencies
+        run: |
+          pip install -r backend/requirements.txt
+
+      - name: Check Python syntax
+        run: |
+          # Compile Python files to check for syntax errors
+          python -m py_compile backend/run_page/garmin_sync.py
+          python -m py_compile backend/run_page/gen_svg.py
+          python -m py_compile backend/run_page/config.py
+          python -m py_compile backend/run_page/utils.py
+          echo "✓ All Python files compiled successfully"
+
+      - name: Check formatting (black)
+        run: black backend --diff --color && black backend --check
+
+      - name: Lint with Ruff
+        run: |
+          pip install ruff
+          ruff check backend
+
+  node_lint_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Enable corepack
+        run: npm install -g corepack@latest && corepack enable pnpm
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: pnpm install
+
+      - name: Run check and build
+        working-directory: frontend
+        run: |
+          pnpm run check
+          pnpm run lint
+          pnpm run build
