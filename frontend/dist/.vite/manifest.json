@@ -1,0 +1,45 @@
+{
+  "../data/assets/github.svg": {
+    "file": "assets/github.svg-D9iEQc7f.js",
+    "name": "github.svg",
+    "src": "../data/assets/github.svg",
+    "isDynamicEntry": true,
+    "assets": [
+      "assets/github-DEdlFRR-.svg"
+    ]
+  },
+  "../data/assets/year_2025.svg": {
+    "file": "assets/year_2025-D7z0o3IM.js",
+    "name": "year_2025",
+    "src": "../data/assets/year_2025.svg",
+    "isDynamicEntry": true,
+    "assets": [
+      "assets/year_2025-C5MXSi_s.svg"
+    ]
+  },
+  "_activities-C2gxdtkm.js": {
+    "file": "assets/activities-C2gxdtkm.js",
+    "name": "activities"
+  },
+  "_vendors-X97h6MfF.js": {
+    "file": "assets/vendors-X97h6MfF.js",
+    "name": "vendors"
+  },
+  "index.html": {
+    "file": "assets/index-DAjuQ2gG.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_vendors-X97h6MfF.js",
+      "_activities-C2gxdtkm.js"
+    ],
+    "dynamicImports": [
+      "../data/assets/year_2025.svg",
+      "../data/assets/github.svg"
+    ],
+    "css": [
+      "assets/index-WolWYnVA.css"
+    ]
+  }
+}

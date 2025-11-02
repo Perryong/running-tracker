@@ -47,7 +47,7 @@ const Index = () => {
   const [singleRunId, setSingleRunId] = useState<number | null>(null);
 
   // Animation trigger for single runs - increment this to force animation replay
-  const [animationTrigger, setAnimationTrigger] = useState(0);
+  const [_animationTrigger, setAnimationTrigger] = useState(0);
 
   const selectedRunIdRef = useRef<number | null>(null);
   const selectedRunDateRef = useRef<string | null>(null);
