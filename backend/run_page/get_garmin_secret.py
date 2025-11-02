@@ -17,4 +17,3 @@ if __name__ == "__main__":
 
     garth.login(options.email, options.password)
     print(garth.client.dumps())
-
