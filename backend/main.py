@@ -16,8 +16,8 @@ load_dotenv()
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "run_page"))
 
-from run_page import garmin_sync, gen_svg
-from run_page.config import SQL_FILE, JSON_FILE, FOLDER_DICT
+from run_page import gen_svg  # noqa: E402
+from run_page.config import SQL_FILE, JSON_FILE, FOLDER_DICT  # noqa: E402
 
 
 def sync_garmin(args):
