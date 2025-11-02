@@ -393,10 +393,7 @@ const Index = () => {
         )}
       </div>
       <div className="w-full lg:w-2/3" id="map-container">
-        <TemplateMap
-          title={title}
-          geoData={animatedGeoData}
-        />
+        <TemplateMap title={title} geoData={animatedGeoData} />
         {year === 'Total' ? (
           <SVGStat />
         ) : (
