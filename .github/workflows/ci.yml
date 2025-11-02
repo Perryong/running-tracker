@@ -21,11 +21,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
-          cache-dependency-path: 'backend/requirements.txt'
+          cache-dependency-path: 'backend/requirements-dev.txt'
 
       - name: Install dependencies
         run: |
-          pip install -r backend/requirements.txt
+          pip install -r backend/requirements-dev.txt
 
       - name: Check Python syntax
         run: |
@@ -37,7 +37,9 @@ jobs:
           echo "✓ All Python files compiled successfully"
 
       - name: Check formatting (black)
-        run: black backend --diff --color && black backend --check
+        run: |
+          python -m black backend --diff --color
+          python -m black backend --check
 
       - name: Lint with Ruff
         run: |
