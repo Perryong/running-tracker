@@ -92,6 +92,9 @@ jobs:
           ATHLETE: ${{ env.ATHLETE }}
           MIN_GRID_DISTANCE: ${{ env.MIN_GRID_DISTANCE }}
         run: |
+          # Ensure data/assets directory exists
+          mkdir -p data/assets
+          
           # Generate GitHub-style calendar view
           python backend/run_page/gen_svg.py --from-db --title "$TITLE" --type github --github-style "align-firstday" --athlete "$ATHLETE" --special-distance 10 --special-distance2 20 --special-color yellow --special-color2 red --output data/assets/github.svg --use-localtime --min-distance 0.5
           
@@ -99,10 +102,10 @@ jobs:
           python backend/run_page/gen_svg.py --from-db --title "$TITLE_GRID" --type grid --athlete "$ATHLETE" --output data/assets/grid.svg --special-color yellow --special-color2 red --special-distance 20 --special-distance2 40 --use-localtime --min-distance "$MIN_GRID_DISTANCE"
           
           # Generate circular/poster view
-          python backend/run_page/gen_svg.py --from-db --type circular --use-localtime
+          python backend/run_page/gen_svg.py --from-db --type circular --use-localtime --output data/assets/circular.svg
           
           # Generate current year view
-          python backend/run_page/gen_svg.py --from-db --year $(date +"%Y") --language zh_CN --title "$(date +"%Y") Running" --type github --github-style "align-firstday" --athlete "$ATHLETE" --special-distance 10 --special-distance2 20 --special-color yellow --special-color2 red --output data/assets/github_$(date +"%Y").svg --use-localtime --min-distance 0.5
+          python backend/run_page/gen_svg.py --from-db --year $(date +"%Y") --language zh_CN --title "$(date +"%Y") Running" --type github --github-style "align-firstday" --athlete "$ATHLETE" --special-distance 10 --special-distance2 20 --special-color yellow --special-color2 red --output data/assets/year_$(date +"%Y").svg --use-localtime --min-distance 0.5
 
       - name: Generate Month of Life Visualizations
         if: env.GENERATE_MONTH_OF_LIFE == 'true'
