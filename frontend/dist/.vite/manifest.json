@@ -17,8 +17,8 @@
       "assets/year_2025-C5MXSi_s.svg"
     ]
   },
-  "_activities-C2gxdtkm.js": {
-    "file": "assets/activities-C2gxdtkm.js",
+  "_activities-D_RMtf0F.js": {
+    "file": "assets/activities-D_RMtf0F.js",
     "name": "activities"
   },
   "_vendors-X97h6MfF.js": {
@@ -26,20 +26,20 @@
     "name": "vendors"
   },
   "index.html": {
-    "file": "assets/index-DAjuQ2gG.js",
+    "file": "assets/index-BkRTadyN.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "imports": [
       "_vendors-X97h6MfF.js",
-      "_activities-C2gxdtkm.js"
+      "_activities-D_RMtf0F.js"
     ],
     "dynamicImports": [
       "../data/assets/year_2025.svg",
       "../data/assets/github.svg"
     ],
     "css": [
-      "assets/index-WolWYnVA.css"
+      "assets/index-D2DKVUi7.css"
     ]
   }
 }
