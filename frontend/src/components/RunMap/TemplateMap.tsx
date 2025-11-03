@@ -28,6 +28,13 @@ export default function TemplateMap({ title, geoData }: ITemplateMapProps) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const lastRouteKeyRef = useRef<string | null>(null);
 
+  // Construct the map template URL with proper base path handling
+  const mapTemplateUrl = useMemo(() => {
+    const baseUrl = import.meta.env.BASE_URL;
+    const path = 'map-visualization-template/index.html';
+    return baseUrl.endsWith('/') ? `${baseUrl}${path}` : `${baseUrl}/${path}`;
+  }, []);
+
   const geojson = useMemo(() => {
     return convertGeoDataToGeoJSON(geoData);
   }, [geoData]);
@@ -146,7 +153,7 @@ export default function TemplateMap({ title, geoData }: ITemplateMapProps) {
     <div style={style} onClick={handleMapClick}>
       <iframe
         ref={iframeRef}
-        src={`${import.meta.env.BASE_URL}map-visualization-template/index.html`}
+        src={mapTemplateUrl}
         title="Route visualization"
         style={{
           width: '100%',
