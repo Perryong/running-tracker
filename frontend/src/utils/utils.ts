@@ -265,6 +265,15 @@ const geoJsonForRuns = (runs: Activity[]): FeatureCollection<LineString> => ({
       type: 'Feature',
       properties: {
         color: color,
+        name: run.name,
+        distance: run.distance,
+        type: run.type,
+        start_time: run.start_date_local || run.start_date,
+        average_heartrate: run.average_heartrate,
+        average_speed: run.average_speed,
+        elevation_gain: run.elevation_gain,
+        moving_time: run.moving_time,
+        location_country: run.location_country,
       },
       geometry: {
         type: 'LineString',
