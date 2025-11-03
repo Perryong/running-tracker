@@ -146,7 +146,7 @@ export default function TemplateMap({ title, geoData }: ITemplateMapProps) {
     <div style={style} onClick={handleMapClick}>
       <iframe
         ref={iframeRef}
-        src="/map-visualization-template/index.html"
+        src={`${import.meta.env.BASE_URL}map-visualization-template/index.html`}
         title="Route visualization"
         style={{
           width: '100%',
