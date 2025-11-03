@@ -55,9 +55,10 @@ const YearStat = ({
   const sumElevationGainStr = sumElevationGain.toFixed(0);
   const avgPace = formatPace(totalMetersAvail / totalSecondsAvail);
   const hasHeartRate = !(heartRate === 0);
-  const avgHeartRate = (heartRate / (runs.length - heartRateNullCount)).toFixed(
-    0
-  );
+  const heartRateCount = runs.length - heartRateNullCount;
+  const avgHeartRate = heartRateCount > 0 
+    ? (heartRate / heartRateCount).toFixed(0)
+    : '0';
   return (
     <div className="cursor-pointer" onClick={() => onClick(year)}>
       <section {...eventHandlers}>
