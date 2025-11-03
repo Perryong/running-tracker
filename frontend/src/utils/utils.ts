@@ -64,8 +64,9 @@ const titleForShow = (run: Activity): string => {
 };
 
 const formatPace = (d: number): string => {
-  if (Number.isNaN(d)) return '0';
+  if (Number.isNaN(d) || d === 0 || !Number.isFinite(d)) return '0';
   const pace = (1000.0 / 60.0) * (1.0 / d);
+  if (!Number.isFinite(pace)) return '0';
   const minutes = Math.floor(pace);
   const seconds = Math.floor((pace - minutes) * 60.0);
   return `${minutes}'${seconds.toFixed(0).toString().padStart(2, '0')}"`;
@@ -199,11 +200,16 @@ const locationForRun = (
   return r;
 };
 
-const intComma = (x = '') => {
-  if (x.toString().length <= 5) {
+const intComma = (x: string | number = '') => {
+  const str = x.toString();
+  // Handle invalid values
+  if (str === 'NaN' || str === 'Infinity' || str === '-Infinity') {
+    return '0';
+  }
+  if (str.length <= 5) {
     return x;
   }
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 const pathForRun = (run: Activity): Coordinate[] => {

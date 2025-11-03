@@ -10,7 +10,6 @@ const RunMapButtons = ({
 }) => {
   const { years } = useActivities();
   const yearsButtons = years.slice();
-  yearsButtons.push('Total');
 
   return (
     <ul className={styles.buttons}>

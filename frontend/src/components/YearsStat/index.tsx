@@ -16,7 +16,6 @@ const YearsStat = ({
   const yearsArrayUpdate = useMemo(() => {
     // make sure the year click on front
     let updatedYears = years.slice();
-    updatedYears.push('Total');
     updatedYears = updatedYears.filter((x) => x !== year);
     updatedYears.unshift(year);
     return updatedYears;
