@@ -1,35 +1,51 @@
 {
   "../data/assets/github.svg": {
+    "file": "assets/github-CJaPI0yR.svg",
+    "src": "../data/assets/github.svg"
+  },
+  "../data/assets/github.svg?url": {
     "file": "assets/github.svg-CaO-sFJE.js",
     "name": "github.svg",
-    "src": "../data/assets/github.svg",
+    "src": "../data/assets/github.svg?url",
     "isDynamicEntry": true,
     "assets": [
       "assets/github-CJaPI0yR.svg"
     ]
   },
   "../data/assets/grid.svg": {
+    "file": "assets/grid-Bd4_n_e6.svg",
+    "src": "../data/assets/grid.svg"
+  },
+  "../data/assets/grid.svg?url": {
     "file": "assets/grid.svg-DJR3mVNz.js",
     "name": "grid.svg",
-    "src": "../data/assets/grid.svg",
+    "src": "../data/assets/grid.svg?url",
     "isDynamicEntry": true,
     "assets": [
       "assets/grid-Bd4_n_e6.svg"
     ]
   },
   "../data/assets/mol.svg": {
+    "file": "assets/mol-DbT1QHwq.svg",
+    "src": "../data/assets/mol.svg"
+  },
+  "../data/assets/mol.svg?url": {
     "file": "assets/mol.svg-B4uGXsM9.js",
     "name": "mol.svg",
-    "src": "../data/assets/mol.svg",
+    "src": "../data/assets/mol.svg?url",
     "isDynamicEntry": true,
     "assets": [
       "assets/mol-DbT1QHwq.svg"
     ]
   },
   "../data/assets/year_2025.svg": {
+    "file": "assets/year_2025-BVgiq0N6.svg",
+    "src": "../data/assets/year_2025.svg"
+  },
+  "../data/assets/year_2025.svg?url": {
     "file": "assets/year_2025-Bp-IVbHL.js",
     "name": "year_2025",
-    "src": "../data/assets/year_2025.svg",
+    "src": "../data/assets/year_2025.svg?url",
     "isDynamicEntry": true,
     "assets": [
       "assets/year_2025-BVgiq0N6.svg"
@@ -44,7 +60,7 @@
     "name": "vendors"
   },
   "index.html": {
-    "file": "assets/index-CRpRX5dC.js",
+    "file": "assets/index-BqIc3dhy.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -53,10 +69,10 @@
       "_activities-D_RMtf0F.js"
     ],
     "dynamicImports": [
-      "../data/assets/year_2025.svg",
-      "../data/assets/github.svg",
-      "../data/assets/grid.svg",
-      "../data/assets/mol.svg"
+      "../data/assets/year_2025.svg?url",
+      "../data/assets/github.svg?url",
+      "../data/assets/grid.svg?url",
+      "../data/assets/mol.svg?url"
     ],
     "css": [
       "assets/index-D2DKVUi7.css"

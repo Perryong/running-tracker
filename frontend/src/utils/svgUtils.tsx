@@ -1,12 +1,10 @@
-import { ComponentType } from 'react';
-
 type SvgComponent = {
-  default: ComponentType<any>;
+  default: ({ className }: { className?: string }) => JSX.Element;
 };
 
 const FailedLoadSvg = () => {
-  console.log('Failed to load SVG component');
-  return <div></div>;
+  console.log('Failed to load SVG');
+  return <div>Failed to load SVG</div>;
 };
 
 export const loadSvgComponent = async (
@@ -14,10 +12,15 @@ export const loadSvgComponent = async (
   path: string
 ): Promise<SvgComponent> => {
   try {
-    const module = await stats[path]();
-    return { default: module as ComponentType<any> };
+    const url = await stats[path]() as string;
+    // Return a component that renders an img tag with the SVG URL
+    return {
+      default: ({ className }: { className?: string }) => (
+        <img src={url} alt="SVG" className={className} />
+      ),
+    };
   } catch (error) {
-    console.error(error);
+    console.error('Error loading SVG:', error);
     return { default: FailedLoadSvg };
   }
 };
