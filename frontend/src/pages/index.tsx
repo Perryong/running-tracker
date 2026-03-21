@@ -8,6 +8,7 @@ import RunTable from '@/components/RunTable';
 import SVGStat from '@/components/SVGStat';
 import YearsStat from '@/components/YearsStat';
 import RunMapButtons from '@/components/RunMap/RunMapButtons';
+import { FreshnessTrustSignal } from '@/components/FreshnessTrustSignal';
 import useActivities from '@/hooks/useActivities';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
 import { useInterval } from '@/hooks/useInterval';
@@ -30,7 +31,7 @@ import { useTheme } from '@/hooks/useTheme';
 
 const Index = () => {
   const { siteTitle, siteUrl } = useSiteMetadata();
-  const { activities, thisYear } = useActivities();
+  const { activities, thisYear, freshness } = useActivities();
   const [year, setYear] = useState(thisYear);
   const [runIndex, setRunIndex] = useState(-1);
   const [title, setTitle] = useState('');
@@ -382,6 +383,7 @@ const Index = () => {
         <div className="mb-8">
           <RunMapButtons changeYear={changeYear} thisYear={year} />
         </div>
+        <FreshnessTrustSignal freshness={freshness} />
         {(viewState.zoom ?? 0) <= 3 && IS_CHINESE ? (
           <LocationStat
             changeYear={changeYear}
