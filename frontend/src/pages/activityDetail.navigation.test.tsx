@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import ActivityPage from './activity';
 
 const useActivityDetailMock = vi.hoisted(() => vi.fn());
@@ -56,6 +56,11 @@ const renderActivityPage = () =>
   );
 
 describe('activity detail navigation behavior', () => {
+  beforeEach(() => {
+    navigateMock.mockReset();
+    locationMock.mockReset();
+  });
+
   it('dashboard-origin navigation entry uses history back from header', () => {
     useActivityDetailMock.mockReturnValue({
       activity: readyActivity,
@@ -134,6 +139,7 @@ describe('activity detail navigation behavior', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
     expect(refetch).toHaveBeenCalledTimes(1);
+    expect(navigateMock).toHaveBeenCalledTimes(0);
     expect(locationMock).toHaveBeenCalled();
 
     const buttons = screen.getAllByRole('button', { name: 'Back to Dashboard' });
