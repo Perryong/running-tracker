@@ -5,6 +5,7 @@
   "author": "Perry ",
   "packageManager": "pnpm@8.9.0+sha256.8f5264ad1d100da11a6add6bb8a94c6f1e913f9e9261b2a551fabefad2ec0fec",
   "dependencies": {
+    "@tanstack/react-query": "5.91.3",
     "@mapbox/mapbox-gl-language": "^1.0.1",
     "@mapbox/polyline": "^1.2.0",
     "@math.gl/web-mercator": "^4.1.0",
