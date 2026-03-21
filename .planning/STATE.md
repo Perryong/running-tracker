@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-21T12:58:32.470Z"
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-21T13:53:17.381Z"
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 6
+  completed_plans: 4
 ---
 
 ---
@@ -62,38 +62,39 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-21)
 
 **Core value:** Daily training review should feel effortless and visually clear, with trustworthy heart-rate-centric insights.
-**Current focus:** Phase 01 — typed-api-foundation
+**Current focus:** Phase 02 — dashboard-workflow-persistent-filters
 
 ## Current Position
 
-Phase: 01 (typed-api-foundation) — COMPLETE
-Plan: 3 of 3
+Phase: 02 (dashboard-workflow-persistent-filters) — EXECUTING
+Plan: 2 of 3
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 5min
-- Total execution time: 0.3 hours
+- Total execution time: 0.4 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Typed API Foundation | 3 | 16min | 5min |
-| 2. Dashboard Workflow & Persistent Filters | 0 | - | - |
+| 2. Dashboard Workflow & Persistent Filters | 1 | 5min | 5min |
 | 3. Activity Detail Experience | 0 | - | - |
 | 4. Heart Rate Analytics & Transparency | 0 | - | - |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-typed-api-foundation/03 (8min), 01-typed-api-foundation/02 (5min), 01-typed-api-foundation/01 (3min)
-- Trend: Slightly slower
+- Last 5 plans: 02-dashboard-workflow-persistent-filters/01 (5min), 01-typed-api-foundation/03 (8min), 01-typed-api-foundation/02 (5min), 01-typed-api-foundation/01 (3min)
+- Trend: Stable
 
 | Phase 01-typed-api-foundation P01 | 3min | 3 tasks | 15 files |
 | Phase 01 P02 | 5min | 3 tasks | 11 files |
 | Phase 01-typed-api-foundation P03 | 8min | 2 tasks | 4 files |
+| Phase 02-dashboard-workflow-persistent-filters P01 | 5min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -113,6 +114,9 @@ Recent decisions affecting current work:
 - [Phase 01]: React Query QueryClientProvider is bootstrapped at app root for shared typed API server-state handling.
 - [Phase 01-typed-api-foundation]: Mapped freshness completeness states to deterministic trust-signal copy for complete/partial/unavailable UI states.
 - [Phase 01-typed-api-foundation]: Placed FreshnessTrustSignal in index left summary column and wired it directly from useActivities().freshness.
+- [Phase 02-dashboard-workflow-persistent-filters]: All-time dashboard filter defaults are explicit 'all' tokens and never current-year aliases.
+- [Phase 02-dashboard-workflow-persistent-filters]: Dashboard filter hydration is URL-first and only falls back to versioned localStorage when URL carries no filter keys.
+- [Phase 02-dashboard-workflow-persistent-filters]: DashboardFiltersProvider uses encoded query equality guards plus popstate hydration to prevent URL sync loops and preserve replay determinism.
 
 ### Pending Todos
 
@@ -124,6 +128,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T12:58:32.462Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-dashboard-workflow-persistent-filters/02-CONTEXT.md
+Last session: 2026-03-21T13:53:17.374Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: None
