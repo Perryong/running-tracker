@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-03-21T15:45:20.224Z"
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-03-21T15:56:37.081Z"
 progress:
   total_phases: 4
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
   percent: 89
 ---
 
@@ -159,6 +159,7 @@ Plan: 2 of 2 (ready for execution)
 | Phase 02-dashboard-workflow-persistent-filters P03 | 8min | 2 tasks | 9 files |
 | Phase 02-dashboard-workflow-persistent-filters P04 | 30min | 2 tasks | 10 files |
 | Phase 03-activity-detail-experience P01 | 14min | 3 tasks | 8 files |
+| Phase 03 P02 | 7min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -191,6 +192,9 @@ Recent decisions affecting current work:
 - [Phase 03-activity-detail-experience]: Use dedicated useActivityDetail React Query boundary so activity detail can surface explicit network error + retry state.
 - [Phase 03-activity-detail-experience]: Keep activity-detail-shell/content-shell wrappers stable across loading/error/not-found/ready states to prevent layout jump and enable deterministic assertions.
 - [Phase 03-activity-detail-experience]: Lock ACT-01 metric order to distance, moving time, average pace, average heart rate with elevation in secondary section and map below headline metrics.
+- [Phase 03]: Run row clicks now route directly to /activity/:runId while preserving location.search for shared filter continuity.
+- [Phase 03]: Activity detail back behavior is centralized in handleBack: navigate(-1) for fromDashboard, fallback to / with current query otherwise.
+- [Phase 03]: Error and not-found Back controls now reuse the same callback to keep deterministic navigation semantics across detail states.
 
 ### Pending Todos
 
@@ -202,6 +206,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T15:45:20.213Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-03-21T15:56:37.074Z
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None

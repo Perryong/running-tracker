@@ -75,5 +75,5 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Typed API Foundation | 3/3 | Complete | 2026-03-21 |
 | 2. Dashboard Workflow & Persistent Filters | 4/4 | Complete   | 2026-03-21 |
-| 3. Activity Detail Experience | 1/2 | In Progress | - |
+| 3. Activity Detail Experience | 2/2 | Complete | 2026-03-21 |
 | 4. Heart Rate Analytics & Transparency | 0/TBD | Not started | - |
