@@ -36,10 +36,9 @@ describe('/summary shared filter continuity', () => {
     );
 
     expect(useDashboardFiltersMock).toHaveBeenCalledTimes(1);
-    expect(screen.getByTestId('summary-route')).toHaveAttribute(
-      'data-current-filter-year',
-      '2024'
-    );
+    expect(
+      screen.getByTestId('summary-route').getAttribute('data-current-filter-year')
+    ).toBe('2024');
     expect(screen.getByTestId('activity-list')).toBeTruthy();
   });
 });
