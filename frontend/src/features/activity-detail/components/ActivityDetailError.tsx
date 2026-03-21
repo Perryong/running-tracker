@@ -1,11 +1,9 @@
-import { Link } from 'react-router-dom';
-
 interface ActivityDetailErrorProps {
-  backHref: string;
+  onBack: () => void;
   onRetry: () => void;
 }
 
-export const ActivityDetailError = ({ backHref, onRetry }: ActivityDetailErrorProps) => {
+export const ActivityDetailError = ({ onBack, onRetry }: ActivityDetailErrorProps) => {
   return (
     <section
       className="rounded-md border border-[var(--color-hr-primary)] bg-[var(--color-bg)] p-6"
@@ -25,12 +23,13 @@ export const ActivityDetailError = ({ backHref, onRetry }: ActivityDetailErrorPr
         >
           Retry
         </button>
-        <Link
-          to={backHref}
+        <button
+          type="button"
+          onClick={onBack}
           className="rounded-md border border-[var(--color-hr-primary)] px-3 py-2 text-sm text-[var(--color-brand)]"
         >
           Back to Dashboard
-        </Link>
+        </button>
       </div>
     </section>
   );

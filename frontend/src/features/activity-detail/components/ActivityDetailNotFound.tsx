@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom';
-
 interface ActivityDetailNotFoundProps {
-  backHref: string;
+  onBack: () => void;
 }
 
-export const ActivityDetailNotFound = ({ backHref }: ActivityDetailNotFoundProps) => {
+export const ActivityDetailNotFound = ({ onBack }: ActivityDetailNotFoundProps) => {
   return (
     <section
       className="rounded-md border border-dashed border-[var(--color-hr-primary)] bg-[var(--color-bg)] p-6"
@@ -14,12 +12,13 @@ export const ActivityDetailNotFound = ({ backHref }: ActivityDetailNotFoundProps
       <p className="mt-2 text-sm text-[var(--color-secondary)]">
         We couldn&apos;t find an activity for this run ID.
       </p>
-      <Link
-        to={backHref}
+      <button
+        type="button"
+        onClick={onBack}
         className="mt-4 inline-block rounded-md border border-[var(--color-hr-primary)] px-3 py-2 text-sm text-[var(--color-brand)]"
       >
         Back to Dashboard
-      </Link>
+      </button>
     </section>
   );
 };

@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import TemplateMap from '@/components/RunMap/TemplateMap';
 import { ActivityDetailSkeleton } from '@/features/activity-detail/components/ActivityDetailSkeleton';
@@ -25,11 +25,22 @@ const formatElevation = (elevationGain: number | null): string => {
 
 const ActivityPage = () => {
   const { runId } = useParams();
+  const navigate = useNavigate();
   const location = useLocation();
   const parsedRunId = runId && /^\d+$/.test(runId) ? Number(runId) : null;
-  const backHref = `/${location.search}`;
+  const fromDashboard = Boolean((location.state as { fromDashboard?: boolean } | null)?.fromDashboard);
 
   const { activity, isLoading, isError, refetch } = useActivityDetail(parsedRunId);
+  const handleBack = () => {
+    if (fromDashboard) {
+      navigate(-1);
+      return;
+    }
+    navigate({
+      pathname: '/',
+      search: location.search,
+    });
+  };
 
   let state: 'loading' | 'error' | 'not-found' | 'ready' = 'ready';
   if (isLoading) {
@@ -46,22 +57,23 @@ const ActivityPage = () => {
     <Layout>
       <main className="w-full" data-testid="activity-detail-shell">
         <header className="mb-6" data-testid="activity-detail-header">
-          <Link
-            to={backHref}
+          <button
+            type="button"
+            onClick={handleBack}
             className="inline-block text-sm font-medium text-[var(--color-brand)] underline"
           >
             Back to Dashboard
-          </Link>
+          </button>
         </header>
 
         <section className="w-full space-y-6" data-testid="activity-detail-content-shell">
           {state === 'loading' && <ActivityDetailSkeleton />}
 
           {state === 'error' && (
-            <ActivityDetailError backHref={backHref} onRetry={() => void refetch()} />
+            <ActivityDetailError onBack={handleBack} onRetry={() => void refetch()} />
           )}
 
-          {state === 'not-found' && <ActivityDetailNotFound backHref={backHref} />}
+          {state === 'not-found' && <ActivityDetailNotFound onBack={handleBack} />}
 
           {state === 'ready' && activity && (
             <div className="space-y-6" data-testid="activity-detail-state-ready">

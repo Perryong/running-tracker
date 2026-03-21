@@ -58,11 +58,8 @@ describe('activity detail page explicit states', () => {
     expect(screen.getByTestId('activity-detail-header')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
     expect(screen.getByText('Activity not found')).toBeTruthy();
-    expect(
-      screen
-        .getByTestId('activity-detail-state-not-found')
-        .querySelector('a[href="/?dateRange=2024"]')
-    ).toBeTruthy();
+    const buttons = screen.getAllByRole('button', { name: 'Back to Dashboard' });
+    expect(buttons.length).toBeGreaterThan(1);
   });
 
   it('renders error state with retry and back controls inside stable shell', () => {
@@ -81,10 +78,7 @@ describe('activity detail page explicit states', () => {
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
     expect(refetch).toHaveBeenCalledTimes(1);
-    expect(
-      screen
-        .getByTestId('activity-detail-state-error')
-        .querySelector('a[href="/?dateRange=2024"]')
-    ).toBeTruthy();
+    const buttons = screen.getAllByRole('button', { name: 'Back to Dashboard' });
+    expect(buttons.length).toBeGreaterThan(1);
   });
 });

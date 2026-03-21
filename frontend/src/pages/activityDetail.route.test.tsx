@@ -56,7 +56,7 @@ describe('activity detail route and ready content hierarchy', () => {
 
     expect(screen.getByTestId('activity-detail-shell')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'Back to Dashboard' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Back to Dashboard' })).toBeTruthy();
 
     const labels = screen.getAllByText(
       /Distance|Moving time|Average pace|Average heart rate/i
