@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 import { useState } from 'react';
 import {
@@ -116,6 +116,10 @@ describe('shared filter synchronization across dashboard and summary datasets', 
     expect(screen.getByTestId('dashboard-count').textContent).toBe('2');
     expect(screen.getByTestId('summary-count').textContent).toBe('2');
 
+    fireEvent.click(screen.getByText('set-all'));
+    expect(screen.getByTestId('dashboard-count').textContent).toBe('3');
+    expect(screen.getByTestId('summary-count').textContent).toBe('3');
+
     fireEvent.click(screen.getByText('set-walking'));
     expect(screen.getByTestId('dashboard-count').textContent).toBe('1');
     expect(screen.getByTestId('summary-count').textContent).toBe('1');
@@ -136,10 +140,18 @@ describe('shared filter synchronization across dashboard and summary datasets', 
     fireEvent.click(screen.getByText('go-summary'));
     expect(screen.getByTestId('summary-count').textContent).toBe('2');
 
-    window.history.replaceState(null, '', '/?dateRange=all&activityType=walking');
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    act(() => {
+      window.history.replaceState(
+        null,
+        '',
+        '/?dateRange=all&activityType=walking'
+      );
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    });
 
-    expect(screen.getByTestId('summary-count').textContent).toBe('1');
+    return waitFor(() => {
+      expect(screen.getByTestId('summary-count').textContent).toBe('1');
+    });
   });
 });
 
