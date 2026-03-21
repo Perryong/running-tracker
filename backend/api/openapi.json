@@ -1,0 +1,250 @@
+{
+  "components": {
+    "schemas": {
+      "ActivitiesResponse": {
+        "properties": {
+          "freshness": {
+            "$ref": "#/components/schemas/FreshnessMetadata"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Activity"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "freshness",
+          "items"
+        ],
+        "title": "ActivitiesResponse",
+        "type": "object"
+      },
+      "Activity": {
+        "properties": {
+          "average_heartrate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Average Heartrate"
+          },
+          "average_speed": {
+            "title": "Average Speed",
+            "type": "number"
+          },
+          "distance": {
+            "title": "Distance",
+            "type": "number"
+          },
+          "elevation_gain": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elevation Gain"
+          },
+          "location_country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Country"
+          },
+          "moving_time": {
+            "title": "Moving Time",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "integer"
+          },
+          "start_date": {
+            "title": "Start Date",
+            "type": "string"
+          },
+          "start_date_local": {
+            "title": "Start Date Local",
+            "type": "string"
+          },
+          "streak": {
+            "title": "Streak",
+            "type": "integer"
+          },
+          "subtype": {
+            "title": "Subtype",
+            "type": "string"
+          },
+          "summary_polyline": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary Polyline"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id",
+          "name",
+          "distance",
+          "moving_time",
+          "type",
+          "subtype",
+          "start_date",
+          "start_date_local",
+          "average_speed",
+          "streak"
+        ],
+        "title": "Activity",
+        "type": "object"
+      },
+      "AnalyticsSummary": {
+        "properties": {
+          "average_heartrate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Average Heartrate"
+          },
+          "total_activities": {
+            "title": "Total Activities",
+            "type": "integer"
+          },
+          "total_distance": {
+            "title": "Total Distance",
+            "type": "number"
+          },
+          "total_moving_time_seconds": {
+            "title": "Total Moving Time Seconds",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total_activities",
+          "total_distance",
+          "total_moving_time_seconds"
+        ],
+        "title": "AnalyticsSummary",
+        "type": "object"
+      },
+      "AnalyticsSummaryResponse": {
+        "properties": {
+          "freshness": {
+            "$ref": "#/components/schemas/FreshnessMetadata"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/AnalyticsSummary"
+          }
+        },
+        "required": [
+          "freshness",
+          "summary"
+        ],
+        "title": "AnalyticsSummaryResponse",
+        "type": "object"
+      },
+      "FreshnessMetadata": {
+        "properties": {
+          "completeness": {
+            "enum": [
+              "complete",
+              "partial",
+              "unavailable"
+            ],
+            "title": "Completeness",
+            "type": "string"
+          },
+          "last_sync_at": {
+            "title": "Last Sync At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "last_sync_at",
+          "completeness"
+        ],
+        "title": "FreshnessMetadata",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "Running Tracker API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/activities": {
+      "get": {
+        "operationId": "list_activities_api_v1_activities_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivitiesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Activities",
+        "tags": [
+          "activities"
+        ]
+      }
+    },
+    "/api/v1/analytics/summary": {
+      "get": {
+        "operationId": "analytics_summary_api_v1_analytics_summary_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticsSummaryResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Analytics Summary",
+        "tags": [
+          "analytics"
+        ]
+      }
+    }
+  }
+}
