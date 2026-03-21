@@ -3,10 +3,25 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-03-21T15:45:20.224Z"
+progress:
+  total_phases: 4
+  completed_phases: 2
+  total_plans: 9
+  completed_plans: 8
+  percent: 89
+---
+
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
 stopped_at: Completed 02-04-PLAN.md
 last_updated: "2026-03-21T14:49:34.093Z"
 progress:
-  total_phases: 4
+  [█████████░] 89%
   completed_phases: 2
   total_plans: 7
   completed_plans: 7
@@ -107,12 +122,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-21)
 
 **Core value:** Daily training review should feel effortless and visually clear, with trustworthy heart-rate-centric insights.
-**Current focus:** Phase 02 — dashboard-workflow-persistent-filters
+**Current focus:** Phase 03 — activity-detail-experience (planned)
 
 ## Current Position
 
-Phase: 02 (dashboard-workflow-persistent-filters) — EXECUTING
-Plan: 4 of 4 (gap closure queued)
+Phase: 03 (activity-detail-experience) — PLANNED
+Plan: 2 of 2 (ready for execution)
 
 ## Performance Metrics
 
@@ -128,7 +143,7 @@ Plan: 4 of 4 (gap closure queued)
 |-------|-------|-------|----------|
 | 1. Typed API Foundation | 3 | 16min | 5min |
 | 2. Dashboard Workflow & Persistent Filters | 2 | 11min | 5min |
-| 3. Activity Detail Experience | 0 | - | - |
+| 3. Activity Detail Experience | 0 | Planned | - |
 | 4. Heart Rate Analytics & Transparency | 0 | - | - |
 
 **Recent Trend:**
@@ -143,6 +158,7 @@ Plan: 4 of 4 (gap closure queued)
 | Phase 02-dashboard-workflow-persistent-filters P02 | 6min | 3 tasks | 7 files |
 | Phase 02-dashboard-workflow-persistent-filters P03 | 8min | 2 tasks | 9 files |
 | Phase 02-dashboard-workflow-persistent-filters P04 | 30min | 2 tasks | 10 files |
+| Phase 03-activity-detail-experience P01 | 14min | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -172,6 +188,9 @@ Recent decisions affecting current work:
 - [Phase 02-dashboard-workflow-persistent-filters]: Summary route adopts shared filter context at route shell level to preserve continuity without full ActivityList rewrite.
 - [Phase 02]: Added dateRange to shared URL/localStorage serialization so dashboard and summary replay identical filter state.
 - [Phase 02]: ActivityList now derives grouped summary output from selectFilteredRuns to keep summary data functionally aligned with shared filters.
+- [Phase 03-activity-detail-experience]: Use dedicated useActivityDetail React Query boundary so activity detail can surface explicit network error + retry state.
+- [Phase 03-activity-detail-experience]: Keep activity-detail-shell/content-shell wrappers stable across loading/error/not-found/ready states to prevent layout jump and enable deterministic assertions.
+- [Phase 03-activity-detail-experience]: Lock ACT-01 metric order to distance, moving time, average pace, average heart rate with elevation in secondary section and map below headline metrics.
 
 ### Pending Todos
 
@@ -183,6 +202,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T14:49:34.086Z
-Stopped at: Completed 02-04-PLAN.md
+Last session: 2026-03-21T15:45:20.213Z
+Stopped at: Completed 03-01-PLAN.md
 Resume file: None

@@ -18,8 +18,8 @@
 
 ### Activity Detail UX
 
-- [ ] **ACT-01**: User can open an activity detail view with clear metric hierarchy (headline stats, pace, elevation, average HR)
-- [ ] **ACT-02**: Activity detail view supports loading, empty, and error states without broken layout
+- [x] **ACT-01**: User can open an activity detail view with clear metric hierarchy (headline stats, pace, elevation, average HR)
+- [x] **ACT-02**: Activity detail view supports loading, empty, and error states without broken layout
 
 ### Heart Rate Analytics
 
@@ -54,8 +54,8 @@
 | DASH-01 | Phase 2 | Complete |
 | DASH-02 | Phase 2 | Complete |
 | DASH-03 | Phase 2 | Complete |
-| ACT-01 | Phase 3 | Pending |
-| ACT-02 | Phase 3 | Pending |
+| ACT-01 | Phase 3 | Complete |
+| ACT-02 | Phase 3 | Complete |
 | HR-01 | Phase 4 | Pending |
 | HR-02 | Phase 4 | Pending |
 | HR-03 | Phase 4 | Pending |

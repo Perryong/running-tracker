@@ -54,7 +54,10 @@ Plans:
   1. User can open any activity detail screen and see a clear metric hierarchy including headline stats, pace, elevation, and average HR.
   2. User sees a stable, readable loading state while activity detail data is being fetched.
   3. User sees intentional empty/error states (not broken layout) when activity data is missing or fetch fails.
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [x] 03-01-PLAN.md — Create dedicated `/activity/:runId` detail page with explicit loading/empty/error state machine and ACT-01 metric hierarchy coverage
+- [ ] 03-02-PLAN.md — Wire dashboard-to-detail query-preserving navigation and deterministic back/fallback behavior with navigation regression tests
 
 ### Phase 4: Heart Rate Analytics & Transparency
 **Goal**: Users can trust and act on heart-rate analytics through per-run zone breakdowns, period trends, and explicit methodology disclosure.
@@ -72,5 +75,5 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Typed API Foundation | 3/3 | Complete | 2026-03-21 |
 | 2. Dashboard Workflow & Persistent Filters | 4/4 | Complete   | 2026-03-21 |
-| 3. Activity Detail Experience | 0/TBD | Not started | - |
+| 3. Activity Detail Experience | 1/2 | In Progress | - |
 | 4. Heart Rate Analytics & Transparency | 0/TBD | Not started | - |
