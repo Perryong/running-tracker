@@ -6,7 +6,13 @@ import {
 
 export const DASHBOARD_FILTERS_STORAGE_KEY = 'dashboard.filters.v1';
 
-const FILTER_PARAM_KEYS = ['year', 'activityType', 'city', 'title'] as const;
+const FILTER_PARAM_KEYS = [
+  'dateRange',
+  'year',
+  'activityType',
+  'city',
+  'title',
+] as const;
 
 type FilterParamKey = (typeof FILTER_PARAM_KEYS)[number];
 

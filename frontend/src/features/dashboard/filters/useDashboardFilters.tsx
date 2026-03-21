@@ -22,6 +22,7 @@ import {
 
 interface DashboardFiltersContextValue {
   filters: DashboardFilters;
+  setDateRange: (dateRange: string) => void;
   setYear: (year: string) => void;
   setActivityType: (activityType: string) => void;
   setCity: (city: string) => void;
@@ -86,6 +87,8 @@ export const DashboardFiltersProvider = ({
   const value = useMemo<DashboardFiltersContextValue>(
     () => ({
       filters,
+      setDateRange: (dateRange: string) =>
+        dispatch({ type: 'setDateRange', payload: dateRange }),
       setYear: (year: string) => dispatch({ type: 'setYear', payload: year }),
       setActivityType: (activityType: string) =>
         dispatch({ type: 'setActivityType', payload: activityType }),

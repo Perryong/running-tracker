@@ -4,6 +4,7 @@ import {
 } from './model';
 
 export type DashboardFilterAction =
+  | { type: 'setDateRange'; payload: string }
   | { type: 'setYear'; payload: string }
   | { type: 'setActivityType'; payload: string }
   | { type: 'setCity'; payload: string }
@@ -15,6 +16,8 @@ export const dashboardFiltersReducer = (
   action: DashboardFilterAction
 ): DashboardFilters => {
   switch (action.type) {
+    case 'setDateRange':
+      return sanitizeDashboardFilters({ ...state, dateRange: action.payload });
     case 'setYear':
       return sanitizeDashboardFilters({ ...state, year: action.payload });
     case 'setActivityType':

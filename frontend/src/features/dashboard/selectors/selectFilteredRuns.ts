@@ -32,7 +32,15 @@ const matchesActivityType = (run: Activity, activityType: string): boolean => {
     return true;
   }
 
-  return run.type.toLowerCase() === activityType.toLowerCase();
+  const normalizeActivityType = (value: string): string => {
+    const token = value.toLowerCase();
+    if (token === 'run' || token === 'running') return 'running';
+    if (token === 'walk' || token === 'walking') return 'walking';
+    if (token === 'ride' || token === 'cycling') return 'cycling';
+    return token;
+  };
+
+  return normalizeActivityType(run.type) === normalizeActivityType(activityType);
 };
 
 const matchesCity = (run: Activity, city: string): boolean => {

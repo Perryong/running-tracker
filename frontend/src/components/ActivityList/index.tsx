@@ -17,6 +17,11 @@ import { loadSvgComponent } from '@/utils/svgUtils';
 import { SHOW_ELEVATION_GAIN, HOME_PAGE_TITLE } from '@/utils/const';
 import RoutePreview from '@/components/RoutePreview';
 import { Activity } from '@/utils/utils';
+import {
+  ALL_TIME_FILTER,
+  type DashboardFilters,
+} from '@/features/dashboard/filters/model';
+import { selectFilteredRuns } from '@/features/dashboard/selectors/selectFilteredRuns';
 
 const MonthOfLifeSvg = (sportType: string) => {
   const path = sportType === 'all' ? './mol.svg' : `./mol_${sportType}.svg`;
@@ -246,29 +251,38 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   );
 };
 
-const ActivityList: React.FC = () => {
+interface ActivityListProps {
+  activities: Activity[];
+  filters: DashboardFilters;
+  setDateRange: (dateRange: string) => void;
+  setActivityType: (activityType: string) => void;
+}
+
+const ActivityList: React.FC<ActivityListProps> = ({
+  activities,
+  filters,
+  setDateRange,
+  setActivityType,
+}) => {
   const [interval, setInterval] = useState<IntervalType>('month');
-  const [sportType, setSportType] = useState<string>('all');
   const [sportTypeOptions, setSportTypeOptions] = useState<string[]>([]);
 
   useEffect(() => {
-    const sportTypeSet = new Set(activities.map((activity) => activity.type));
-    if (sportTypeSet.has('Run')) {
-      sportTypeSet.delete('Run');
-      sportTypeSet.add('running');
-    }
-    if (sportTypeSet.has('Walk')) {
-      sportTypeSet.delete('Walk');
-      sportTypeSet.add('walking');
-    }
-    if (sportTypeSet.has('Ride')) {
-      sportTypeSet.delete('Ride');
-      sportTypeSet.add('cycling');
-    }
+    const normalizeTypeToken = (value: string): string => {
+      const token = value.toLowerCase();
+      if (token === 'run') return 'running';
+      if (token === 'walk') return 'walking';
+      if (token === 'ride') return 'cycling';
+      return token;
+    };
+
+    const sportTypeSet = new Set(
+      activities.map((activity) => normalizeTypeToken(activity.type))
+    );
     const uniqueSportTypes = [...sportTypeSet];
     uniqueSportTypes.unshift('all');
     setSportTypeOptions(uniqueSportTypes);
-  }, []);
+  }, [activities]);
 
   const navigate = useNavigate();
 
@@ -285,26 +299,8 @@ const ActivityList: React.FC = () => {
     return hours * 3600 + minutes * 60 + seconds;
   };
 
-  const groupActivities = (
-    interval: IntervalType,
-    sportType: string
-  ): ActivityGroups => {
-    return (activities as Activity[])
-      .filter((activity) => {
-        if (sportType === 'all') {
-          return true;
-        }
-        if (sportType === 'running') {
-          return activity.type === 'running' || activity.type === 'Run';
-        }
-        if (sportType === 'walking') {
-          return activity.type === 'walking' || activity.type === 'Walk';
-        }
-        if (sportType === 'cycling') {
-          return activity.type === 'cycling' || activity.type === 'Ride';
-        }
-        return activity.type === sportType;
-      })
+  const groupActivities = (interval: IntervalType): ActivityGroups => {
+    return selectFilteredRuns(activities as Activity[], filters)
       .reduce((acc: ActivityGroups, activity) => {
         const date = new Date(activity.start_date_local);
         let key: string;
@@ -395,7 +391,8 @@ const ActivityList: React.FC = () => {
       }, {});
   };
 
-  const activitiesByInterval = groupActivities(interval, sportType);
+  const filteredRuns = selectFilteredRuns(activities, filters);
+  const activitiesByInterval = groupActivities(interval);
 
   return (
     <div className={styles.activityList}>
@@ -404,14 +401,31 @@ const ActivityList: React.FC = () => {
           {HOME_PAGE_TITLE}
         </button>
         <select
-          onChange={(e) => setSportType(e.target.value)}
-          value={sportType}
+          aria-label="summary-activity-type"
+          onChange={(e) => setActivityType(e.target.value)}
+          value={filters.activityType}
         >
           {sportTypeOptions.map((type) => (
             <option key={type} value={type}>
               {type}
             </option>
           ))}
+        </select>
+        <select
+          aria-label="summary-date-range"
+          onChange={(e) => setDateRange(e.target.value)}
+          value={filters.dateRange}
+        >
+          <option value={ALL_TIME_FILTER}>all</option>
+          {filteredRuns
+            .map((run) => run.start_date_local.slice(0, 4))
+            .filter((value, index, arr) => arr.indexOf(value) === index)
+            .sort((a, b) => Number(b) - Number(a))
+            .map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
         </select>
         <select
           onChange={(e) => toggleInterval(e.target.value as IntervalType)}
@@ -427,20 +441,24 @@ const ActivityList: React.FC = () => {
 
       {interval === 'life' && (
         <div className={styles.lifeContainer}>
-          <Suspense fallback={<div>Loading SVG...</div>}>
-            {(sportType === 'running' || sportType === 'Run') && <RunningSvg />}
-            {sportType === 'walking' && <WalkingSvg />}
-            {sportType === 'hiking' && <HikingSvg />}
-            {sportType === 'cycling' && <CyclingSvg />}
-            {sportType === 'swimming' && <SwimmingSvg />}
-            {sportType === 'skiing' && <SkiingSvg />}
-            {sportType === 'all' && <AllSvg />}
-          </Suspense>
-        </div>
-      )}
+            <Suspense fallback={<div>Loading SVG...</div>}>
+              {(filters.activityType === 'running' ||
+                filters.activityType === 'run') && <RunningSvg />}
+              {filters.activityType === 'walking' && <WalkingSvg />}
+              {filters.activityType === 'hiking' && <HikingSvg />}
+              {filters.activityType === 'cycling' && <CyclingSvg />}
+              {filters.activityType === 'swimming' && <SwimmingSvg />}
+              {filters.activityType === 'skiing' && <SkiingSvg />}
+              {filters.activityType === 'all' && <AllSvg />}
+            </Suspense>
+          </div>
+        )}
 
       {interval !== 'life' && (
         <div className={styles.summaryContainer}>
+          <div data-testid="summary-filtered-run-count">
+            {filteredRuns.length}
+          </div>
           {Object.entries(activitiesByInterval)
             .sort(([a], [b]) => {
               if (interval === 'day') {

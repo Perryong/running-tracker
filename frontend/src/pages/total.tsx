@@ -3,11 +3,13 @@ import { Helmet } from 'react-helmet-async';
 import { useTheme } from '@/hooks/useTheme';
 import { useEffect } from 'react';
 import { useDashboardFilters } from '@/features/dashboard/filters/useDashboardFilters';
+import useActivities from '@/hooks/useActivities';
 
 const HomePage = () => {
   // Use the theme hook to get the current theme
   const { theme } = useTheme();
-  const { filters } = useDashboardFilters();
+  const { activities } = useActivities();
+  const { filters, setDateRange, setActivityType } = useDashboardFilters();
 
   // Apply theme changes to the document when theme changes
   useEffect(() => {
@@ -28,7 +30,12 @@ const HomePage = () => {
         {/* Set HTML attributes including theme */}
         <html lang="en" data-theme={theme} />
       </Helmet>
-      <ActivityList />
+      <ActivityList
+        activities={activities}
+        filters={filters}
+        setDateRange={setDateRange}
+        setActivityType={setActivityType}
+      />
     </div>
   );
 };
