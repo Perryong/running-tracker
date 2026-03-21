@@ -49,22 +49,22 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| API-01 | Phase TBD | Pending |
-| API-02 | Phase TBD | Pending |
-| DASH-01 | Phase TBD | Pending |
-| DASH-02 | Phase TBD | Pending |
-| DASH-03 | Phase TBD | Pending |
-| ACT-01 | Phase TBD | Pending |
-| ACT-02 | Phase TBD | Pending |
-| HR-01 | Phase TBD | Pending |
-| HR-02 | Phase TBD | Pending |
-| HR-03 | Phase TBD | Pending |
+| API-01 | Phase 1 | Pending |
+| API-02 | Phase 1 | Pending |
+| DASH-01 | Phase 2 | Pending |
+| DASH-02 | Phase 2 | Pending |
+| DASH-03 | Phase 2 | Pending |
+| ACT-01 | Phase 3 | Pending |
+| ACT-02 | Phase 3 | Pending |
+| HR-01 | Phase 4 | Pending |
+| HR-02 | Phase 4 | Pending |
+| HR-03 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 10 total
-- Mapped to phases: 0
-- Unmapped: 10 ⚠️
+- Mapped to phases: 10
+- Unmapped: 0 ✅
 
 ---
 *Requirements defined: 2026-03-21*
-*Last updated: 2026-03-21 after milestone v1.0 requirements definition*
+*Last updated: 2026-03-21 after roadmap creation for milestone v1.0*
