@@ -45,7 +45,7 @@ const ActivityPage = () => {
   return (
     <Layout>
       <main className="w-full" data-testid="activity-detail-shell">
-        <header className="mb-6">
+        <header className="mb-6" data-testid="activity-detail-header">
           <Link
             to={backHref}
             className="inline-block text-sm font-medium text-[var(--color-brand)] underline"

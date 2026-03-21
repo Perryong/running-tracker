@@ -38,6 +38,7 @@ describe('activity detail page explicit states', () => {
     renderPage();
 
     expect(screen.getByTestId('activity-detail-shell')).toBeTruthy();
+    expect(screen.getByTestId('activity-detail-header')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-state-loading')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-skeleton-headline')).toBeTruthy();
@@ -54,6 +55,7 @@ describe('activity detail page explicit states', () => {
     renderPage();
 
     expect(screen.getByTestId('activity-detail-shell')).toBeTruthy();
+    expect(screen.getByTestId('activity-detail-header')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
     expect(screen.getByText('Activity not found')).toBeTruthy();
     expect(
@@ -75,6 +77,7 @@ describe('activity detail page explicit states', () => {
     renderPage();
 
     expect(screen.getByTestId('activity-detail-shell')).toBeTruthy();
+    expect(screen.getByTestId('activity-detail-header')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
     expect(refetch).toHaveBeenCalledTimes(1);
