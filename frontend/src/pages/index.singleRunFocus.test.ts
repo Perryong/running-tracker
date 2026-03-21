@@ -19,7 +19,7 @@ const buildRun = (run_id: number): Activity =>
     streak: 1,
   }) as Activity;
 
-describe('shouldExitSingleRunFocus', () => {
+describe('single run focus behavior', () => {
   it('returns true when focused run is excluded by filtered runs', () => {
     expect(shouldExitSingleRunFocus(42, [buildRun(1), buildRun(2)])).toBe(true);
   });

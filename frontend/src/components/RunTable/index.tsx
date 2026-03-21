@@ -4,7 +4,6 @@ import {
   sortDateFuncReverse,
   convertMovingTime2Sec,
   Activity,
-  RunIds,
 } from '@/utils/utils';
 import { SHOW_ELEVATION_GAIN } from '@/utils/const';
 
@@ -13,9 +12,7 @@ import styles from './style.module.css';
 
 interface IRunTableProperties {
   runs: Activity[];
-  locateActivity: (_runIds: RunIds) => void;
   setActivity: (_runs: Activity[]) => void;
-  runIndex: number;
   setRunIndex: (_index: number) => void;
 }
 
@@ -23,9 +20,7 @@ type SortFunc = (_a: Activity, _b: Activity) => number;
 
 const RunTable = ({
   runs,
-  locateActivity,
   setActivity,
-  runIndex,
   setRunIndex,
 }: IRunTableProperties) => {
   const [sortFuncInfo, setSortFuncInfo] = useState('');
@@ -99,15 +94,8 @@ const RunTable = ({
           </tr>
         </thead>
         <tbody>
-          {runs.map((run, elementIndex) => (
-            <RunRow
-              key={run.run_id}
-              elementIndex={elementIndex}
-              locateActivity={locateActivity}
-              run={run}
-              runIndex={runIndex}
-              setRunIndex={setRunIndex}
-            />
+          {runs.map((run) => (
+            <RunRow key={run.run_id} run={run} />
           ))}
         </tbody>
       </table>

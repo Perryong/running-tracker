@@ -3,43 +3,42 @@ import {
   titleForRun,
   formatRunTime,
   Activity,
-  RunIds,
 } from '@/utils/utils';
 import { SHOW_ELEVATION_GAIN } from '@/utils/const';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './style.module.css';
 
 interface IRunRowProperties {
-  elementIndex: number;
-  locateActivity: (_runIds: RunIds) => void;
   run: Activity;
-  runIndex: number;
-  setRunIndex: (_ndex: number) => void;
 }
 
-const RunRow = ({
-  elementIndex,
-  locateActivity,
-  run,
-  runIndex,
-  setRunIndex,
-}: IRunRowProperties) => {
+const RunRow = ({ run }: IRunRowProperties) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const distance = (run.distance / 1000.0).toFixed(2);
   const paceParts = run.average_speed ? formatPace(run.average_speed) : null;
   const heartRate = run.average_heartrate;
   const runTime = formatRunTime(run.moving_time);
+
   const handleClick = () => {
-    if (runIndex === elementIndex) {
-      setRunIndex(-1);
-      locateActivity([]);
-      return;
-    }
-    setRunIndex(elementIndex);
-    locateActivity([run.run_id]);
+    navigate(
+      {
+        pathname: `/activity/${run.run_id}`,
+        search: location.search,
+      },
+      {
+        state: {
+          fromDashboard: true,
+          fallbackPathname: '/',
+          dashboardScrollY: window.scrollY,
+        },
+      }
+    );
   };
 
   return (
     <tr
-      className={`${styles.runRow} ${runIndex === elementIndex ? styles.selected : ''}`}
+      className={styles.runRow}
       key={run.start_date_local}
       onClick={handleClick}
     >

@@ -371,9 +371,7 @@ const Index = () => {
         ) : (
           <RunTable
             runs={runs}
-            locateActivity={locateActivity}
             setActivity={setActivity}
-            runIndex={runIndex}
             setRunIndex={setRunIndex}
           />
         )}
