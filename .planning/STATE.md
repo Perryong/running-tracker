@@ -4,6 +4,20 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-03-21T10:41:49.614Z"
+progress:
+  total_phases: 4
+  completed_phases: 1
+  total_plans: 3
+  completed_plans: 3
+---
+
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
+stopped_at: Completed 01-03-PLAN.md
 last_updated: "2026-03-21T10:38:28.648Z"
 progress:
   total_phases: 4
