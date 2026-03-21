@@ -13,6 +13,7 @@ import {
 import '@/styles/index.css';
 import { withOptionalGAPageTracking } from './utils/trackRoute';
 import HomePage from '@/pages/total';
+import ActivityPage from '@/pages/activity';
 import { DashboardFiltersProvider } from '@/features/dashboard/filters/useDashboardFilters';
 
 if (USE_GOOGLE_ANALYTICS) {
@@ -28,6 +29,10 @@ const routes = createBrowserRouter(
     {
       path: 'summary',
       element: withOptionalGAPageTracking(<HomePage />),
+    },
+    {
+      path: 'activity/:runId',
+      element: withOptionalGAPageTracking(<ActivityPage />),
     },
     {
       path: '*',
