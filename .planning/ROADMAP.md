@@ -27,7 +27,7 @@ This roadmap delivers v1.0 in dependency order: first establish a trustworthy ty
   3. API-backed views handle contract-valid responses consistently so users do not encounter mismatched or missing fields due to schema drift.
 **Plans**: 2 plans
 Plans:
-- [ ] 01-01-PLAN.md — Build `/api/v1` FastAPI contract foundation with mandatory freshness metadata and contract tests
+- [x] 01-01-PLAN.md — Build `/api/v1` FastAPI contract foundation with mandatory freshness metadata and contract tests
 - [ ] 01-02-PLAN.md — Generate frontend API types and migrate `useActivities` to typed API-first boundary with fallback
 
 ### Phase 2: Dashboard Workflow & Persistent Filters
@@ -64,7 +64,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Typed API Foundation | 0/2 | Planned | - |
+| 1. Typed API Foundation | 1/2 | In Progress | 2026-03-21 |
 | 2. Dashboard Workflow & Persistent Filters | 0/TBD | Not started | - |
 | 3. Activity Detail Experience | 0/TBD | Not started | - |
 | 4. Heart Rate Analytics & Transparency | 0/TBD | Not started | - |

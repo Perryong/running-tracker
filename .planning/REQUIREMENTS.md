@@ -7,8 +7,8 @@
 
 ### API Contracts
 
-- [ ] **API-01**: Frontend can consume activity and analytics data through a typed HTTP API contract generated from backend schemas
-- [ ] **API-02**: API responses expose explicit freshness metadata (last sync timestamp and data completeness flags)
+- [x] **API-01**: Frontend can consume activity and analytics data through a typed HTTP API contract generated from backend schemas
+- [x] **API-02**: API responses expose explicit freshness metadata (last sync timestamp and data completeness flags)
 
 ### Dashboard & Navigation
 
@@ -49,8 +49,8 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| API-01 | Phase 1 | Pending |
-| API-02 | Phase 1 | Pending |
+| API-01 | Phase 1 | Complete |
+| API-02 | Phase 1 | Complete |
 | DASH-01 | Phase 2 | Pending |
 | DASH-02 | Phase 2 | Pending |
 | DASH-03 | Phase 2 | Pending |
