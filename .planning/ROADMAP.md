@@ -25,10 +25,11 @@ This roadmap delivers v1.0 in dependency order: first establish a trustworthy ty
   1. Frontend screens retrieve activity and analytics data through generated typed API contracts without ad-hoc schema assumptions.
   2. Users can see when data was last synced and whether returned datasets are complete/incomplete.
   3. API-backed views handle contract-valid responses consistently so users do not encounter mismatched or missing fields due to schema drift.
-**Plans**: 2 plans
+**Plans**: 3 plans
 Plans:
 - [x] 01-01-PLAN.md — Build `/api/v1` FastAPI contract foundation with mandatory freshness metadata and contract tests
 - [x] 01-02-PLAN.md — Generate frontend API types and migrate `useActivities` to typed API-first boundary with fallback
+- [x] 01-03-PLAN.md — Close verification gap by wiring visible freshness/completeness trust signal UI to `useActivities().freshness`
 
 ### Phase 2: Dashboard Workflow & Persistent Filters
 **Goal**: Users can review key training KPIs in a modern dashboard and apply one consistent filter model across views without losing context.
@@ -64,7 +65,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Typed API Foundation | 2/2 | Complete | 2026-03-21 |
+| 1. Typed API Foundation | 3/3 | Complete | 2026-03-21 |
 | 2. Dashboard Workflow & Persistent Filters | 0/TBD | Not started | - |
 | 3. Activity Detail Experience | 0/TBD | Not started | - |
 | 4. Heart Rate Analytics & Transparency | 0/TBD | Not started | - |
