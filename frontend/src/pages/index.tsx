@@ -16,10 +16,6 @@ import { IS_CHINESE } from '@/utils/const';
 import {
   Activity,
   IViewState,
-  filterAndSortRuns,
-  filterCityRuns,
-  filterTitleRuns,
-  filterYearRuns,
   geoJsonForRuns,
   getBoundsForGeoData,
   scrollToMap,
@@ -28,32 +24,42 @@ import {
   RunIds,
 } from '@/utils/utils';
 import { useTheme } from '@/hooks/useTheme';
+import { useDashboardFilters } from '@/features/dashboard/filters/useDashboardFilters';
+import { selectFilteredRuns } from '@/features/dashboard/selectors/selectFilteredRuns';
+import { selectKpis } from '@/features/dashboard/selectors/selectKpis';
+import { KpiCards } from '@/features/dashboard/components/KpiCards';
+import { EmptyKpiState } from '@/features/dashboard/components/EmptyKpiState';
+
+export const shouldExitSingleRunFocus = (
+  singleRunId: number | null,
+  filteredRuns: Activity[]
+): boolean => {
+  if (singleRunId === null) {
+    return false;
+  }
+  return !filteredRuns.some((run) => run.run_id === singleRunId);
+};
 
 const Index = () => {
   const { siteTitle, siteUrl } = useSiteMetadata();
   const { activities, thisYear, freshness } = useActivities();
-  const [year, setYear] = useState(thisYear);
+  const {
+    filters,
+    setYear: setFilterYear,
+    setCity: setFilterCity,
+    setTitle: setFilterTitle,
+  } = useDashboardFilters();
   const [runIndex, setRunIndex] = useState(-1);
-  const [title, setTitle] = useState('');
-  // Animation states for replacing intervalIdRef
+  const [title, setTitle] = useState('Running Heatmap');
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
   const [animationRuns, setAnimationRuns] = useState<Activity[]>([]);
-  const [currentFilter, setCurrentFilter] = useState<{
-    item: string;
-    func: (_run: Activity, _value: string) => boolean;
-  }>({ item: thisYear, func: filterYearRuns });
-
-  // State to track if we're showing a single run from URL hash
   const [singleRunId, setSingleRunId] = useState<number | null>(null);
-
-  // Animation trigger for single runs - increment this to force animation replay
   const [_animationTrigger, setAnimationTrigger] = useState(0);
 
   const selectedRunIdRef = useRef<number | null>(null);
   const selectedRunDateRef = useRef<string | null>(null);
 
-  // Parse URL hash on mount to check for run ID
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
     if (hash && hash.startsWith('run_')) {
@@ -63,7 +69,6 @@ const Index = () => {
       }
     }
 
-    // Listen for hash changes (browser back/forward buttons)
     const handleHashChange = () => {
       const newHash = window.location.hash.replace('#', '');
       if (newHash && newHash.startsWith('run_')) {
@@ -72,45 +77,26 @@ const Index = () => {
           setSingleRunId(runId);
         }
       } else {
-        // Hash was cleared, reset to normal view
         setSingleRunId(null);
       }
     };
 
     window.addEventListener('hashchange', handleHashChange);
-
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Memoize expensive calculations
-  const runs = useMemo(() => {
-    return filterAndSortRuns(
-      activities,
-      currentFilter.item,
-      currentFilter.func,
-      sortDateFunc
-    );
-  }, [activities, currentFilter.item, currentFilter.func]);
+  const runs = useMemo(() => selectFilteredRuns(activities, filters), [activities, filters]);
+  const kpis = useMemo(() => selectKpis(runs), [runs]);
+  const currentYear = filters.year === 'all' ? 'Total' : filters.year;
 
-  const geoData = useMemo(() => {
-    return geoJsonForRuns(runs);
-  }, [runs]);
-
-  // for auto zoom
-  const bounds = useMemo(() => {
-    return getBoundsForGeoData(geoData);
-  }, [geoData]);
+  const geoData = useMemo(() => geoJsonForRuns(runs), [runs]);
+  const bounds = useMemo(() => getBoundsForGeoData(geoData), [geoData]);
 
   const [viewState, setViewState] = useState<IViewState>(() => ({
     ...bounds,
   }));
-
-  // Add state for animated geoData to handle the animation effect
   const [animatedGeoData, setAnimatedGeoData] = useState(geoData);
 
-  // Use useInterval for animation instead of intervalIdRef
   useInterval(
     () => {
       if (!isAnimating || currentAnimationIndex >= animationRuns.length) {
@@ -134,16 +120,13 @@ const Index = () => {
     isAnimating ? 300 : null
   );
 
-  // Helper function to start animation
   const startAnimation = useCallback(
     (runsToAnimate: Activity[]) => {
       if (runsToAnimate.length === 0) {
         setAnimatedGeoData(geoData);
         return;
       }
-
-      const sliceNum =
-        runsToAnimate.length >= 8 ? Math.ceil(runsToAnimate.length / 8) : 1;
+      const sliceNum = runsToAnimate.length >= 8 ? Math.ceil(runsToAnimate.length / 8) : 1;
       setAnimationRuns(runsToAnimate);
       setCurrentAnimationIndex(sliceNum);
       setIsAnimating(true);
@@ -151,86 +134,69 @@ const Index = () => {
     [geoData]
   );
 
-  const changeByItem = useCallback(
-    (
-      item: string,
-      name: string,
-      func: (_run: Activity, _value: string) => boolean
-    ) => {
-      scrollToMap();
-      if (name != 'Year') {
-        setYear(thisYear);
-      }
-      setCurrentFilter({ item, func });
-      setRunIndex(-1);
-      setTitle(`${item} ${name} Running Heatmap`);
-      // Reset single run state when changing filters
-      setSingleRunId(null);
-      if (window.location.hash) {
-        window.history.pushState(null, '', window.location.pathname);
-      }
-    },
-    [thisYear]
-  );
+  const clearSingleRunFocusHash = () => {
+    if (window.location.hash) {
+      window.history.pushState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
+  };
 
   const changeYear = useCallback(
     (y: string) => {
-      // default year
-      setYear(y);
-
       if ((viewState.zoom ?? 0) > 3 && bounds) {
-        setViewState({
-          ...bounds,
-        });
+        setViewState({ ...bounds });
       }
-
-      changeByItem(y, 'Year', filterYearRuns);
-      // Stop current animation
+      scrollToMap();
+      setFilterYear(y === 'Total' ? 'all' : y);
+      setRunIndex(-1);
+      setTitle(`${y} Year Running Heatmap`);
+      setSingleRunId(null);
       setIsAnimating(false);
+      clearSingleRunFocusHash();
     },
-    [viewState.zoom, bounds, changeByItem]
+    [viewState.zoom, bounds, setFilterYear]
   );
 
   const changeCity = useCallback(
     (city: string) => {
-      changeByItem(city, 'City', filterCityRuns);
+      scrollToMap();
+      setFilterCity(city === 'Total' ? 'all' : city);
+      setRunIndex(-1);
+      setTitle(`${city} City Running Heatmap`);
+      setSingleRunId(null);
+      clearSingleRunFocusHash();
     },
-    [changeByItem]
+    [setFilterCity]
   );
 
   const changeTitle = useCallback(
-    (title: string) => {
-      changeByItem(title, 'Title', filterTitleRuns);
+    (titleFilter: string) => {
+      scrollToMap();
+      setFilterTitle(titleFilter === 'Total' ? 'all' : titleFilter);
+      setRunIndex(-1);
+      setTitle(`${titleFilter} Title Running Heatmap`);
+      setSingleRunId(null);
+      clearSingleRunFocusHash();
     },
-    [changeByItem]
+    [setFilterTitle]
   );
 
-  // For RunTable compatibility - create a mock setActivity function
   const setActivity = useCallback((_newRuns: Activity[]) => {
-    // Since we're using memoized runs, we can't directly set activity
-    // This is used by RunTable but we can work around it by managing the filter instead
-    console.warn('setActivity called but runs are now computed from filters');
+    console.warn('setActivity called but runs are now computed from shared filters');
   }, []);
 
   const locateActivity = useCallback(
     (runIds: RunIds) => {
       const ids = new Set(runIds);
-
-      const selectedRuns = !runIds.length
-        ? runs
-        : runs.filter((r: any) => ids.has(r.run_id));
-
+      const selectedRuns = !runIds.length ? runs : runs.filter((r: any) => ids.has(r.run_id));
       if (!selectedRuns.length) {
         return;
       }
 
       const lastRun = selectedRuns.sort(sortDateFunc)[0];
-
       if (!lastRun) {
         return;
       }
 
-      // Set runIndex for table highlighting when single run is selected
       if (runIds.length === 1) {
         const runId = runIds[0];
         const runIdx = runs.findIndex((run) => run.run_id === runId);
@@ -239,7 +205,6 @@ const Index = () => {
         setRunIndex(-1);
       }
 
-      // Update URL hash when a single run is located
       if (runIds.length === 1) {
         const runId = runIds[0];
         const newHash = `#run_${runId}`;
@@ -248,56 +213,51 @@ const Index = () => {
         }
         setSingleRunId(runId);
       } else {
-        // If multiple runs or no runs, clear the hash and single run state
-        if (window.location.hash) {
-          window.history.pushState(null, '', window.location.pathname);
-        }
+        clearSingleRunFocusHash();
         setSingleRunId(null);
       }
 
-      // Create geoData for selected runs and calculate new bounds
       const selectedGeoData = geoJsonForRuns(selectedRuns);
       const selectedBounds = getBoundsForGeoData(selectedGeoData);
-
-      // Stop any existing animation
       setIsAnimating(false);
-
-      // Update the animated geoData immediately to trigger RunMap animation
       setAnimatedGeoData(selectedGeoData);
 
-      // For single run, trigger animation by incrementing the trigger
       if (runIds.length === 1) {
         setAnimationTrigger((prev) => prev + 1);
       }
 
-      // Update view state
-      setViewState({
-        ...selectedBounds,
-      });
+      setViewState({ ...selectedBounds });
       setTitle(titleForShow(lastRun));
       scrollToMap();
     },
     [runs]
   );
 
-  // Auto locate activity when singleRunId is set and activities are loaded
   useEffect(() => {
-    if (singleRunId !== null && activities.length > 0) {
-      // Check if the run exists in our activities
-      const runExists = activities.some((run) => run.run_id === singleRunId);
+    if (singleRunId !== null && runs.length > 0) {
+      const runExists = runs.some((run) => run.run_id === singleRunId);
       if (runExists) {
-        // Automatically simulate clicking the single run
         locateActivity([singleRunId]);
       } else {
-        // If run doesn't exist, clear the hash and show a warning
-        console.warn(`Run with ID ${singleRunId} not found in activities`);
-        window.history.replaceState(null, '', window.location.pathname);
+        window.history.replaceState(
+          null,
+          '',
+          `${window.location.pathname}${window.location.search}`
+        );
         setSingleRunId(null);
       }
     }
-  }, [singleRunId, activities, locateActivity]);
+  }, [singleRunId, runs, locateActivity]);
 
-  // Update bounds when geoData changes
+  useEffect(() => {
+    if (!shouldExitSingleRunFocus(singleRunId, runs)) {
+      return;
+    }
+    setSingleRunId(null);
+    setRunIndex(-1);
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+  }, [singleRunId, runs]);
+
   useEffect(() => {
     setViewState((prev) => ({
       ...prev,
@@ -305,69 +265,68 @@ const Index = () => {
     }));
   }, [bounds]);
 
-  // Animate geoData when runs change
   useEffect(() => {
     startAnimation(runs);
   }, [runs, startAnimation]);
 
   useEffect(() => {
-    if (year !== 'Total') {
+    if (currentYear !== 'Total') {
       return;
     }
 
-    let svgStat = document.getElementById('svgStat');
+    const svgStat = document.getElementById('svgStat');
     if (!svgStat) {
       return;
     }
 
     const handleClick = (e: Event) => {
       const target = e.target as HTMLElement;
-      if (target.tagName.toLowerCase() === 'path') {
-        // Use querySelector to get the <desc> element and the <title> element.
-        const descEl = target.querySelector('desc');
-        if (descEl) {
-          // If the runId exists in the <desc> element, it means that a running route has been clicked.
-          const runId = Number(descEl.innerHTML);
-          if (!runId) {
-            return;
-          }
-          if (selectedRunIdRef.current === runId) {
-            selectedRunIdRef.current = null;
-            locateActivity(runs.map((r) => r.run_id));
-          } else {
-            selectedRunIdRef.current = runId;
-            locateActivity([runId]);
-          }
+      if (target.tagName.toLowerCase() !== 'path') {
+        return;
+      }
+
+      const descEl = target.querySelector('desc');
+      if (descEl) {
+        const runId = Number(descEl.innerHTML);
+        if (!runId) {
           return;
         }
-
-        const titleEl = target.querySelector('title');
-        if (titleEl) {
-          // If the runDate exists in the <title> element, it means that a date square has been clicked.
-          const [runDate] = titleEl.innerHTML.match(
-            /\d{4}-\d{1,2}-\d{1,2}/
-          ) || [`${+thisYear + 1}`];
-          const runIDsOnDate = runs
-            .filter((r) => r.start_date_local.slice(0, 10) === runDate)
-            .map((r) => r.run_id);
-          if (!runIDsOnDate.length) {
-            return;
-          }
-          if (selectedRunDateRef.current === runDate) {
-            selectedRunDateRef.current = null;
-            locateActivity(runs.map((r) => r.run_id));
-          } else {
-            selectedRunDateRef.current = runDate;
-            locateActivity(runIDsOnDate);
-          }
+        if (selectedRunIdRef.current === runId) {
+          selectedRunIdRef.current = null;
+          locateActivity(runs.map((r) => r.run_id));
+        } else {
+          selectedRunIdRef.current = runId;
+          locateActivity([runId]);
         }
+        return;
+      }
+
+      const titleEl = target.querySelector('title');
+      if (!titleEl) {
+        return;
+      }
+
+      const [runDate] = titleEl.innerHTML.match(/\d{4}-\d{1,2}-\d{1,2}/) || [`${+thisYear + 1}`];
+      const runIDsOnDate = runs
+        .filter((r) => r.start_date_local.slice(0, 10) === runDate)
+        .map((r) => r.run_id);
+
+      if (!runIDsOnDate.length) {
+        return;
+      }
+
+      if (selectedRunDateRef.current === runDate) {
+        selectedRunDateRef.current = null;
+        locateActivity(runs.map((r) => r.run_id));
+      } else {
+        selectedRunDateRef.current = runDate;
+        locateActivity(runIDsOnDate);
       }
     };
+
     svgStat.addEventListener('click', handleClick);
-    return () => {
-      svgStat && svgStat.removeEventListener('click', handleClick);
-    };
-  }, [year]);
+    return () => svgStat.removeEventListener('click', handleClick);
+  }, [currentYear, runs, locateActivity, thisYear]);
 
   const { theme } = useTheme();
 
@@ -381,22 +340,19 @@ const Index = () => {
           <a href={siteUrl}>{siteTitle}</a>
         </h1>
         <div className="mb-8">
-          <RunMapButtons changeYear={changeYear} thisYear={year} />
+          <RunMapButtons changeYear={changeYear} thisYear={currentYear} />
         </div>
         <FreshnessTrustSignal freshness={freshness} />
         {(viewState.zoom ?? 0) <= 3 && IS_CHINESE ? (
-          <LocationStat
-            changeYear={changeYear}
-            changeCity={changeCity}
-            changeTitle={changeTitle}
-          />
+          <LocationStat changeYear={changeYear} changeCity={changeCity} changeTitle={changeTitle} />
         ) : (
-          <YearsStat year={year} onClick={changeYear} />
+          <YearsStat year={currentYear} onClick={changeYear} />
         )}
       </div>
       <div className="w-full lg:w-2/3" id="map-container">
+        {runs.length === 0 ? <EmptyKpiState /> : <KpiCards kpis={kpis} />}
         <TemplateMap title={title} geoData={animatedGeoData} />
-        {year === 'Total' ? (
+        {currentYear === 'Total' ? (
           <SVGStat />
         ) : (
           <RunTable
@@ -408,7 +364,6 @@ const Index = () => {
           />
         )}
       </div>
-      {/* Enable Audiences in Vercel Analytics: https://vercel.com/docs/concepts/analytics/audiences/quickstart */}
       {import.meta.env.VERCEL && <Analytics />}
     </Layout>
   );
