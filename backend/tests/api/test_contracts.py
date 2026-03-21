@@ -1,7 +1,5 @@
-def test_activities_contract():
-    from tests.conftest import get_client
-
-    response = get_client().get("/api/v1/activities")
+def test_activities_contract(client):
+    response = client.get("/api/v1/activities")
 
     assert response.status_code == 200
     body = response.json()
@@ -10,10 +8,8 @@ def test_activities_contract():
     assert isinstance(body["items"], list)
 
 
-def test_analytics_summary_contract():
-    from tests.conftest import get_client
-
-    response = get_client().get("/api/v1/analytics/summary")
+def test_analytics_summary_contract(client):
+    response = client.get("/api/v1/analytics/summary")
 
     assert response.status_code == 200
     body = response.json()
