@@ -39,11 +39,12 @@ Plans:
   1. User can open the dashboard and see KPI cards for selected period (distance, duration, runs, average heart rate).
   2. User can apply date/activity filters that affect dashboard and detail-related views through one shared filtering behavior.
   3. User filter selections remain intact after navigation and browser reload.
-**Plans**: 3 plans
+**Plans**: 4 plans
 Plans:
 - [x] 02-01-PLAN.md — Build centralized shared filter contracts/provider with URL-first persistence and replay test coverage
 - [x] 02-02-PLAN.md — Implement KPI selectors/cards + explicit empty-state and wire dashboard KPI rendering to shared filters
 - [x] 02-03-PLAN.md — Migrate cross-view filter controls/routes (`/` + `/summary`) to shared synchronization and persistence behavior
+- [x] 02-04-PLAN.md — Close verifier gap by wiring `/summary` rendering to shared date/activity filters with cross-view integration tests
 
 ### Phase 3: Activity Detail Experience
 **Goal**: Users can open an activity and quickly understand performance through clear metric hierarchy, with robust non-happy-path states.
@@ -70,6 +71,6 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Typed API Foundation | 3/3 | Complete | 2026-03-21 |
-| 2. Dashboard Workflow & Persistent Filters | 3/3 | Complete   | 2026-03-21 |
+| 2. Dashboard Workflow & Persistent Filters | 4/4 | Complete   | 2026-03-21 |
 | 3. Activity Detail Experience | 0/TBD | Not started | - |
 | 4. Heart Rate Analytics & Transparency | 0/TBD | Not started | - |
