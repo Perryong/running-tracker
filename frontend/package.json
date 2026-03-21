@@ -43,6 +43,7 @@
     "check": "prettier --check src/main.tsx src/**/*.{css,module.css,json,ts,tsx} *.{yaml,json,ts}",
     "format": "prettier --write src/main.tsx src/**/*.{css,module.css,json,ts,tsx} *.{yaml,json,ts}",
     "ci": "pnpm run format && pnpm run lint && pnpm run build",
+    "test": "vitest run",
     "generate:api-types": "openapi-typescript ../backend/api/openapi.json -o src/api/contracts/schema.d.ts"
   },
   "engineStrict": true,
@@ -55,6 +56,7 @@
     "url": "https://github.com/Perryong/running-tracker"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.3.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.32.0",
     "@tailwindcss/vite": "^4.1.11",
@@ -76,7 +78,9 @@
     "prettier-plugin-tailwindcss": "^0.5.13",
     "openapi-typescript": "7.13.0",
     "tailwindcss": "^4.1.10",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vitest": "^3.2.4",
+    "jsdom": "^26.1.0"
   },
   "pnpm": {
     "overrides": {
