@@ -10,7 +10,7 @@ This roadmap delivers v1.0 in dependency order: first establish a trustworthy ty
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Typed API Foundation** - Establish typed backend/frontend API contracts with freshness metadata.
+- [x] **Phase 1: Typed API Foundation** - Establish typed backend/frontend API contracts with freshness metadata.
 - [ ] **Phase 2: Dashboard Workflow & Persistent Filters** - Deliver modern KPI dashboard and shared/persistent filtering behavior.
 - [ ] **Phase 3: Activity Detail Experience** - Deliver clear activity detail hierarchy with resilient empty/loading/error handling.
 - [ ] **Phase 4: Heart Rate Analytics & Transparency** - Deliver per-run zone analytics and weekly/monthly HR trends with methodology disclosure.
@@ -28,7 +28,7 @@ This roadmap delivers v1.0 in dependency order: first establish a trustworthy ty
 **Plans**: 2 plans
 Plans:
 - [x] 01-01-PLAN.md — Build `/api/v1` FastAPI contract foundation with mandatory freshness metadata and contract tests
-- [ ] 01-02-PLAN.md — Generate frontend API types and migrate `useActivities` to typed API-first boundary with fallback
+- [x] 01-02-PLAN.md — Generate frontend API types and migrate `useActivities` to typed API-first boundary with fallback
 
 ### Phase 2: Dashboard Workflow & Persistent Filters
 **Goal**: Users can review key training KPIs in a modern dashboard and apply one consistent filter model across views without losing context.
@@ -64,7 +64,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Typed API Foundation | 1/2 | In Progress | 2026-03-21 |
+| 1. Typed API Foundation | 2/2 | Complete | 2026-03-21 |
 | 2. Dashboard Workflow & Persistent Filters | 0/TBD | Not started | - |
 | 3. Activity Detail Experience | 0/TBD | Not started | - |
 | 4. Heart Rate Analytics & Transparency | 0/TBD | Not started | - |
