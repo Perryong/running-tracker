@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, it } from 'vitest';
 import {
@@ -60,9 +60,13 @@ describe('shared dashboard filter provider', () => {
     renderWithProvider(<ConsumerB />);
     expect(screen.getByTestId('consumer-b-year').textContent).toBe('2021');
 
-    window.history.pushState(null, '', '/?year=2022');
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    act(() => {
+      window.history.replaceState(null, '', '/?year=2022');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    });
 
-    expect(screen.getByTestId('consumer-b-year').textContent).toBe('2022');
+    return waitFor(() => {
+      expect(screen.getByTestId('consumer-b-year').textContent).toBe('2022');
+    });
   });
 });

@@ -13,6 +13,7 @@ import {
 import '@/styles/index.css';
 import { withOptionalGAPageTracking } from './utils/trackRoute';
 import HomePage from '@/pages/total';
+import { DashboardFiltersProvider } from '@/features/dashboard/filters/useDashboardFilters';
 
 if (USE_GOOGLE_ANALYTICS) {
   ReactGA.initialize(GOOGLE_ANALYTICS_TRACKING_ID);
@@ -42,7 +43,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={routes} />
+        <DashboardFiltersProvider>
+          <RouterProvider router={routes} />
+        </DashboardFiltersProvider>
       </QueryClientProvider>
     </HelmetProvider>
   </React.StrictMode>
