@@ -3,10 +3,25 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-21T14:05:03.642Z"
+progress:
+  total_phases: 4
+  completed_phases: 1
+  total_plans: 6
+  completed_plans: 5
+  percent: 83
+---
+
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
 stopped_at: Completed 02-01-PLAN.md
 last_updated: "2026-03-21T13:53:17.381Z"
 progress:
-  total_phases: 4
+  [████████░░] 83%
   completed_phases: 1
   total_plans: 6
   completed_plans: 4
@@ -67,34 +82,35 @@ See: .planning/PROJECT.md (updated 2026-03-21)
 ## Current Position
 
 Phase: 02 (dashboard-workflow-persistent-filters) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 4
+- Total plans completed: 5
 - Average duration: 5min
-- Total execution time: 0.4 hours
+- Total execution time: 0.5 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Typed API Foundation | 3 | 16min | 5min |
-| 2. Dashboard Workflow & Persistent Filters | 1 | 5min | 5min |
+| 2. Dashboard Workflow & Persistent Filters | 2 | 11min | 5min |
 | 3. Activity Detail Experience | 0 | - | - |
 | 4. Heart Rate Analytics & Transparency | 0 | - | - |
 
 **Recent Trend:**
 
-- Last 5 plans: 02-dashboard-workflow-persistent-filters/01 (5min), 01-typed-api-foundation/03 (8min), 01-typed-api-foundation/02 (5min), 01-typed-api-foundation/01 (3min)
+- Last 5 plans: 02-dashboard-workflow-persistent-filters/02 (6min), 02-dashboard-workflow-persistent-filters/01 (5min), 01-typed-api-foundation/03 (8min), 01-typed-api-foundation/02 (5min), 01-typed-api-foundation/01 (3min)
 - Trend: Stable
 
 | Phase 01-typed-api-foundation P01 | 3min | 3 tasks | 15 files |
 | Phase 01 P02 | 5min | 3 tasks | 11 files |
 | Phase 01-typed-api-foundation P03 | 8min | 2 tasks | 4 files |
 | Phase 02-dashboard-workflow-persistent-filters P01 | 5min | 3 tasks | 7 files |
+| Phase 02-dashboard-workflow-persistent-filters P02 | 6min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -117,6 +133,9 @@ Recent decisions affecting current work:
 - [Phase 02-dashboard-workflow-persistent-filters]: All-time dashboard filter defaults are explicit 'all' tokens and never current-year aliases.
 - [Phase 02-dashboard-workflow-persistent-filters]: Dashboard filter hydration is URL-first and only falls back to versioned localStorage when URL carries no filter keys.
 - [Phase 02-dashboard-workflow-persistent-filters]: DashboardFiltersProvider uses encoded query equality guards plus popstate hydration to prevent URL sync loops and preserve replay determinism.
+- [Phase 02-dashboard-workflow-persistent-filters]: Dashboard derivations moved into reusable pure selectors consumed by index.tsx.
+- [Phase 02-dashboard-workflow-persistent-filters]: KPI cards remain value-only with fixed order and fixed 2-col mobile / 4-col desktop layout.
+- [Phase 02-dashboard-workflow-persistent-filters]: When filtered runs exclude the currently focused hash run, clear hash/focus and show filtered dataset.
 
 ### Pending Todos
 
@@ -128,6 +147,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T13:53:17.374Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-03-21T14:05:03.637Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

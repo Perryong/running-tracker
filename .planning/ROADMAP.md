@@ -42,7 +42,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 - [x] 02-01-PLAN.md — Build centralized shared filter contracts/provider with URL-first persistence and replay test coverage
-- [ ] 02-02-PLAN.md — Implement KPI selectors/cards + explicit empty-state and wire dashboard KPI rendering to shared filters
+- [x] 02-02-PLAN.md — Implement KPI selectors/cards + explicit empty-state and wire dashboard KPI rendering to shared filters
 - [ ] 02-03-PLAN.md — Migrate cross-view filter controls/routes (`/` + `/summary`) to shared synchronization and persistence behavior
 
 ### Phase 3: Activity Detail Experience
@@ -70,6 +70,6 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Typed API Foundation | 3/3 | Complete | 2026-03-21 |
-| 2. Dashboard Workflow & Persistent Filters | 1/3 | In Progress | - |
+| 2. Dashboard Workflow & Persistent Filters | 2/3 | In Progress | - |
 | 3. Activity Detail Experience | 0/TBD | Not started | - |
 | 4. Heart Rate Analytics & Transparency | 0/TBD | Not started | - |

@@ -12,7 +12,7 @@
 
 ### Dashboard & Navigation
 
-- [ ] **DASH-01**: User can view a modern dashboard with KPI cards for selected period (distance, duration, runs, average heart rate)
+- [x] **DASH-01**: User can view a modern dashboard with KPI cards for selected period (distance, duration, runs, average heart rate)
 - [x] **DASH-02**: User can filter dashboard and detail views by date range and activity attributes using one shared filter model
 - [x] **DASH-03**: User filter selections persist across navigation/reload
 
@@ -51,7 +51,7 @@
 |-------------|-------|--------|
 | API-01 | Phase 1 | Complete |
 | API-02 | Phase 1 | Complete |
-| DASH-01 | Phase 2 | Pending |
+| DASH-01 | Phase 2 | Complete |
 | DASH-02 | Phase 2 | Complete |
 | DASH-03 | Phase 2 | Complete |
 | ACT-01 | Phase 3 | Pending |
