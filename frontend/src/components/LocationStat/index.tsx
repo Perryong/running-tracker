@@ -8,12 +8,22 @@ import LocationSummary from './LocationSummary';
 import PeriodStat from './PeriodStat';
 
 interface ILocationStatProps {
-  changeYear: (_year: string) => void;
-  changeCity: (_city: string) => void;
-  changeTitle: (_title: string) => void;
+  year: string;
+  years: string[];
+  cities: Record<string, number>;
+  runPeriod: Record<string, number>;
+  activities: Activity[];
+  changeYear: (year: string) => void;
+  changeCity: (city: string) => void;
+  changeTitle: (title: string) => void;
 }
 
 const LocationStat = ({
+  year,
+  years,
+  cities,
+  runPeriod,
+  activities,
   changeYear,
   changeCity,
   changeTitle,
@@ -33,10 +43,16 @@ const LocationStat = ({
     </section>
     <hr />
     <LocationSummary />
-    <CitiesStat onClick={changeCity} />
-    <PeriodStat onClick={changeTitle} />
-    <YearStat year="Total" onClick={changeYear} />
+    <CitiesStat cities={cities} onClick={changeCity} />
+    <PeriodStat runPeriod={runPeriod} onClick={changeTitle} />
+    <YearStat
+      year={year}
+      years={years}
+      activities={activities}
+      onClick={changeYear}
+    />
   </div>
 );
 
 export default LocationStat;
+import type { Activity } from '@/utils/utils';

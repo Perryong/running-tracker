@@ -1,14 +1,14 @@
-import useActivities from '@/hooks/useActivities';
 import styles from './style.module.css';
 
 const RunMapButtons = ({
   changeYear,
   thisYear,
+  years,
 }: {
   changeYear: (_year: string) => void;
   thisYear: string;
+  years: string[];
 }) => {
-  const { years } = useActivities();
   const yearsButtons = years.slice();
 
   return (

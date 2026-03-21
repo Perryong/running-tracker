@@ -1,10 +1,13 @@
 import Stat from '@/components/Stat';
-import useActivities from '@/hooks/useActivities';
 
 // only support China for now
-const CitiesStat = ({ onClick }: { onClick: (_city: string) => void }) => {
-  const { cities } = useActivities();
-
+const CitiesStat = ({
+  cities,
+  onClick,
+}: {
+  cities: Record<string, number>;
+  onClick: (_city: string) => void;
+}) => {
   const citiesArr = Object.entries(cities);
   citiesArr.sort((a, b) => b[1] - a[1]);
   return (

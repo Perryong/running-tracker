@@ -1,20 +1,24 @@
 import { lazy, Suspense } from 'react';
 import Stat from '@/components/Stat';
-import useActivities from '@/hooks/useActivities';
 import { formatPace } from '@/utils/utils';
 import useHover from '@/hooks/useHover';
 import { yearStats } from '@assets/index';
 import { loadSvgComponent } from '@/utils/svgUtils';
 import { SHOW_ELEVATION_GAIN } from '@/utils/const';
+import type { Activity } from '@/utils/utils';
 
 const YearStat = ({
   year,
+  years,
+  activities,
   onClick,
 }: {
   year: string;
+  years: string[];
+  activities: Activity[];
   onClick: (_year: string) => void;
 }) => {
-  let { activities: runs, years } = useActivities();
+  let runs = activities;
   // for hover
   const [hovered, eventHandlers] = useHover();
   // lazy Component

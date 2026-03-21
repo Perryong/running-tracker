@@ -42,7 +42,7 @@ export const shouldExitSingleRunFocus = (
 
 const Index = () => {
   const { siteTitle, siteUrl } = useSiteMetadata();
-  const { activities, thisYear, freshness } = useActivities();
+  const { activities, years, cities, runPeriod, thisYear, freshness } = useActivities();
   const {
     filters,
     setYear: setFilterYear,
@@ -340,13 +340,27 @@ const Index = () => {
           <a href={siteUrl}>{siteTitle}</a>
         </h1>
         <div className="mb-8">
-          <RunMapButtons changeYear={changeYear} thisYear={currentYear} />
+          <RunMapButtons changeYear={changeYear} thisYear={currentYear} years={years} />
         </div>
         <FreshnessTrustSignal freshness={freshness} />
         {(viewState.zoom ?? 0) <= 3 && IS_CHINESE ? (
-          <LocationStat changeYear={changeYear} changeCity={changeCity} changeTitle={changeTitle} />
+          <LocationStat
+            year={currentYear}
+            years={years}
+            cities={cities}
+            runPeriod={runPeriod}
+            activities={runs}
+            changeYear={changeYear}
+            changeCity={changeCity}
+            changeTitle={changeTitle}
+          />
         ) : (
-          <YearsStat year={currentYear} onClick={changeYear} />
+          <YearsStat
+            year={currentYear}
+            years={years}
+            activities={runs}
+            onClick={changeYear}
+          />
         )}
       </div>
       <div className="w-full lg:w-2/3" id="map-container">

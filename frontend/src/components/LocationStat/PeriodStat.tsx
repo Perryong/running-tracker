@@ -1,9 +1,12 @@
 import Stat from '@/components/Stat';
-import useActivities from '@/hooks/useActivities';
 
-const PeriodStat = ({ onClick }: { onClick: (_period: string) => void }) => {
-  const { runPeriod } = useActivities();
-
+const PeriodStat = ({
+  runPeriod,
+  onClick,
+}: {
+  runPeriod: Record<string, number>;
+  onClick: (_period: string) => void;
+}) => {
   const periodArr = Object.entries(runPeriod);
   periodArr.sort((a, b) => b[1] - a[1]);
   return (

@@ -1,17 +1,19 @@
 import { useMemo } from 'react';
 import YearStat from '@/components/YearStat';
-import useActivities from '@/hooks/useActivities';
 import { INFO_MESSAGE } from '@/utils/const';
+import type { Activity } from '@/utils/utils';
 
 const YearsStat = ({
   year,
+  years,
+  activities,
   onClick,
 }: {
   year: string;
+  years: string[];
+  activities: Activity[];
   onClick: (_year: string) => void;
 }) => {
-  const { years } = useActivities();
-
   // Memoize the years array calculation
   const yearsArrayUpdate = useMemo(() => {
     // make sure the year click on front
@@ -36,7 +38,13 @@ const YearsStat = ({
       </section>
       <hr />
       {yearsArrayUpdate.map((yearItem) => (
-        <YearStat key={yearItem} year={yearItem} onClick={onClick} />
+        <YearStat
+          key={yearItem}
+          year={yearItem}
+          years={years}
+          activities={activities}
+          onClick={onClick}
+        />
       ))}
     </div>
   );
