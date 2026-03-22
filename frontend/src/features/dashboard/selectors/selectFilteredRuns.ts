@@ -12,7 +12,8 @@ const matchesYear = (run: Activity, year: string): boolean => {
     return true;
   }
 
-  return run.start_date_local.slice(0, 4) === year;
+  const runYear = run.start_date_local.slice(0, 4);
+  return runYear === year;
 };
 
 const matchesDateRange = (run: Activity, dateRange: string): boolean => {

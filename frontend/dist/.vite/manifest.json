@@ -1,65 +1,75 @@
 {
   "../data/assets/github.svg": {
-    "file": "assets/github.svg-CaO-sFJE.js",
+    "file": "assets/github.svg-Dy1Q-_2Z.js",
     "name": "github.svg",
     "src": "../data/assets/github.svg",
     "isDynamicEntry": true,
     "assets": [
-      "assets/github-CJaPI0yR.svg"
+      "assets/github-BrhMeslR.svg"
     ]
   },
   "../data/assets/grid.svg": {
-    "file": "assets/grid.svg-DJR3mVNz.js",
+    "file": "assets/grid.svg-RkNM9iM1.js",
     "name": "grid.svg",
     "src": "../data/assets/grid.svg",
     "isDynamicEntry": true,
     "assets": [
-      "assets/grid-Bd4_n_e6.svg"
+      "assets/grid-BwoAQ_yl.svg"
     ]
   },
   "../data/assets/mol.svg": {
-    "file": "assets/mol.svg-B4uGXsM9.js",
+    "file": "assets/mol.svg-BQr6jIov.js",
     "name": "mol.svg",
     "src": "../data/assets/mol.svg",
     "isDynamicEntry": true,
     "assets": [
-      "assets/mol-DbT1QHwq.svg"
+      "assets/mol-Dp43ZUps.svg"
     ]
   },
   "../data/assets/year_2025.svg": {
-    "file": "assets/year_2025-Bp-IVbHL.js",
+    "file": "assets/year_2025-BRut5whv.js",
     "name": "year_2025",
     "src": "../data/assets/year_2025.svg",
     "isDynamicEntry": true,
     "assets": [
-      "assets/year_2025-BVgiq0N6.svg"
+      "assets/year_2025-DI4CJg6e.svg"
     ]
   },
-  "_activities-D_RMtf0F.js": {
-    "file": "assets/activities-D_RMtf0F.js",
+  "../data/assets/year_2026.svg": {
+    "file": "assets/year_2026-DiemyWVk.js",
+    "name": "year_2026",
+    "src": "../data/assets/year_2026.svg",
+    "isDynamicEntry": true,
+    "assets": [
+      "assets/year_2026-B15IJrui.svg"
+    ]
+  },
+  "_activities-Bad-SvOX.js": {
+    "file": "assets/activities-Bad-SvOX.js",
     "name": "activities"
   },
-  "_vendors-X97h6MfF.js": {
-    "file": "assets/vendors-X97h6MfF.js",
+  "_vendors-BzzahaZd.js": {
+    "file": "assets/vendors-BzzahaZd.js",
     "name": "vendors"
   },
   "index.html": {
-    "file": "assets/index-B1npGtV-.js",
+    "file": "assets/index-Ca2FCCgv.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "imports": [
-      "_vendors-X97h6MfF.js",
-      "_activities-D_RMtf0F.js"
+      "_vendors-BzzahaZd.js",
+      "_activities-Bad-SvOX.js"
     ],
     "dynamicImports": [
       "../data/assets/year_2025.svg",
+      "../data/assets/year_2026.svg",
       "../data/assets/github.svg",
       "../data/assets/grid.svg",
       "../data/assets/mol.svg"
     ],
     "css": [
-      "assets/index-D2DKVUi7.css"
+      "assets/index-CIvg42k-.css"
     ]
   }
 }

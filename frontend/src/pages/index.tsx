@@ -31,7 +31,7 @@ import { KpiCards } from '@/features/dashboard/components/KpiCards';
 import { EmptyKpiState } from '@/features/dashboard/components/EmptyKpiState';
 import { HeartRateTrendPanel } from '@/features/dashboard/components/HeartRateTrendPanel';
 import { getAnalyticsSummary } from '@/api/analytics';
-import type { ApiHrMethodology, ApiHrTrendAnalytics } from '@/api/types';
+import type { ApiHrMethodology, ApiHrTrendAnalytics, ApiHrPerRunAnalytics } from '@/api/types';
 
 export const shouldExitSingleRunFocus = (
   singleRunId: number | null,
@@ -63,6 +63,7 @@ const Index = () => {
     null
   );
   const [trendAnalytics, setTrendAnalytics] = useState<ApiHrTrendAnalytics | null>(null);
+  const [perRunAnalytics, setPerRunAnalytics] = useState<ApiHrPerRunAnalytics[] | null>(null);
 
   const selectedRunIdRef = useRef<number | null>(null);
   const selectedRunDateRef = useRef<string | null>(null);
@@ -95,6 +96,18 @@ const Index = () => {
   const runs = useMemo(() => selectFilteredRuns(activities, filters), [activities, filters]);
   const kpis = useMemo(() => selectKpis(runs), [runs]);
   const currentYear = filters.year === 'all' ? 'Total' : filters.year;
+  const statYears = useMemo(
+    () => (currentYear === 'Total' ? years : [currentYear]),
+    [currentYear, years]
+  );
+  const filteredPerRunAnalytics = useMemo(() => {
+    if (!perRunAnalytics) {
+      return null;
+    }
+
+    const visibleRunIds = new Set(runs.map((run) => run.run_id));
+    return perRunAnalytics.filter((entry) => visibleRunIds.has(entry.run_id));
+  }, [perRunAnalytics, runs]);
 
   const geoData = useMemo(() => geoJsonForRuns(runs), [runs]);
   const bounds = useMemo(() => getBoundsForGeoData(geoData), [geoData]);
@@ -283,12 +296,14 @@ const Index = () => {
         if (!cancelled) {
           setTrendMethodology(response.summary.heart_rate.methodology);
           setTrendAnalytics(response.summary.heart_rate.trend);
+          setPerRunAnalytics(response.summary.heart_rate.per_run);
         }
       })
       .catch(() => {
         if (!cancelled) {
           setTrendMethodology(null);
           setTrendAnalytics(null);
+          setPerRunAnalytics(null);
         }
       });
 
@@ -374,7 +389,7 @@ const Index = () => {
         {(viewState.zoom ?? 0) <= 3 && IS_CHINESE ? (
           <LocationStat
             year={currentYear}
-            years={years}
+            years={statYears}
             cities={cities}
             runPeriod={runPeriod}
             activities={runs}
@@ -385,7 +400,7 @@ const Index = () => {
         ) : (
           <YearsStat
             year={currentYear}
-            years={years}
+            years={statYears}
             activities={runs}
             onClick={changeYear}
           />
@@ -393,10 +408,10 @@ const Index = () => {
       </div>
       <div className="w-full lg:w-2/3" id="map-container">
         {runs.length === 0 ? <EmptyKpiState /> : <KpiCards kpis={kpis} />}
-        {trendMethodology && trendAnalytics ? (
-          <HeartRateTrendPanel trend={trendAnalytics} methodology={trendMethodology} />
-        ) : null}
         <TemplateMap title={title} geoData={animatedGeoData} />
+        {filteredPerRunAnalytics ? (
+          <HeartRateTrendPanel perRunAnalytics={filteredPerRunAnalytics} />
+        ) : null}
         {currentYear === 'Total' ? (
           <SVGStat />
         ) : (

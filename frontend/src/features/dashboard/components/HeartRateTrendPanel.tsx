@@ -1,20 +1,51 @@
 import { useMemo, useState } from 'react';
-import type { ApiHrMethodology, ApiHrTrendAnalytics, ApiHrTrendPoint } from '@/api/types';
-import { HeartRateMethodologyPanel } from '@/features/activity-detail/components/HeartRateMethodologyPanel';
-
-type TrendPeriod = 'weekly' | 'monthly';
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import type { ApiHrPerRunAnalytics } from '@/api/types';
 
 interface HeartRateTrendPanelProps {
-  trend: ApiHrTrendAnalytics;
-  methodology: ApiHrMethodology;
+  perRunAnalytics: ApiHrPerRunAnalytics[] | null;
 }
 
-export const HeartRateTrendPanel = ({ trend, methodology }: HeartRateTrendPanelProps) => {
-  const [period, setPeriod] = useState<TrendPeriod>(trend.default_period);
+export const HeartRateTrendPanel = ({ perRunAnalytics }: HeartRateTrendPanelProps) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const points: ApiHrTrendPoint[] = useMemo(() => trend.periods[period] ?? [], [period, trend]);
-  const hasAnyData = points.some((point) => point.has_data);
-  const lowConfidencePoints = points.filter((point) => point.is_low_confidence);
+  const zoneData = useMemo(() => {
+    if (!perRunAnalytics || perRunAnalytics.length === 0) return null;
+
+    const zoneAggregates: Record<string, { duration: number; percentage: number }> = {
+      Z1: { duration: 0, percentage: 0 },
+      Z2: { duration: 0, percentage: 0 },
+      Z3: { duration: 0, percentage: 0 },
+      Z4: { duration: 0, percentage: 0 },
+      Z5: { duration: 0, percentage: 0 },
+    };
+
+    let totalDuration = 0;
+    perRunAnalytics.forEach((run) => {
+      run.zones.forEach((zone) => {
+        zoneAggregates[zone.zone].duration += zone.duration_seconds;
+        totalDuration += zone.duration_seconds;
+      });
+    });
+
+    Object.keys(zoneAggregates).forEach((zone) => {
+      zoneAggregates[zone].percentage = totalDuration > 0 ? (zoneAggregates[zone].duration / totalDuration) * 100 : 0;
+    });
+
+    return Object.entries(zoneAggregates).map(([zone, data]) => ({
+      name: zone,
+      duration: Math.round(data.duration / 60),
+      percentage: parseFloat(data.percentage.toFixed(1)),
+    }));
+  }, [perRunAnalytics]);
+
+  const ZONE_COLORS: Record<string, string> = {
+    Z1: '#64b5f6',
+    Z2: '#81c784',
+    Z3: '#ffb74d',
+    Z4: '#e57373',
+    Z5: '#ba68c8',
+  };
 
   return (
     <section
@@ -22,83 +53,90 @@ export const HeartRateTrendPanel = ({ trend, methodology }: HeartRateTrendPanelP
       data-testid="hr-trend-panel"
     >
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-[var(--color-brand)]">Heart Rate Trend</h2>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-3">
           <button
             type="button"
-            className="rounded border px-3 py-1 text-sm"
-            aria-pressed={period === 'weekly'}
-            onClick={() => setPeriod('weekly')}
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-[var(--color-card-bg)] transition-colors"
+            aria-expanded={!isCollapsed}
+            aria-label={isCollapsed ? 'Expand Heart Rate Trend' : 'Collapse Heart Rate Trend'}
           >
-            Weekly
+            <span className="text-lg">
+              {isCollapsed ? '▶' : '▼'}
+            </span>
           </button>
-          <button
-            type="button"
-            className="rounded border px-3 py-1 text-sm"
-            aria-pressed={period === 'monthly'}
-            onClick={() => setPeriod('monthly')}
-          >
-            Monthly
-          </button>
+          <h2 className="text-xl font-semibold text-[var(--color-brand)]">Heart Rate Trend</h2>
         </div>
       </div>
 
-      {!hasAnyData ? (
-        <p
-          className="mb-4 rounded bg-[var(--color-card-bg)] p-3 text-sm text-[var(--color-secondary)]"
-          data-testid="hr-trend-no-data"
-        >
-          No heart-rate trend data for the selected filters.
-        </p>
-      ) : (
-        <ul className="space-y-2" data-testid={`hr-trend-list-${period}`}>
-          {points.map((point) => {
-            const rounded = point.average_heartrate ? Math.round(point.average_heartrate) : null;
-            return (
-              <li
-                key={point.period_key}
-                className="rounded border border-[var(--color-hr-primary)]/30 p-3"
-                data-testid={`hr-trend-point-${point.period_key}`}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-medium text-[var(--color-brand)]">
-                      {point.period_label}
-                    </p>
-                    <p className="text-sm text-[var(--color-secondary)]">
-                      {rounded !== null ? `${rounded} bpm` : '—'}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-[var(--color-secondary)]">
-                      {point.sample_count} sample
-                      {point.sample_count === 1 ? '' : 's'}
-                    </p>
-                    {point.is_low_confidence ? (
-                      <p
-                        className="text-xs font-medium text-[var(--color-warning)]"
-                        data-testid={`hr-trend-low-confidence-${point.period_key}`}
+      {!isCollapsed && (
+        <>
+          {!zoneData ? (
+            <p
+              className="mb-4 rounded bg-[var(--color-card-bg)] p-3 text-sm text-[var(--color-secondary)]"
+              data-testid="hr-trend-no-data"
+            >
+              No training zone data for the selected filters.
+            </p>
+          ) : (
+            <div className="mb-2 rounded bg-[var(--color-card-bg)] p-4">
+              <h3 className="mb-4 text-lg font-semibold text-[var(--color-brand)]">Training Zone Distribution</h3>
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <div className="flex justify-center" data-testid="hr-zone-chart">
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={zoneData}
+                        dataKey="percentage"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={100}
+                        label={({ name, percentage }) => `${name} ${percentage}%`}
                       >
-                        ⚠ {point.confidence_reason}
-                      </p>
-                    ) : null}
+                        {zoneData.map((entry) => (
+                          <Cell key={`cell-${entry.name}`} fill={ZONE_COLORS[entry.name]} />
+                        ))}
+                      </Pie>
+                      <Tooltip formatter={(value: number) => `${value.toFixed(1)}%`} />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+
+                <div data-testid="hr-zone-breakdown">
+                  <h4 className="mb-3 font-semibold text-[var(--color-brand)]">Zone Breakdown</h4>
+                  <div className="space-y-2">
+                    {zoneData.map((zone) => (
+                      <div key={zone.name} className="flex items-center justify-between rounded bg-[var(--color-bg)] p-2">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="h-4 w-4 rounded"
+                            style={{ backgroundColor: ZONE_COLORS[zone.name] }}
+                          />
+                          <div>
+                            <p className="font-semibold text-[var(--color-brand)]">{zone.name}</p>
+                            <p className="text-xs text-[var(--color-secondary)]">{zone.duration} mins</p>
+                          </div>
+                        </div>
+                        <p className="font-semibold text-[var(--color-brand)]">{zone.percentage}%</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 space-y-1 border-t border-[var(--color-hr-primary)]/20 pt-3 text-xs text-[var(--color-secondary)]">
+                    <p><strong>Z1:</strong> 50-60% max HR - Recovery/Easy pace</p>
+                    <p><strong>Z2:</strong> 60-70% max HR - Aerobic endurance</p>
+                    <p><strong>Z3:</strong> 70-80% max HR - Tempo/Threshold</p>
+                    <p><strong>Z4:</strong> 80-90% max HR - Hard intervals</p>
+                    <p><strong>Z5:</strong> 90-100% max HR - Maximum effort</p>
                   </div>
                 </div>
-              </li>
-            );
-          })}
-        </ul>
+              </div>
+            </div>
+          )}
+        </>
       )}
-
-      {lowConfidencePoints.length > 0 ? (
-        <p className="mt-3 text-xs text-[var(--color-warning)]">
-          ⚠ Low confidence: sparse sample count for this period.
-        </p>
-      ) : null}
-
-      <div className="mt-4">
-        <HeartRateMethodologyPanel methodology={methodology} />
-      </div>
     </section>
   );
 };
