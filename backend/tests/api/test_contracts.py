@@ -16,3 +16,5 @@ def test_analytics_summary_contract(client):
     assert "freshness" in body
     assert "last_sync_at" in body["freshness"]
     assert "completeness" in body["freshness"]
+    assert "summary" in body
+    assert "heart_rate" in body["summary"]
