@@ -111,6 +111,8 @@ export interface components {
             confidence: components["schemas"]["HrConfidence"];
             coverage: components["schemas"]["HrCoverage"];
             methodology: components["schemas"]["HrMethodology"];
+            /** Per Run */
+            per_run: components["schemas"]["HrPerRunAnalytics"][];
         };
         /** HrConfidence */
         HrConfidence: {
@@ -156,6 +158,28 @@ export interface components {
              */
             zone_time_basis: "hr_samples" | "estimated_from_average_hr" | "unavailable";
         };
+        /** HrPerRunAnalytics */
+        HrPerRunAnalytics: {
+            /** Analyzed Duration Seconds */
+            analyzed_duration_seconds: number;
+            /**
+             * Confidence Level
+             * @enum {string}
+             */
+            confidence_level: "high" | "medium" | "low" | "none";
+            /** Confidence Reason */
+            confidence_reason: string;
+            /** Coverage Ratio */
+            coverage_ratio: number;
+            /** Has Hr Data */
+            has_hr_data: boolean;
+            /** Run Id */
+            run_id: number;
+            /** Total Duration Seconds */
+            total_duration_seconds: number;
+            /** Zones */
+            zones: components["schemas"]["HrZoneBreakdownEntry"][];
+        };
         /** HrZoneBoundariesPct */
         HrZoneBoundariesPct: {
             /** Z1 */
@@ -183,6 +207,18 @@ export interface components {
                 number,
                 number
             ];
+        };
+        /** HrZoneBreakdownEntry */
+        HrZoneBreakdownEntry: {
+            /** Duration Seconds */
+            duration_seconds: number;
+            /** Percentage */
+            percentage: number;
+            /**
+             * Zone
+             * @enum {string}
+             */
+            zone: "Z1" | "Z2" | "Z3" | "Z4" | "Z5";
         };
     };
     responses: never;

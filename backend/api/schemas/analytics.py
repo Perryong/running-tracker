@@ -36,10 +36,28 @@ class HrCoverage(BaseModel):
     has_enough_data: bool
 
 
+class HrZoneBreakdownEntry(BaseModel):
+    zone: Literal["Z1", "Z2", "Z3", "Z4", "Z5"]
+    duration_seconds: int
+    percentage: float
+
+
+class HrPerRunAnalytics(BaseModel):
+    run_id: int
+    total_duration_seconds: int
+    analyzed_duration_seconds: int
+    coverage_ratio: float
+    confidence_level: Literal["high", "medium", "low", "none"]
+    confidence_reason: str
+    has_hr_data: bool
+    zones: list[HrZoneBreakdownEntry]
+
+
 class HrAnalyticsEnvelope(BaseModel):
     methodology: HrMethodology
     confidence: HrConfidence
     coverage: HrCoverage
+    per_run: list[HrPerRunAnalytics]
 
 
 class AnalyticsSummary(BaseModel):

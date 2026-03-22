@@ -12,6 +12,8 @@ export type ApiHrAnalyticsEnvelope =
 export type ApiHrMethodology = components['schemas']['HrMethodology'];
 export type ApiHrConfidence = components['schemas']['HrConfidence'];
 export type ApiHrCoverage = components['schemas']['HrCoverage'];
+export type ApiHrPerRunAnalytics = components['schemas']['HrPerRunAnalytics'];
+export type ApiHrZoneBreakdownEntry = components['schemas']['HrZoneBreakdownEntry'];
 
 export const toLegacyActivity = (activity: ApiActivity): LegacyActivity => ({
   run_id: activity.run_id,

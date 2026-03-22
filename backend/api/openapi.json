@@ -210,12 +210,20 @@
           },
           "methodology": {
             "$ref": "#/components/schemas/HrMethodology"
+          },
+          "per_run": {
+            "items": {
+              "$ref": "#/components/schemas/HrPerRunAnalytics"
+            },
+            "title": "Per Run",
+            "type": "array"
           }
         },
         "required": [
           "methodology",
           "confidence",
-          "coverage"
+          "coverage",
+          "per_run"
         ],
         "title": "HrAnalyticsEnvelope",
         "type": "object"
@@ -319,6 +327,63 @@
         "title": "HrMethodology",
         "type": "object"
       },
+      "HrPerRunAnalytics": {
+        "properties": {
+          "analyzed_duration_seconds": {
+            "title": "Analyzed Duration Seconds",
+            "type": "integer"
+          },
+          "confidence_level": {
+            "enum": [
+              "high",
+              "medium",
+              "low",
+              "none"
+            ],
+            "title": "Confidence Level",
+            "type": "string"
+          },
+          "confidence_reason": {
+            "title": "Confidence Reason",
+            "type": "string"
+          },
+          "coverage_ratio": {
+            "title": "Coverage Ratio",
+            "type": "number"
+          },
+          "has_hr_data": {
+            "title": "Has Hr Data",
+            "type": "boolean"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "integer"
+          },
+          "total_duration_seconds": {
+            "title": "Total Duration Seconds",
+            "type": "integer"
+          },
+          "zones": {
+            "items": {
+              "$ref": "#/components/schemas/HrZoneBreakdownEntry"
+            },
+            "title": "Zones",
+            "type": "array"
+          }
+        },
+        "required": [
+          "run_id",
+          "total_duration_seconds",
+          "analyzed_duration_seconds",
+          "coverage_ratio",
+          "confidence_level",
+          "confidence_reason",
+          "has_hr_data",
+          "zones"
+        ],
+        "title": "HrPerRunAnalytics",
+        "type": "object"
+      },
       "HrZoneBoundariesPct": {
         "properties": {
           "z1": {
@@ -400,6 +465,36 @@
           "z5"
         ],
         "title": "HrZoneBoundariesPct",
+        "type": "object"
+      },
+      "HrZoneBreakdownEntry": {
+        "properties": {
+          "duration_seconds": {
+            "title": "Duration Seconds",
+            "type": "integer"
+          },
+          "percentage": {
+            "title": "Percentage",
+            "type": "number"
+          },
+          "zone": {
+            "enum": [
+              "Z1",
+              "Z2",
+              "Z3",
+              "Z4",
+              "Z5"
+            ],
+            "title": "Zone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "zone",
+          "duration_seconds",
+          "percentage"
+        ],
+        "title": "HrZoneBreakdownEntry",
         "type": "object"
       }
     }

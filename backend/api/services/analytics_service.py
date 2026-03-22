@@ -5,6 +5,8 @@ from api.schemas.analytics import (
     HrConfidence,
     HrCoverage,
     HrMethodology,
+    HrPerRunAnalytics,
+    HrZoneBreakdownEntry,
     HrZoneBoundariesPct,
 )
 from api.schemas.common import FreshnessMetadata
@@ -33,6 +35,7 @@ def build_summary(activities: list[Activity]) -> AnalyticsSummary:
     hr_coverage = _build_hr_coverage(activities, heartrates)
     hr_methodology = _build_hr_methodology(hr_coverage)
     hr_confidence = _build_hr_confidence(hr_coverage, hr_methodology)
+    per_run = _build_per_run_hr(activities)
 
     return AnalyticsSummary(
         total_activities=len(activities),
@@ -43,6 +46,7 @@ def build_summary(activities: list[Activity]) -> AnalyticsSummary:
             methodology=hr_methodology,
             confidence=hr_confidence,
             coverage=hr_coverage,
+            per_run=per_run,
         ),
     )
 
@@ -120,3 +124,75 @@ def _build_hr_confidence(
         level="high",
         reason="Zone time is computed from heart-rate samples.",
     )
+
+
+def _zone_for_heart_rate(heart_rate: float, max_hr_value: int) -> str:
+    if max_hr_value <= 0:
+        return "Z1"
+    ratio = (heart_rate / max_hr_value) * 100
+    if ratio < 60:
+        return "Z1"
+    if ratio < 70:
+        return "Z2"
+    if ratio < 80:
+        return "Z3"
+    if ratio < 90:
+        return "Z4"
+    return "Z5"
+
+
+def _build_per_run_hr(activities: list[Activity]) -> list[HrPerRunAnalytics]:
+    max_hr_value = 190
+    ordered_zones = ["Z1", "Z2", "Z3", "Z4", "Z5"]
+    rows: list[HrPerRunAnalytics] = []
+
+    for activity in activities:
+        total_duration = _moving_time_to_seconds(activity.moving_time)
+        has_hr_data = activity.average_heartrate is not None
+
+        if not has_hr_data:
+            analyzed_duration = 0
+            coverage_ratio = 0.0
+            confidence_level = "none"
+            confidence_reason = (
+                "No heart-rate samples are available for this run."
+            )
+            zone_durations = {zone: 0 for zone in ordered_zones}
+        else:
+            zone = _zone_for_heart_rate(activity.average_heartrate, max_hr_value)
+            analyzed_duration = total_duration
+            coverage_ratio = 1.0 if total_duration > 0 else 0.0
+            confidence_level = "medium"
+            confidence_reason = (
+                "Zone time is estimated from average heart rate and does not use per-sample heart-rate series."
+            )
+            zone_durations = {name: 0 for name in ordered_zones}
+            zone_durations[zone] = analyzed_duration
+
+        zones = [
+            HrZoneBreakdownEntry(
+                zone=zone_name,
+                duration_seconds=zone_durations[zone_name],
+                percentage=(
+                    zone_durations[zone_name] / analyzed_duration
+                    if analyzed_duration > 0
+                    else 0.0
+                ),
+            )
+            for zone_name in ordered_zones
+        ]
+
+        rows.append(
+            HrPerRunAnalytics(
+                run_id=activity.run_id,
+                total_duration_seconds=total_duration,
+                analyzed_duration_seconds=analyzed_duration,
+                coverage_ratio=coverage_ratio,
+                confidence_level=confidence_level,
+                confidence_reason=confidence_reason,
+                has_hr_data=has_hr_data,
+                zones=zones,
+            )
+        )
+
+    return rows

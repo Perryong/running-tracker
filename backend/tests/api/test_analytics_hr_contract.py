@@ -5,7 +5,12 @@ def test_hr_methodology_and_confidence_contract(client):
     body = response.json()
 
     hr = body["summary"]["heart_rate"]
-    assert set(hr.keys()) == {"methodology", "confidence", "coverage"}
+    assert set(hr.keys()) == {
+        "methodology",
+        "confidence",
+        "coverage",
+        "per_run",
+    }
 
     methodology = hr["methodology"]
     assert methodology["model"] == "max_hr_percentage_5_zone"
