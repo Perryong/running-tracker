@@ -8,28 +8,34 @@ A revamped personal running tracker focused on a modern, polished UI/UX and clea
 
 Daily training review should feel effortless and visually clear, with trustworthy heart-rate-centric insights.
 
-## Current Milestone: v1.0 Running Tracker Revamp
+## Current State
 
-**Goal:** Modernize the running tracker with cleaner UX and heart-rate-centric Garmin insights while tightening frontend/backend boundaries.
+✅ **v1.0 Running Tracker Revamp shipped (2026-03-22)**.
 
-**Target features:**
-- Modern, intuitive dashboard and navigation for daily review
-- Typed API boundary between frontend and backend data services
-- Heart rate zone and trend analytics from Garmin activity data
-- Improved activity detail views with clearer metric presentation
+Shipped milestone outcomes:
+- Typed backend/frontend API boundary with contract-generated frontend types and freshness trust metadata.
+- Shared, URL-first persistent filter model across dashboard and detail-related experiences.
+- Dedicated activity detail route with clear metric hierarchy and resilient loading/empty/error behavior.
+- Heart-rate analytics with per-run zone breakdowns, weekly/monthly trends, and explicit methodology/provenance + confidence signaling.
+
+## Next Milestone Goals
+
+- Define new milestone requirements based on current shipped baseline (`/gsd-new-milestone`).
+- Prioritize any post-v1.0 polish or debt from milestone retrospective/audit.
+- Keep trust and clarity as primary product lenses for next roadmap decisions.
 
 ## Requirements
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Modern, intuitive dashboard and navigation for daily use — v1.0
+- ✓ Typed API boundary between frontend and backend data services — v1.0
+- ✓ Heart rate zones and trend analytics from Garmin activity data — v1.0
+- ✓ Improved activity detail views with clearer metrics presentation — v1.0
 
 ### Active
 
-- [ ] Modern, intuitive dashboard and navigation for daily use
-- [ ] Typed API boundary between frontend and backend data services
-- [ ] Heart rate zones and trend analytics from Garmin activity data
-- [ ] Improved activity detail views with clearer metrics presentation
+- [ ] Define vNext requirement set from post-ship priorities
 
 ### Out of Scope
 
@@ -38,7 +44,7 @@ Daily training review should feel effortless and visually clear, with trustworth
 
 ## Context
 
-This work is a revamp of an existing running tracker codebase. The current app already visualizes activities, and the next iteration should modernize UX while improving architecture quality for ongoing maintenance. The primary user is the project owner, so decisions should optimize personal workflow speed, clarity, and reliability over broad product-market concerns.
+v1.0 is now shipped as a full four-phase milestone (13 plans, 35 tasks) with all scoped requirements completed. The current codebase includes typed APIs, cross-view persistent filters, robust activity detail route states, and HR analytics transparency primitives. Next milestone planning can start from this validated baseline, with requirements re-scoped to new goals rather than carrying forward already-shipped work.
 
 ## Constraints
 
@@ -50,9 +56,10 @@ This work is a revamp of an existing running tracker codebase. The current app a
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Prioritize UI/UX polish in v1 | Immediate daily usability impact for primary user | — Pending |
-| Focus analytics on heart rate zones/trends first | Most requested insight area from Garmin data | — Pending |
-| Keep current stack, improve boundaries via typed APIs | Modernize architecture without costly full rewrite | — Pending |
+| Prioritize UI/UX polish in v1 | Immediate daily usability impact for primary user | ✓ Shipped in Phase 2/3 |
+| Focus analytics on heart rate zones/trends first | Most requested insight area from Garmin data | ✓ Shipped in Phase 4 |
+| Keep current stack, improve boundaries via typed APIs | Modernize architecture without costly full rewrite | ✓ Shipped in Phase 1 |
+| Use explicit methodology/provenance + confidence signaling for HR analytics | Build user trust and avoid false certainty | ✓ Shipped in Phase 4 |
 
 ---
-*Last updated: 2026-03-21 after milestone v1.0 start*
+*Last updated: 2026-03-22 after milestone v1.0 completion*
