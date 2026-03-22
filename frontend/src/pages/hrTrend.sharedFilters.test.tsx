@@ -1,80 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { useMemo } from 'react';
-import type { Activity } from '@/utils/utils';
-import {
-  DashboardFiltersProvider,
-  useDashboardFilters,
-} from '@/features/dashboard/filters/useDashboardFilters';
-import { selectFilteredRuns } from '@/features/dashboard/selectors/selectFilteredRuns';
+import type { ApiHrTrendAnalytics } from '@/api/types';
 import { HeartRateTrendPanel } from '@/features/dashboard/components/HeartRateTrendPanel';
-
-const fixtureRuns: Activity[] = [
-  {
-    run_id: 101,
-    name: 'Week one run',
-    distance: 10000,
-    moving_time: '00:52:00',
-    type: 'Run',
-    subtype: '',
-    start_date: '2024-01-03T00:00:00Z',
-    start_date_local: '2024-01-03T06:00:00Z',
-    location_country: 'CN',
-    summary_polyline: null,
-    average_heartrate: 150,
-    elevation_gain: 50,
-    average_speed: 3.2,
-    streak: 1,
-  },
-  {
-    run_id: 102,
-    name: 'Week one run two',
-    distance: 8000,
-    moving_time: '00:43:00',
-    type: 'running',
-    subtype: '',
-    start_date: '2024-01-05T00:00:00Z',
-    start_date_local: '2024-01-05T07:00:00Z',
-    location_country: 'CN',
-    summary_polyline: null,
-    average_heartrate: 154,
-    elevation_gain: 60,
-    average_speed: 3.1,
-    streak: 1,
-  },
-  {
-    run_id: 103,
-    name: 'Week two sparse run',
-    distance: 9000,
-    moving_time: '00:47:00',
-    type: 'running',
-    subtype: '',
-    start_date: '2024-01-12T00:00:00Z',
-    start_date_local: '2024-01-12T07:00:00Z',
-    location_country: 'CN',
-    summary_polyline: null,
-    average_heartrate: 166,
-    elevation_gain: 80,
-    average_speed: 3.1,
-    streak: 1,
-  },
-  {
-    run_id: 104,
-    name: 'No HR walk',
-    distance: 4000,
-    moving_time: '00:41:00',
-    type: 'walking',
-    subtype: '',
-    start_date: '2023-08-12T00:00:00Z',
-    start_date_local: '2023-08-12T08:00:00Z',
-    location_country: 'CN',
-    summary_polyline: null,
-    average_heartrate: null,
-    elevation_gain: 10,
-    average_speed: 1.8,
-    streak: 1,
-  },
-];
 
 const trendMethodology = {
   model: 'max_hr_percentage_5_zone' as const,
@@ -91,36 +18,56 @@ const trendMethodology = {
   },
 };
 
-const TrendHarness = () => {
-  const { filters, setDateRange, setActivityType } = useDashboardFilters();
-  const filteredRuns = useMemo(
-    () => selectFilteredRuns(fixtureRuns, filters),
-    [filters]
-  );
+const trendFixture: ApiHrTrendAnalytics = {
+  default_period: 'weekly',
+  low_sample_threshold: 2,
+  periods: {
+    weekly: [
+      {
+        period_key: '2024-W01',
+        period_label: 'Week 1',
+        average_heartrate: 191.7,
+        sample_count: 1,
+        is_low_confidence: true,
+        has_data: true,
+        confidence_reason: 'Backend confidence reason: single chest-strap sample.',
+        run_ids: [101, 102],
+      },
+      {
+        period_key: '2024-W02',
+        period_label: 'Week 2',
+        average_heartrate: null,
+        sample_count: 0,
+        is_low_confidence: true,
+        has_data: false,
+        confidence_reason: 'Backend says no wearable samples for this week.',
+        run_ids: [103],
+      },
+    ],
+    monthly: [
+      {
+        period_key: '2024-01',
+        period_label: 'January 2024',
+        average_heartrate: 142.2,
+        sample_count: 9,
+        is_low_confidence: false,
+        has_data: true,
+        confidence_reason: 'Backend confidence reason: dense month coverage.',
+        run_ids: [101, 102, 103],
+      },
+    ],
+  },
+};
 
+const TrendHarness = () => {
   return (
-    <div>
-      <button onClick={() => setDateRange('2024')}>set-2024</button>
-      <button onClick={() => setDateRange('all')}>set-all-date</button>
-      <button onClick={() => setDateRange('2022')}>set-2022</button>
-      <button onClick={() => setActivityType('walking')}>set-walking</button>
-      <button onClick={() => setActivityType('all')}>set-all-activity</button>
-      <HeartRateTrendPanel
-        runs={filteredRuns}
-        methodology={trendMethodology}
-        lowConfidenceSampleThreshold={2}
-      />
-    </div>
+    <HeartRateTrendPanel trend={trendFixture} methodology={trendMethodology} />
   );
 };
 
-describe('dashboard heart-rate trend shared filter behavior', () => {
-  it('supports weekly/monthly periods and reflects shared filter changes', () => {
-    render(
-      <DashboardFiltersProvider>
-        <TrendHarness />
-      </DashboardFiltersProvider>
-    );
+describe('dashboard heart-rate trend backend contract behavior', () => {
+  it('renders weekly/monthly period arrays from backend trend payload', () => {
+    render(<TrendHarness />);
 
     expect(
       screen.getByRole('heading', { name: 'Heart Rate Trend' })
@@ -129,40 +76,26 @@ describe('dashboard heart-rate trend shared filter behavior', () => {
     expect(screen.getByRole('button', { name: 'Monthly' })).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Daily' })).toBeNull();
 
-    expect(screen.getByText('152 bpm')).toBeTruthy();
-    expect(screen.getByText('2 samples')).toBeTruthy();
+    expect(screen.getByText('192 bpm')).toBeTruthy();
+    expect(screen.getByText('1 sample')).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: 'Monthly' }));
-    expect(screen.getByText('157 bpm')).toBeTruthy();
-    expect(screen.getByText('3 samples')).toBeTruthy();
-
-    fireEvent.click(screen.getByText('set-walking'));
-    expect(
-      screen.getByText('No heart-rate trend data for the selected filters.')
-    ).toBeTruthy();
-
-    fireEvent.click(screen.getByText('set-all-activity'));
-    fireEvent.click(screen.getByText('set-2024'));
-    expect(screen.getByText('157 bpm')).toBeTruthy();
+    expect(screen.getByText('142 bpm')).toBeTruthy();
+    expect(screen.getByText('9 samples')).toBeTruthy();
   });
 
-  it('renders low-confidence marker/legend and explicit no-data state', () => {
-    render(
-      <DashboardFiltersProvider>
-        <TrendHarness />
-      </DashboardFiltersProvider>
-    );
+  it('uses backend confidence_reason and has_data semantics directly', () => {
+    render(<TrendHarness />);
 
     expect(
-      screen.getByText('⚠ Sparse sample count for this period.')
+      screen.getByText('⚠ Backend confidence reason: single chest-strap sample.')
+    ).toBeTruthy();
+    expect(
+      screen.getByText('⚠ Backend says no wearable samples for this week.')
     ).toBeTruthy();
     expect(
       screen.getByText('⚠ Low confidence: sparse sample count for this period.')
     ).toBeTruthy();
-
-    fireEvent.click(screen.getByText('set-2022'));
-    expect(
-      screen.getByText('No heart-rate trend data for the selected filters.')
-    ).toBeTruthy();
+    expect(screen.getByTestId('hr-trend-point-2024-W02')).toHaveTextContent('—');
   });
 });
