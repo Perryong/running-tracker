@@ -13,7 +13,7 @@ This roadmap delivers v1.0 in dependency order: first establish a trustworthy ty
 - [x] **Phase 1: Typed API Foundation** - Establish typed backend/frontend API contracts with freshness metadata.
 - [x] **Phase 2: Dashboard Workflow & Persistent Filters** - Deliver modern KPI dashboard and shared/persistent filtering behavior. (completed 2026-03-21)
 - [ ] **Phase 3: Activity Detail Experience** - Deliver clear activity detail hierarchy with resilient empty/loading/error handling.
-- [ ] **Phase 4: Heart Rate Analytics & Transparency** - Deliver per-run zone analytics and weekly/monthly HR trends with methodology disclosure. (in progress)
+- [x] **Phase 4: Heart Rate Analytics & Transparency** - Deliver per-run zone analytics and weekly/monthly HR trends with methodology disclosure. (completed 2026-03-22)
 
 ## Phase Details
 
@@ -70,8 +70,8 @@ Plans:
 **Plans**: 3 plans
 Plans:
 - [x] 04-01-PLAN.md — Resolve Wave-0 feasibility risk and lock HR methodology/provenance + confidence contract/types
-- [ ] 04-02-PLAN.md — Deliver per-run zone breakdown in activity detail with coverage/confidence states and methodology disclosure
-- [ ] 04-03-PLAN.md — Deliver weekly/monthly HR trend panel with shared-filter continuity and trend-context transparency signals
+- [x] 04-02-PLAN.md — Deliver per-run zone breakdown in activity detail with coverage/confidence states and methodology disclosure
+- [x] 04-03-PLAN.md — Deliver weekly/monthly HR trend panel with shared-filter continuity and trend-context transparency signals
 
 ## Progress
 
@@ -80,4 +80,4 @@ Plans:
 | 1. Typed API Foundation | 3/3 | Complete | 2026-03-21 |
 | 2. Dashboard Workflow & Persistent Filters | 4/4 | Complete   | 2026-03-21 |
 | 3. Activity Detail Experience | 2/2 | Complete | 2026-03-21 |
-| 4. Heart Rate Analytics & Transparency | 1/3 | In Progress | - |
+| 4. Heart Rate Analytics & Transparency | 3/3 | Complete | 2026-03-22 |
