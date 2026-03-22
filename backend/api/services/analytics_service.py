@@ -6,6 +6,9 @@ from api.schemas.analytics import (
     HrCoverage,
     HrMethodology,
     HrPerRunAnalytics,
+    HrTrendAnalytics,
+    HrTrendPeriods,
+    HrTrendPoint,
     HrZoneBreakdownEntry,
     HrZoneBoundariesPct,
 )
@@ -36,6 +39,7 @@ def build_summary(activities: list[Activity]) -> AnalyticsSummary:
     hr_methodology = _build_hr_methodology(hr_coverage)
     hr_confidence = _build_hr_confidence(hr_coverage, hr_methodology)
     per_run = _build_per_run_hr(activities)
+    trend = _build_hr_trend(activities)
 
     return AnalyticsSummary(
         total_activities=len(activities),
@@ -47,6 +51,7 @@ def build_summary(activities: list[Activity]) -> AnalyticsSummary:
             confidence=hr_confidence,
             coverage=hr_coverage,
             per_run=per_run,
+            trend=trend,
         ),
     )
 
@@ -196,3 +201,90 @@ def _build_per_run_hr(activities: list[Activity]) -> list[HrPerRunAnalytics]:
         )
 
     return rows
+
+
+LOW_SAMPLE_THRESHOLD = 2
+
+
+def _start_of_week(date_str: str) -> str:
+    from datetime import datetime, timedelta
+
+    parsed = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+    week_start = parsed - timedelta(days=parsed.weekday())
+    return week_start.date().isoformat()
+
+
+def _month_key(date_str: str) -> str:
+    from datetime import datetime
+
+    parsed = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+    return f"{parsed.year:04d}-{parsed.month:02d}"
+
+
+def _build_trend_points(
+    activities: list[Activity], period: str
+) -> list[HrTrendPoint]:
+    grouped: dict[str, dict[str, object]] = {}
+
+    for activity in activities:
+        key = (
+            _start_of_week(activity.start_date_local)
+            if period == "weekly"
+            else _month_key(activity.start_date_local)
+        )
+        bucket = grouped.setdefault(
+            key,
+            {
+                "run_ids": [],
+                "hr_values": [],
+            },
+        )
+        run_ids_bucket = bucket["run_ids"]
+        hr_values_bucket = bucket["hr_values"]
+        run_ids_bucket.append(activity.run_id)
+        if activity.average_heartrate is not None:
+            hr_values_bucket.append(activity.average_heartrate)
+
+    points: list[HrTrendPoint] = []
+    for key in sorted(grouped.keys()):
+        bucket = grouped[key]
+        hr_values = bucket["hr_values"]
+        run_ids = bucket["run_ids"]
+        sample_count = len(hr_values)
+        has_data = sample_count > 0
+        is_low_confidence = sample_count < LOW_SAMPLE_THRESHOLD
+        if has_data:
+            avg = sum(hr_values) / sample_count
+            reason = (
+                "Sparse sample count for this period."
+                if is_low_confidence
+                else "Sufficient sample count for this period."
+            )
+        else:
+            avg = None
+            reason = "No heart-rate samples are available for this period."
+
+        points.append(
+            HrTrendPoint(
+                period_key=key,
+                period_label=key,
+                average_heartrate=avg,
+                sample_count=sample_count,
+                is_low_confidence=is_low_confidence,
+                has_data=has_data,
+                confidence_reason=reason,
+                run_ids=run_ids,
+            )
+        )
+
+    return points
+
+
+def _build_hr_trend(activities: list[Activity]) -> HrTrendAnalytics:
+    weekly = _build_trend_points(activities, "weekly")
+    monthly = _build_trend_points(activities, "monthly")
+    return HrTrendAnalytics(
+        periods=HrTrendPeriods(weekly=weekly, monthly=monthly),
+        default_period="weekly",
+        low_sample_threshold=LOW_SAMPLE_THRESHOLD,
+    )

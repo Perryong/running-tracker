@@ -53,11 +53,34 @@ class HrPerRunAnalytics(BaseModel):
     zones: list[HrZoneBreakdownEntry]
 
 
+class HrTrendPoint(BaseModel):
+    period_key: str
+    period_label: str
+    average_heartrate: float | None = None
+    sample_count: int
+    is_low_confidence: bool
+    has_data: bool
+    confidence_reason: str
+    run_ids: list[int]
+
+
+class HrTrendPeriods(BaseModel):
+    weekly: list[HrTrendPoint]
+    monthly: list[HrTrendPoint]
+
+
+class HrTrendAnalytics(BaseModel):
+    periods: HrTrendPeriods
+    default_period: Literal["weekly", "monthly"]
+    low_sample_threshold: int
+
+
 class HrAnalyticsEnvelope(BaseModel):
     methodology: HrMethodology
     confidence: HrConfidence
     coverage: HrCoverage
     per_run: list[HrPerRunAnalytics]
+    trend: HrTrendAnalytics
 
 
 class AnalyticsSummary(BaseModel):

@@ -10,6 +10,7 @@ def test_hr_methodology_and_confidence_contract(client):
         "confidence",
         "coverage",
         "per_run",
+        "trend",
     }
 
     methodology = hr["methodology"]
