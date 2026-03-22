@@ -83,3 +83,97 @@ def test_per_run_hr_contract_shape_and_zone_order(client):
         assert isinstance(zone["duration_seconds"], int)
         assert isinstance(zone["percentage"], float)
         assert 0.0 <= zone["percentage"] <= 1.0
+
+
+def test_hr_trend_contract_weekly_monthly_shape(client):
+    response = client.get("/api/v1/analytics/summary")
+
+    assert response.status_code == 200
+    body = response.json()
+    trend = body["summary"]["heart_rate"]["trend"]
+
+    assert set(trend.keys()) == {"periods", "default_period", "low_sample_threshold"}
+    assert set(trend["periods"].keys()) == {"weekly", "monthly"}
+    assert trend["default_period"] in {"weekly", "monthly"}
+    assert isinstance(trend["low_sample_threshold"], int)
+    assert trend["low_sample_threshold"] >= 1
+
+    for period in ("weekly", "monthly"):
+        rows = trend["periods"][period]
+        assert isinstance(rows, list)
+        for row in rows:
+            assert set(row.keys()) == {
+                "period_key",
+                "period_label",
+                "average_heartrate",
+                "sample_count",
+                "is_low_confidence",
+                "has_data",
+                "confidence_reason",
+                "run_ids",
+            }
+            assert isinstance(row["period_key"], str)
+            assert isinstance(row["period_label"], str)
+            assert isinstance(row["sample_count"], int)
+            assert isinstance(row["is_low_confidence"], bool)
+            assert isinstance(row["has_data"], bool)
+            assert isinstance(row["confidence_reason"], str)
+            assert isinstance(row["run_ids"], list)
+            for run_id in row["run_ids"]:
+                assert isinstance(run_id, int)
+
+            if row["has_data"]:
+                assert row["average_heartrate"] is not None
+                assert row["sample_count"] > 0
+            else:
+                assert row["average_heartrate"] is None
+                assert row["sample_count"] == 0
+
+
+def test_hr_trend_no_hr_data_returns_explicit_empty_periods(monkeypatch, client):
+    from api.schemas.activity import Activity
+    from api.schemas.common import FreshnessMetadata
+    from api.services import analytics_service
+
+    def fake_get_activities_data():
+        freshness = FreshnessMetadata(
+            last_sync_at="2026-01-01T00:00:00Z",
+            completeness="complete",
+        )
+        activities = [
+            Activity(
+                run_id=501,
+                name="Walk without HR",
+                distance=3000,
+                moving_time="00:30:00",
+                type="walking",
+                subtype="",
+                start_date="2026-01-01T00:00:00Z",
+                start_date_local="2026-01-01T00:00:00Z",
+                location_country="CN",
+                summary_polyline=None,
+                average_heartrate=None,
+                elevation_gain=10,
+                average_speed=1.6,
+                streak=1,
+            )
+        ]
+        return freshness, activities
+
+    monkeypatch.setattr(analytics_service, "get_activities_data", fake_get_activities_data)
+    response = client.get("/api/v1/analytics/summary")
+
+    assert response.status_code == 200
+    trend = response.json()["summary"]["heart_rate"]["trend"]
+
+    weekly_rows = trend["periods"]["weekly"]
+    monthly_rows = trend["periods"]["monthly"]
+    assert len(weekly_rows) == 1
+    assert len(monthly_rows) == 1
+
+    for row in [weekly_rows[0], monthly_rows[0]]:
+        assert row["has_data"] is False
+        assert row["average_heartrate"] is None
+        assert row["sample_count"] == 0
+        assert row["is_low_confidence"] is True
+        assert row["confidence_reason"]
