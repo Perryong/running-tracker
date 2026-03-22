@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import Index from './index';
+import { DashboardFiltersProvider } from '@/features/dashboard/filters/useDashboardFilters';
 
 const useActivitiesMock = vi.hoisted(() => vi.fn());
 const useSiteMetadataMock = vi.hoisted(() => vi.fn());
@@ -102,7 +103,11 @@ describe('Index freshness wiring', () => {
       },
     });
 
-    render(<Index />);
+    render(
+      <DashboardFiltersProvider>
+        <Index />
+      </DashboardFiltersProvider>
+    );
 
     expect(screen.getByText(/Data may be incomplete/i)).toBeTruthy();
     expect(screen.getByText(/Last synced: 2026-03-21T10:28:00Z/i)).toBeTruthy();
