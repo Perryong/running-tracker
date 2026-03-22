@@ -3,10 +3,25 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-03-22T02:14:39.999Z"
+progress:
+  total_phases: 4
+  completed_phases: 3
+  total_plans: 12
+  completed_plans: 11
+  percent: 92
+---
+
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: executing
 stopped_at: Completed 04-01-PLAN.md
 last_updated: "2026-03-22T02:01:24.435Z"
 progress:
-  total_phases: 4
+  [█████████░] 92%
   completed_phases: 3
   total_plans: 12
   completed_plans: 10
@@ -176,6 +191,7 @@ Plan: 1 of 3 complete (next: 04-02-PLAN.md)
 | Phase 03-activity-detail-experience P01 | 14min | 3 tasks | 8 files |
 | Phase 03 P02 | 7min | 3 tasks | 10 files |
 | Phase 04 P01 | 3min | 3 tasks | 7 files |
+| Phase 04 P02 | 10min | 3 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -214,6 +230,8 @@ Recent decisions affecting current work:
 - [Phase 04]: Wave-0 feasibility is explicit via zone_time_basis: estimated_from_average_hr when only aggregate HR exists, unavailable when no HR data exists.
 - [Phase 04]: Analytics summary heart_rate methodology/provenance/confidence/coverage fields are mandatory and contract-tested before UI work.
 - [Phase 04]: Frontend HR transparency types are consumed through regenerated OpenAPI contracts and exported aliases, avoiding ad-hoc interfaces.
+- [Phase 04]: Per-run zone rows are normalized to Z1→Z5 in payload and UI for deterministic trust presentation.
+- [Phase 04]: Activity detail methodology/provenance remains visible alongside confidence/coverage with explicit Estimated zones fallback signaling.
 
 ### Pending Todos
 
@@ -225,6 +243,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T02:01:24.428Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-03-22T02:14:39.993Z
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
