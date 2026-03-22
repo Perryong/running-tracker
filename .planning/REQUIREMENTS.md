@@ -24,7 +24,7 @@
 ### Heart Rate Analytics
 
 - [x] **HR-01**: User can view per-run heart rate zone breakdown (time and percentage by zone)
-- [ ] **HR-02**: User can view weekly and monthly heart rate trend analytics based on Garmin-derived data
+- [x] **HR-02**: User can view weekly and monthly heart rate trend analytics based on Garmin-derived data
 - [x] **HR-03**: Heart rate analytics clearly indicate zone methodology/provenance used for calculations
 
 ## Future Requirements
@@ -57,7 +57,7 @@
 | ACT-01 | Phase 3 | Complete |
 | ACT-02 | Phase 3 | Complete |
 | HR-01 | Phase 4 | Complete |
-| HR-02 | Phase 4 | Pending |
+| HR-02 | Phase 4 | Complete |
 | HR-03 | Phase 4 | Complete |
 
 **Coverage:**
