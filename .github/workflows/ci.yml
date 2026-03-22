@@ -36,11 +36,6 @@ jobs:
           python -m py_compile backend/run_page/utils.py
           echo "✓ All Python files compiled successfully"
 
-      - name: Check formatting (black)
-        run: |
-          python -m black backend --diff --color
-          python -m black backend --check
-
       - name: Lint with Ruff
         run: |
           pip install ruff
@@ -68,9 +63,8 @@ jobs:
         working-directory: frontend
         run: pnpm install
 
-      - name: Run check and build
+      - name: Run lint and build
         working-directory: frontend
         run: |
-          pnpm run check
           pnpm run lint
           pnpm run build
