@@ -31,7 +31,7 @@ import { KpiCards } from '@/features/dashboard/components/KpiCards';
 import { EmptyKpiState } from '@/features/dashboard/components/EmptyKpiState';
 import { HeartRateTrendPanel } from '@/features/dashboard/components/HeartRateTrendPanel';
 import { getAnalyticsSummary } from '@/api/analytics';
-import type { ApiHrMethodology } from '@/api/types';
+import type { ApiHrMethodology, ApiHrTrendAnalytics } from '@/api/types';
 
 export const shouldExitSingleRunFocus = (
   singleRunId: number | null,
@@ -62,6 +62,7 @@ const Index = () => {
   const [trendMethodology, setTrendMethodology] = useState<ApiHrMethodology | null>(
     null
   );
+  const [trendAnalytics, setTrendAnalytics] = useState<ApiHrTrendAnalytics | null>(null);
 
   const selectedRunIdRef = useRef<number | null>(null);
   const selectedRunDateRef = useRef<string | null>(null);
@@ -281,11 +282,13 @@ const Index = () => {
       .then((response) => {
         if (!cancelled) {
           setTrendMethodology(response.summary.heart_rate.methodology);
+          setTrendAnalytics(response.summary.heart_rate.trend);
         }
       })
       .catch(() => {
         if (!cancelled) {
           setTrendMethodology(null);
+          setTrendAnalytics(null);
         }
       });
 
@@ -390,8 +393,8 @@ const Index = () => {
       </div>
       <div className="w-full lg:w-2/3" id="map-container">
         {runs.length === 0 ? <EmptyKpiState /> : <KpiCards kpis={kpis} />}
-        {trendMethodology ? (
-          <HeartRateTrendPanel runs={runs} methodology={trendMethodology} />
+        {trendMethodology && trendAnalytics ? (
+          <HeartRateTrendPanel trend={trendAnalytics} methodology={trendMethodology} />
         ) : null}
         <TemplateMap title={title} geoData={animatedGeoData} />
         {currentYear === 'Total' ? (

@@ -96,6 +96,6 @@ describe('dashboard heart-rate trend backend contract behavior', () => {
     expect(
       screen.getByText('⚠ Low confidence: sparse sample count for this period.')
     ).toBeTruthy();
-    expect(screen.getByTestId('hr-trend-point-2024-W02')).toHaveTextContent('—');
+    expect(screen.getByTestId('hr-trend-point-2024-W02').textContent).toContain('—');
   });
 });
