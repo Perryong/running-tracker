@@ -1,10 +1,15 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import TemplateMap from '@/components/RunMap/TemplateMap';
 import { ActivityDetailSkeleton } from '@/features/activity-detail/components/ActivityDetailSkeleton';
 import { ActivityDetailError } from '@/features/activity-detail/components/ActivityDetailError';
 import { ActivityDetailNotFound } from '@/features/activity-detail/components/ActivityDetailNotFound';
+import { HeartRateMethodologyPanel } from '@/features/activity-detail/components/HeartRateMethodologyPanel';
+import { HeartRateZoneBreakdown } from '@/features/activity-detail/components/HeartRateZoneBreakdown';
 import { useActivityDetail } from '@/features/activity-detail/hooks/useActivityDetail';
+import { getAnalyticsSummary } from '@/api/analytics';
+import type { ApiAnalyticsSummary } from '@/api/types';
 import { formatPace, formatRunTime, geoJsonForRuns, titleForRun } from '@/utils/utils';
 
 const formatDistance = (distanceMeters: number): string => `${(distanceMeters / 1000).toFixed(2)} km`;
@@ -31,6 +36,32 @@ const ActivityPage = () => {
   const fromDashboard = Boolean((location.state as { fromDashboard?: boolean } | null)?.fromDashboard);
 
   const { activity, isLoading, isError, refetch } = useActivityDetail(parsedRunId);
+  const [hrSummary, setHrSummary] = useState<ApiAnalyticsSummary | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (parsedRunId === null) {
+      setHrSummary(null);
+      return () => {
+        cancelled = true;
+      };
+    }
+    void getAnalyticsSummary()
+      .then((response) => {
+        if (!cancelled) {
+          setHrSummary(response.summary);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setHrSummary(null);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [parsedRunId]);
   const handleBack = () => {
     if (fromDashboard) {
       navigate(-1);
@@ -50,8 +81,13 @@ const ActivityPage = () => {
   } else if (!activity) {
     state = 'not-found';
   }
+  const hrSectionEnabled = state === 'ready' && activity !== null;
 
   const heartRate = formatHeartRate(activity?.average_heartrate ?? null);
+  const perRunHr =
+    parsedRunId !== null
+      ? hrSummary?.heart_rate.per_run.find((entry) => entry.run_id === parsedRunId) ?? null
+      : null;
 
   return (
     <Layout>
@@ -136,6 +172,16 @@ const ActivityPage = () => {
                   {formatElevation(activity.elevation_gain)}
                 </p>
               </section>
+
+              {hrSectionEnabled && perRunHr ? (
+                <HeartRateZoneBreakdown perRun={perRunHr} />
+              ) : null}
+
+              {hrSectionEnabled && hrSummary?.heart_rate.methodology ? (
+                <HeartRateMethodologyPanel
+                  methodology={hrSummary.heart_rate.methodology}
+                />
+              ) : null}
 
               <section
                 className="rounded-md border border-[var(--color-hr-primary)] bg-[var(--color-bg)] p-4"

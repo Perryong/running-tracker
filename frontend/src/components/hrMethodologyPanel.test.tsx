@@ -25,8 +25,10 @@ describe('HeartRateMethodologyPanel', () => {
 
     expect(screen.getByText('Methodology & Provenance')).toBeTruthy();
     expect(screen.getByText('Model: max_hr_percentage_5_zone')).toBeTruthy();
-    expect(screen.getByText('Z1: 50–60%')).toBeTruthy();
-    expect(screen.getByText('Z5: 90–100%')).toBeTruthy();
+    expect(screen.getByText('Z1')).toBeTruthy();
+    expect(screen.getByText('50–60%')).toBeTruthy();
+    expect(screen.getByText('Z5')).toBeTruthy();
+    expect(screen.getByText('90–100%')).toBeTruthy();
     expect(screen.getByText('Max HR source: default_fallback')).toBeTruthy();
     expect(screen.getByText('Estimated zones')).toBeTruthy();
   });
