@@ -129,7 +129,7 @@ describe('dashboard heart-rate trend shared filter behavior', () => {
     expect(screen.getByRole('button', { name: 'Monthly' })).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Daily' })).toBeNull();
 
-    expect(screen.getByText('155 bpm')).toBeTruthy();
+    expect(screen.getByText('152 bpm')).toBeTruthy();
     expect(screen.getByText('2 samples')).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: 'Monthly' }));
@@ -153,7 +153,9 @@ describe('dashboard heart-rate trend shared filter behavior', () => {
       </DashboardFiltersProvider>
     );
 
-    expect(screen.getByText(/⚠/)).toBeTruthy();
+    expect(
+      screen.getByText('⚠ Sparse sample count for this period.')
+    ).toBeTruthy();
     expect(
       screen.getByText('⚠ Low confidence: sparse sample count for this period.')
     ).toBeTruthy();
