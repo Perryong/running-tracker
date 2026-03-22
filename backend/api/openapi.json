@@ -136,6 +136,9 @@
             ],
             "title": "Average Heartrate"
           },
+          "heart_rate": {
+            "$ref": "#/components/schemas/HrAnalyticsEnvelope"
+          },
           "total_activities": {
             "title": "Total Activities",
             "type": "integer"
@@ -152,7 +155,8 @@
         "required": [
           "total_activities",
           "total_distance",
-          "total_moving_time_seconds"
+          "total_moving_time_seconds",
+          "heart_rate"
         ],
         "title": "AnalyticsSummary",
         "type": "object"
@@ -194,6 +198,208 @@
           "completeness"
         ],
         "title": "FreshnessMetadata",
+        "type": "object"
+      },
+      "HrAnalyticsEnvelope": {
+        "properties": {
+          "confidence": {
+            "$ref": "#/components/schemas/HrConfidence"
+          },
+          "coverage": {
+            "$ref": "#/components/schemas/HrCoverage"
+          },
+          "methodology": {
+            "$ref": "#/components/schemas/HrMethodology"
+          }
+        },
+        "required": [
+          "methodology",
+          "confidence",
+          "coverage"
+        ],
+        "title": "HrAnalyticsEnvelope",
+        "type": "object"
+      },
+      "HrConfidence": {
+        "properties": {
+          "level": {
+            "enum": [
+              "high",
+              "medium",
+              "low",
+              "none"
+            ],
+            "title": "Level",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "level",
+          "reason"
+        ],
+        "title": "HrConfidence",
+        "type": "object"
+      },
+      "HrCoverage": {
+        "properties": {
+          "activities_with_hr": {
+            "title": "Activities With Hr",
+            "type": "integer"
+          },
+          "coverage_ratio": {
+            "title": "Coverage Ratio",
+            "type": "number"
+          },
+          "has_enough_data": {
+            "title": "Has Enough Data",
+            "type": "boolean"
+          },
+          "total_activities": {
+            "title": "Total Activities",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "activities_with_hr",
+          "total_activities",
+          "coverage_ratio",
+          "has_enough_data"
+        ],
+        "title": "HrCoverage",
+        "type": "object"
+      },
+      "HrMethodology": {
+        "properties": {
+          "estimated": {
+            "title": "Estimated",
+            "type": "boolean"
+          },
+          "max_hr_source": {
+            "enum": [
+              "user_configured",
+              "default_fallback"
+            ],
+            "title": "Max Hr Source",
+            "type": "string"
+          },
+          "max_hr_value": {
+            "title": "Max Hr Value",
+            "type": "integer"
+          },
+          "model": {
+            "const": "max_hr_percentage_5_zone",
+            "title": "Model",
+            "type": "string"
+          },
+          "zone_boundaries_pct": {
+            "$ref": "#/components/schemas/HrZoneBoundariesPct"
+          },
+          "zone_time_basis": {
+            "enum": [
+              "hr_samples",
+              "estimated_from_average_hr",
+              "unavailable"
+            ],
+            "title": "Zone Time Basis",
+            "type": "string"
+          }
+        },
+        "required": [
+          "model",
+          "zone_time_basis",
+          "max_hr_value",
+          "max_hr_source",
+          "estimated",
+          "zone_boundaries_pct"
+        ],
+        "title": "HrMethodology",
+        "type": "object"
+      },
+      "HrZoneBoundariesPct": {
+        "properties": {
+          "z1": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Z1",
+            "type": "array"
+          },
+          "z2": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Z2",
+            "type": "array"
+          },
+          "z3": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Z3",
+            "type": "array"
+          },
+          "z4": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Z4",
+            "type": "array"
+          },
+          "z5": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Z5",
+            "type": "array"
+          }
+        },
+        "required": [
+          "z1",
+          "z2",
+          "z3",
+          "z4",
+          "z5"
+        ],
+        "title": "HrZoneBoundariesPct",
         "type": "object"
       }
     }

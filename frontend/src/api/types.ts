@@ -7,6 +7,11 @@ export type ApiActivitiesResponse = components['schemas']['ActivitiesResponse'];
 export type ApiAnalyticsSummary = components['schemas']['AnalyticsSummary'];
 export type ApiAnalyticsSummaryResponse =
   components['schemas']['AnalyticsSummaryResponse'];
+export type ApiHrAnalyticsEnvelope =
+  components['schemas']['HrAnalyticsEnvelope'];
+export type ApiHrMethodology = components['schemas']['HrMethodology'];
+export type ApiHrConfidence = components['schemas']['HrConfidence'];
+export type ApiHrCoverage = components['schemas']['HrCoverage'];
 
 export const toLegacyActivity = (activity: ApiActivity): LegacyActivity => ({
   run_id: activity.run_id,

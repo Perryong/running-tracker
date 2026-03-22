@@ -83,6 +83,7 @@ export interface components {
         AnalyticsSummary: {
             /** Average Heartrate */
             average_heartrate?: number | null;
+            heart_rate: components["schemas"]["HrAnalyticsEnvelope"];
             /** Total Activities */
             total_activities: number;
             /** Total Distance */
@@ -104,6 +105,84 @@ export interface components {
             completeness: "complete" | "partial" | "unavailable";
             /** Last Sync At */
             last_sync_at: string;
+        };
+        /** HrAnalyticsEnvelope */
+        HrAnalyticsEnvelope: {
+            confidence: components["schemas"]["HrConfidence"];
+            coverage: components["schemas"]["HrCoverage"];
+            methodology: components["schemas"]["HrMethodology"];
+        };
+        /** HrConfidence */
+        HrConfidence: {
+            /**
+             * Level
+             * @enum {string}
+             */
+            level: "high" | "medium" | "low" | "none";
+            /** Reason */
+            reason: string;
+        };
+        /** HrCoverage */
+        HrCoverage: {
+            /** Activities With Hr */
+            activities_with_hr: number;
+            /** Coverage Ratio */
+            coverage_ratio: number;
+            /** Has Enough Data */
+            has_enough_data: boolean;
+            /** Total Activities */
+            total_activities: number;
+        };
+        /** HrMethodology */
+        HrMethodology: {
+            /** Estimated */
+            estimated: boolean;
+            /**
+             * Max Hr Source
+             * @enum {string}
+             */
+            max_hr_source: "user_configured" | "default_fallback";
+            /** Max Hr Value */
+            max_hr_value: number;
+            /**
+             * Model
+             * @constant
+             */
+            model: "max_hr_percentage_5_zone";
+            zone_boundaries_pct: components["schemas"]["HrZoneBoundariesPct"];
+            /**
+             * Zone Time Basis
+             * @enum {string}
+             */
+            zone_time_basis: "hr_samples" | "estimated_from_average_hr" | "unavailable";
+        };
+        /** HrZoneBoundariesPct */
+        HrZoneBoundariesPct: {
+            /** Z1 */
+            z1: [
+                number,
+                number
+            ];
+            /** Z2 */
+            z2: [
+                number,
+                number
+            ];
+            /** Z3 */
+            z3: [
+                number,
+                number
+            ];
+            /** Z4 */
+            z4: [
+                number,
+                number
+            ];
+            /** Z5 */
+            z5: [
+                number,
+                number
+            ];
         };
     };
     responses: never;
