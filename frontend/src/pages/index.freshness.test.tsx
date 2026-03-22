@@ -6,6 +6,7 @@ import Index from './index';
 const useActivitiesMock = vi.hoisted(() => vi.fn());
 const useSiteMetadataMock = vi.hoisted(() => vi.fn());
 const useThemeMock = vi.hoisted(() => vi.fn());
+const getAnalyticsSummaryMock = vi.hoisted(() => vi.fn());
 
 vi.mock('@/hooks/useActivities', () => ({
   default: useActivitiesMock,
@@ -17,6 +18,10 @@ vi.mock('@/hooks/useSiteMetadata', () => ({
 
 vi.mock('@/hooks/useTheme', () => ({
   useTheme: useThemeMock,
+}));
+
+vi.mock('@/api/analytics', () => ({
+  getAnalyticsSummary: getAnalyticsSummaryMock,
 }));
 
 vi.mock('@/components/Layout', () => ({
@@ -47,6 +52,10 @@ vi.mock('@/components/RunMap/RunMapButtons', () => ({
   default: () => <div>RunMapButtons</div>,
 }));
 
+vi.mock('@/features/dashboard/components/HeartRateTrendPanel', () => ({
+  HeartRateTrendPanel: () => <div>HeartRateTrendPanel</div>,
+}));
+
 vi.mock('react-helmet-async', () => ({
   Helmet: () => null,
 }));
@@ -72,6 +81,26 @@ describe('Index freshness wiring', () => {
       description: 'desc',
     });
     useThemeMock.mockReturnValue({ theme: 'light' });
+    getAnalyticsSummaryMock.mockResolvedValue({
+      summary: {
+        heart_rate: {
+          methodology: {
+            model: 'max_hr_percentage_5_zone',
+            zone_time_basis: 'estimated_from_average_hr',
+            max_hr_value: 190,
+            max_hr_source: 'default_fallback',
+            estimated: true,
+            zone_boundaries_pct: {
+              z1: [50, 60],
+              z2: [60, 70],
+              z3: [70, 80],
+              z4: [80, 90],
+              z5: [90, 100],
+            },
+          },
+        },
+      },
+    });
 
     render(<Index />);
 

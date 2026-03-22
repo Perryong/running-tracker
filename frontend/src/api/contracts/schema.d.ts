@@ -113,6 +113,7 @@ export interface components {
             methodology: components["schemas"]["HrMethodology"];
             /** Per Run */
             per_run: components["schemas"]["HrPerRunAnalytics"][];
+            trend: components["schemas"]["HrTrendAnalytics"];
         };
         /** HrConfidence */
         HrConfidence: {
@@ -179,6 +180,43 @@ export interface components {
             total_duration_seconds: number;
             /** Zones */
             zones: components["schemas"]["HrZoneBreakdownEntry"][];
+        };
+        /** HrTrendAnalytics */
+        HrTrendAnalytics: {
+            /**
+             * Default Period
+             * @enum {string}
+             */
+            default_period: "weekly" | "monthly";
+            /** Low Sample Threshold */
+            low_sample_threshold: number;
+            periods: components["schemas"]["HrTrendPeriods"];
+        };
+        /** HrTrendPeriods */
+        HrTrendPeriods: {
+            /** Monthly */
+            monthly: components["schemas"]["HrTrendPoint"][];
+            /** Weekly */
+            weekly: components["schemas"]["HrTrendPoint"][];
+        };
+        /** HrTrendPoint */
+        HrTrendPoint: {
+            /** Average Heartrate */
+            average_heartrate?: number | null;
+            /** Confidence Reason */
+            confidence_reason: string;
+            /** Has Data */
+            has_data: boolean;
+            /** Is Low Confidence */
+            is_low_confidence: boolean;
+            /** Period Key */
+            period_key: string;
+            /** Period Label */
+            period_label: string;
+            /** Run Ids */
+            run_ids: number[];
+            /** Sample Count */
+            sample_count: number;
         };
         /** HrZoneBoundariesPct */
         HrZoneBoundariesPct: {

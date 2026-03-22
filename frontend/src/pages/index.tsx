@@ -29,6 +29,9 @@ import { selectFilteredRuns } from '@/features/dashboard/selectors/selectFiltere
 import { selectKpis } from '@/features/dashboard/selectors/selectKpis';
 import { KpiCards } from '@/features/dashboard/components/KpiCards';
 import { EmptyKpiState } from '@/features/dashboard/components/EmptyKpiState';
+import { HeartRateTrendPanel } from '@/features/dashboard/components/HeartRateTrendPanel';
+import { getAnalyticsSummary } from '@/api/analytics';
+import type { ApiHrMethodology } from '@/api/types';
 
 export const shouldExitSingleRunFocus = (
   singleRunId: number | null,
@@ -56,6 +59,9 @@ const Index = () => {
   const [animationRuns, setAnimationRuns] = useState<Activity[]>([]);
   const [singleRunId, setSingleRunId] = useState<number | null>(null);
   const [_animationTrigger, setAnimationTrigger] = useState(0);
+  const [trendMethodology, setTrendMethodology] = useState<ApiHrMethodology | null>(
+    null
+  );
 
   const selectedRunIdRef = useRef<number | null>(null);
   const selectedRunDateRef = useRef<string | null>(null);
@@ -270,6 +276,25 @@ const Index = () => {
   }, [runs, startAnimation]);
 
   useEffect(() => {
+    let cancelled = false;
+    void getAnalyticsSummary()
+      .then((response) => {
+        if (!cancelled) {
+          setTrendMethodology(response.summary.heart_rate.methodology);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setTrendMethodology(null);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     if (currentYear !== 'Total') {
       return;
     }
@@ -365,6 +390,9 @@ const Index = () => {
       </div>
       <div className="w-full lg:w-2/3" id="map-container">
         {runs.length === 0 ? <EmptyKpiState /> : <KpiCards kpis={kpis} />}
+        {trendMethodology ? (
+          <HeartRateTrendPanel runs={runs} methodology={trendMethodology} />
+        ) : null}
         <TemplateMap title={title} geoData={animatedGeoData} />
         {currentYear === 'Total' ? (
           <SVGStat />

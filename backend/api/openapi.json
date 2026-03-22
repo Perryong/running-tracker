@@ -217,13 +217,17 @@
             },
             "title": "Per Run",
             "type": "array"
+          },
+          "trend": {
+            "$ref": "#/components/schemas/HrTrendAnalytics"
           }
         },
         "required": [
           "methodology",
           "confidence",
           "coverage",
-          "per_run"
+          "per_run",
+          "trend"
         ],
         "title": "HrAnalyticsEnvelope",
         "type": "object"
@@ -382,6 +386,113 @@
           "zones"
         ],
         "title": "HrPerRunAnalytics",
+        "type": "object"
+      },
+      "HrTrendAnalytics": {
+        "properties": {
+          "default_period": {
+            "enum": [
+              "weekly",
+              "monthly"
+            ],
+            "title": "Default Period",
+            "type": "string"
+          },
+          "low_sample_threshold": {
+            "title": "Low Sample Threshold",
+            "type": "integer"
+          },
+          "periods": {
+            "$ref": "#/components/schemas/HrTrendPeriods"
+          }
+        },
+        "required": [
+          "periods",
+          "default_period",
+          "low_sample_threshold"
+        ],
+        "title": "HrTrendAnalytics",
+        "type": "object"
+      },
+      "HrTrendPeriods": {
+        "properties": {
+          "monthly": {
+            "items": {
+              "$ref": "#/components/schemas/HrTrendPoint"
+            },
+            "title": "Monthly",
+            "type": "array"
+          },
+          "weekly": {
+            "items": {
+              "$ref": "#/components/schemas/HrTrendPoint"
+            },
+            "title": "Weekly",
+            "type": "array"
+          }
+        },
+        "required": [
+          "weekly",
+          "monthly"
+        ],
+        "title": "HrTrendPeriods",
+        "type": "object"
+      },
+      "HrTrendPoint": {
+        "properties": {
+          "average_heartrate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Average Heartrate"
+          },
+          "confidence_reason": {
+            "title": "Confidence Reason",
+            "type": "string"
+          },
+          "has_data": {
+            "title": "Has Data",
+            "type": "boolean"
+          },
+          "is_low_confidence": {
+            "title": "Is Low Confidence",
+            "type": "boolean"
+          },
+          "period_key": {
+            "title": "Period Key",
+            "type": "string"
+          },
+          "period_label": {
+            "title": "Period Label",
+            "type": "string"
+          },
+          "run_ids": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Run Ids",
+            "type": "array"
+          },
+          "sample_count": {
+            "title": "Sample Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "period_key",
+          "period_label",
+          "sample_count",
+          "is_low_confidence",
+          "has_data",
+          "confidence_reason",
+          "run_ids"
+        ],
+        "title": "HrTrendPoint",
         "type": "object"
       },
       "HrZoneBoundariesPct": {

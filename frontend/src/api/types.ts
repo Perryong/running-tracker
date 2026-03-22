@@ -13,6 +13,8 @@ export type ApiHrMethodology = components['schemas']['HrMethodology'];
 export type ApiHrConfidence = components['schemas']['HrConfidence'];
 export type ApiHrCoverage = components['schemas']['HrCoverage'];
 export type ApiHrPerRunAnalytics = components['schemas']['HrPerRunAnalytics'];
+export type ApiHrTrendAnalytics = components['schemas']['HrTrendAnalytics'];
+export type ApiHrTrendPoint = components['schemas']['HrTrendPoint'];
 export type ApiHrZoneBreakdownEntry = components['schemas']['HrZoneBreakdownEntry'];
 
 export const toLegacyActivity = (activity: ApiActivity): LegacyActivity => ({
