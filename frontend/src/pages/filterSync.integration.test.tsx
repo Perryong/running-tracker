@@ -1,4 +1,10 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { describe, expect, it, beforeEach } from 'vitest';
 import { useState } from 'react';
 import {
@@ -154,4 +160,3 @@ describe('shared filter synchronization across dashboard and summary datasets', 
     });
   });
 });
-

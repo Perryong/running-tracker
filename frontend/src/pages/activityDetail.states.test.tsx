@@ -41,7 +41,9 @@ describe('activity detail page explicit states', () => {
     expect(screen.getByTestId('activity-detail-header')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-state-loading')).toBeTruthy();
-    expect(screen.getByTestId('activity-detail-skeleton-headline')).toBeTruthy();
+    expect(
+      screen.getByTestId('activity-detail-skeleton-headline')
+    ).toBeTruthy();
   });
 
   it('renders not-found state and dashboard CTA inside stable shell', () => {
@@ -58,7 +60,9 @@ describe('activity detail page explicit states', () => {
     expect(screen.getByTestId('activity-detail-header')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
     expect(screen.getByText('Activity not found')).toBeTruthy();
-    const buttons = screen.getAllByRole('button', { name: 'Back to Dashboard' });
+    const buttons = screen.getAllByRole('button', {
+      name: 'Back to Dashboard',
+    });
     expect(buttons.length).toBeGreaterThan(1);
   });
 
@@ -78,7 +82,9 @@ describe('activity detail page explicit states', () => {
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
     expect(refetch).toHaveBeenCalledTimes(1);
-    const buttons = screen.getAllByRole('button', { name: 'Back to Dashboard' });
+    const buttons = screen.getAllByRole('button', {
+      name: 'Back to Dashboard',
+    });
     expect(buttons.length).toBeGreaterThan(1);
   });
 });

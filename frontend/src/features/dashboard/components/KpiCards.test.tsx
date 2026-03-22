@@ -26,7 +26,9 @@ describe('KpiCards', () => {
       'Average heart rate',
     ]);
 
-    expect(screen.getByTestId('kpi-value-distance').textContent).toContain('km');
+    expect(screen.getByTestId('kpi-value-distance').textContent).toContain(
+      'km'
+    );
     expect(screen.getByTestId('kpi-value-duration').textContent).toContain('h');
     expect(screen.getByTestId('kpi-value-runs').textContent).toBe('7');
     expect(screen.getByTestId('kpi-value-avg-hr').textContent).toContain('bpm');
@@ -55,7 +57,9 @@ describe('EmptyKpiState', () => {
   it('renders explicit zero-results copy without altering filters', () => {
     render(<EmptyKpiState />);
 
-    expect(screen.getByText(/no runs match your current filters/i)).toBeTruthy();
+    expect(
+      screen.getByText(/no runs match your current filters/i)
+    ).toBeTruthy();
     expect(
       screen.getByText(/adjust year, activity type, city, or title/i)
     ).toBeTruthy();

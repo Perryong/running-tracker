@@ -56,7 +56,9 @@ describe('activity detail route and ready content hierarchy', () => {
 
     expect(screen.getByTestId('activity-detail-shell')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-content-shell')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Back to Dashboard' })).toBeTruthy();
+    expect(
+      screen.getByRole('button', { name: 'Back to Dashboard' })
+    ).toBeTruthy();
 
     const labels = screen.getAllByText(
       /Distance|Moving time|Average pace|Average heart rate/i
@@ -68,9 +70,13 @@ describe('activity detail route and ready content hierarchy', () => {
       'Average heart rate',
     ]);
 
-    expect(screen.getByTestId('activity-detail-secondary-metrics')).toBeTruthy();
+    expect(
+      screen.getByTestId('activity-detail-secondary-metrics')
+    ).toBeTruthy();
     expect(screen.getByText('Elevation gain')).toBeTruthy();
-    expect(screen.getByTestId('metric-average-heart-rate').textContent).toContain('—');
+    expect(
+      screen.getByTestId('metric-average-heart-rate').textContent
+    ).toContain('—');
     expect(screen.getByText('No HR data')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-map')).toBeTruthy();
     expect(screen.getByTestId('activity-detail-template-map')).toBeTruthy();

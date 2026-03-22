@@ -40,7 +40,9 @@ describe('FreshnessTrustSignal', () => {
       />
     );
 
-    expect(screen.getByText(/Data freshness is currently unavailable/i)).toBeTruthy();
+    expect(
+      screen.getByText(/Data freshness is currently unavailable/i)
+    ).toBeTruthy();
     expect(screen.getByText(/Last synced: unavailable/i)).toBeTruthy();
   });
 });

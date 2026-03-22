@@ -50,9 +50,11 @@ export const HeartRateMethodologyPanel = ({
           return (
             <div
               key={zoneKey}
-              className="rounded border border-[var(--color-hr-primary)]/30 p-2 text-sm"
+              className="border-[var(--color-hr-primary)]/30 rounded border p-2 text-sm"
             >
-              <p className="font-medium text-[var(--color-brand)]">Z{idx + 1}</p>
+              <p className="font-medium text-[var(--color-brand)]">
+                Z{idx + 1}
+              </p>
               <p className="text-[var(--color-secondary)]">
                 {lower}–{upper}%
               </p>

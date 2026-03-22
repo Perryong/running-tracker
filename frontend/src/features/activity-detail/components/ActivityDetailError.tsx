@@ -3,7 +3,10 @@ interface ActivityDetailErrorProps {
   onRetry: () => void;
 }
 
-export const ActivityDetailError = ({ onBack, onRetry }: ActivityDetailErrorProps) => {
+export const ActivityDetailError = ({
+  onBack,
+  onRetry,
+}: ActivityDetailErrorProps) => {
   return (
     <section
       className="rounded-md border border-[var(--color-hr-primary)] bg-[var(--color-bg)] p-6"

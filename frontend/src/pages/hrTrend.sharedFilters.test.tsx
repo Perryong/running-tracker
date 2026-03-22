@@ -77,11 +77,15 @@ describe('dashboard heart-rate trend backend contract behavior', () => {
   it('supports collapse/expand for zone panel content', () => {
     render(<TrendHarness />);
 
-    const toggleButton = screen.getByRole('button', { name: 'Collapse Heart Rate Trend' });
+    const toggleButton = screen.getByRole('button', {
+      name: 'Collapse Heart Rate Trend',
+    });
     fireEvent.click(toggleButton);
     expect(screen.queryByTestId('hr-zone-chart')).toBeNull();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Expand Heart Rate Trend' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Expand Heart Rate Trend' })
+    );
     expect(screen.getByTestId('hr-zone-chart')).toBeTruthy();
   });
 });

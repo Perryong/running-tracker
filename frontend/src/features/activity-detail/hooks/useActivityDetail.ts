@@ -10,7 +10,9 @@ interface UseActivityDetailResult {
   refetch: () => Promise<unknown>;
 }
 
-export const useActivityDetail = (runId: number | null): UseActivityDetailResult => {
+export const useActivityDetail = (
+  runId: number | null
+): UseActivityDetailResult => {
   const query = useQuery({
     queryKey: ['activity-detail', runId],
     queryFn: async () => {

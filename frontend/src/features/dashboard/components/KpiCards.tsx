@@ -19,8 +19,16 @@ const formatAvgHeartRate = (averageHeartRate: number | null): string => {
 
 export const KpiCards = ({ kpis }: { kpis: DashboardKpis }) => {
   const cards = [
-    { key: 'distance', label: 'Distance', value: formatDistanceKm(kpis.totalDistance) },
-    { key: 'duration', label: 'Duration', value: formatDuration(kpis.totalDurationSec) },
+    {
+      key: 'distance',
+      label: 'Distance',
+      value: formatDistanceKm(kpis.totalDistance),
+    },
+    {
+      key: 'duration',
+      label: 'Duration',
+      value: formatDuration(kpis.totalDurationSec),
+    },
     { key: 'runs', label: 'Runs', value: String(kpis.runCount) },
     {
       key: 'avg-hr',

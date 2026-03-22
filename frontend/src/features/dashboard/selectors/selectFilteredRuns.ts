@@ -1,9 +1,5 @@
 import type { DashboardFilters } from '@/features/dashboard/filters/model';
-import {
-  sortDateFunc,
-  titleForRun,
-  type Activity,
-} from '@/utils/utils';
+import { sortDateFunc, titleForRun, type Activity } from '@/utils/utils';
 
 const isAllToken = (value: string): boolean => value === 'all';
 
@@ -41,7 +37,9 @@ const matchesActivityType = (run: Activity, activityType: string): boolean => {
     return token;
   };
 
-  return normalizeActivityType(run.type) === normalizeActivityType(activityType);
+  return (
+    normalizeActivityType(run.type) === normalizeActivityType(activityType)
+  );
 };
 
 const matchesCity = (run: Activity, city: string): boolean => {

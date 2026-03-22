@@ -31,15 +31,21 @@ const formatDuration = (seconds: number): string => {
   if (seconds % 60 === 0) {
     return `${seconds / 60} min`;
   }
-  return formatRunTime(`00:${Math.floor(seconds / 60)
-    .toString()
-    .padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`);
+  return formatRunTime(
+    `00:${Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`
+  );
 };
 
 const percentLabel = (ratio: number): string => `${Math.round(ratio * 100)}%`;
 
-export const HeartRateZoneBreakdown = ({ perRun }: HeartRateZoneBreakdownProps) => {
-  const zones = zoneOrder.map((zone) => perRun.zones.find((row) => row.zone === zone)!);
+export const HeartRateZoneBreakdown = ({
+  perRun,
+}: HeartRateZoneBreakdownProps) => {
+  const zones = zoneOrder.map(
+    (zone) => perRun.zones.find((row) => row.zone === zone)!
+  );
 
   if (!perRun.has_hr_data) {
     return (
@@ -53,7 +59,9 @@ export const HeartRateZoneBreakdown = ({ perRun }: HeartRateZoneBreakdownProps) 
         <p className="mt-2 text-sm text-[var(--color-secondary)]">
           No heart-rate samples available for this run.
         </p>
-        <p className="mt-1 text-xs text-[var(--color-secondary)]">Coverage: 0%</p>
+        <p className="mt-1 text-xs text-[var(--color-secondary)]">
+          Coverage: 0%
+        </p>
       </section>
     );
   }
@@ -63,7 +71,9 @@ export const HeartRateZoneBreakdown = ({ perRun }: HeartRateZoneBreakdownProps) 
       className="rounded-md border border-[var(--color-hr-primary)] bg-[var(--color-bg)] p-4"
       data-testid="hr-zones-ready-state"
     >
-      <h2 className="text-lg font-semibold text-[var(--color-brand)]">Heart Rate Zones</h2>
+      <h2 className="text-lg font-semibold text-[var(--color-brand)]">
+        Heart Rate Zones
+      </h2>
 
       <div
         className="mt-3 flex h-4 w-full overflow-hidden rounded"
@@ -93,7 +103,10 @@ export const HeartRateZoneBreakdown = ({ perRun }: HeartRateZoneBreakdownProps) 
         </p>
       ) : null}
 
-      <table className="mt-4 w-full text-left text-sm" data-testid="hr-zones-table">
+      <table
+        className="mt-4 w-full text-left text-sm"
+        data-testid="hr-zones-table"
+      >
         <thead>
           <tr>
             <th className="py-1">Zone</th>

@@ -1,7 +1,4 @@
-import {
-  type DashboardFilters,
-  sanitizeDashboardFilters,
-} from './model';
+import { type DashboardFilters, sanitizeDashboardFilters } from './model';
 
 export type DashboardFilterAction =
   | { type: 'setDateRange'; payload: string }

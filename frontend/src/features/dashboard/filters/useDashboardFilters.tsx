@@ -6,10 +6,7 @@ import {
   useReducer,
   type ReactNode,
 } from 'react';
-import {
-  DEFAULT_DASHBOARD_FILTERS,
-  type DashboardFilters,
-} from './model';
+import { DEFAULT_DASHBOARD_FILTERS, type DashboardFilters } from './model';
 import { dashboardFiltersReducer } from './reducer';
 import {
   DASHBOARD_FILTERS_STORAGE_KEY,

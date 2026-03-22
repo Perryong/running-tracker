@@ -28,7 +28,9 @@ const normalizeSearch = (search: string): string => {
   return search.startsWith('?') ? search.slice(1) : search;
 };
 
-const toPartialFilters = (params: URLSearchParams): Partial<DashboardFilters> => {
+const toPartialFilters = (
+  params: URLSearchParams
+): Partial<DashboardFilters> => {
   const result: Partial<DashboardFilters> = {};
   for (const key of FILTER_PARAM_KEYS) {
     const value = params.get(key);
@@ -69,7 +71,9 @@ const hasAnyFilterParams = (search: string): boolean => {
   return false;
 };
 
-const decodeFiltersFromStorage = (storageRaw: string | null): DashboardFilters => {
+const decodeFiltersFromStorage = (
+  storageRaw: string | null
+): DashboardFilters => {
   if (!storageRaw) {
     return DEFAULT_DASHBOARD_FILTERS;
   }

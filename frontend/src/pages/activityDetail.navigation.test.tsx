@@ -17,11 +17,16 @@ vi.mock('@/components/Layout', () => ({
 }));
 
 vi.mock('@/components/RunMap/TemplateMap', () => ({
-  default: () => <div data-testid="activity-detail-template-map">TemplateMap</div>,
+  default: () => (
+    <div data-testid="activity-detail-template-map">TemplateMap</div>
+  ),
 }));
 
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
+  const actual =
+    await vi.importActual<typeof import('react-router-dom')>(
+      'react-router-dom'
+    );
   return {
     ...actual,
     useNavigate: () => navigateMock,
@@ -114,7 +119,9 @@ describe('activity detail navigation behavior', () => {
 
     renderActivityPage();
 
-    const buttons = screen.getAllByRole('button', { name: 'Back to Dashboard' });
+    const buttons = screen.getAllByRole('button', {
+      name: 'Back to Dashboard',
+    });
     fireEvent.click(buttons[1]);
     expect(navigateMock).toHaveBeenCalledWith({
       pathname: '/',
@@ -142,7 +149,9 @@ describe('activity detail navigation behavior', () => {
     expect(navigateMock).toHaveBeenCalledTimes(0);
     expect(locationMock).toHaveBeenCalled();
 
-    const buttons = screen.getAllByRole('button', { name: 'Back to Dashboard' });
+    const buttons = screen.getAllByRole('button', {
+      name: 'Back to Dashboard',
+    });
     fireEvent.click(buttons[1]);
     expect(navigateMock).toHaveBeenCalledWith(-1);
   });

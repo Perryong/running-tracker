@@ -300,8 +300,8 @@ const ActivityList: React.FC<ActivityListProps> = ({
   };
 
   const groupActivities = (interval: IntervalType): ActivityGroups => {
-    return selectFilteredRuns(activities as Activity[], filters)
-      .reduce((acc: ActivityGroups, activity) => {
+    return selectFilteredRuns(activities as Activity[], filters).reduce(
+      (acc: ActivityGroups, activity) => {
         const date = new Date(activity.start_date_local);
         let key: string;
         let index: number;
@@ -388,7 +388,9 @@ const ActivityList: React.FC<ActivityListProps> = ({
           acc[key].location = activity.location_country || '';
 
         return acc;
-      }, {});
+      },
+      {}
+    );
   };
 
   const filteredRuns = selectFilteredRuns(activities, filters);
@@ -441,18 +443,18 @@ const ActivityList: React.FC<ActivityListProps> = ({
 
       {interval === 'life' && (
         <div className={styles.lifeContainer}>
-            <Suspense fallback={<div>Loading SVG...</div>}>
-              {(filters.activityType === 'running' ||
-                filters.activityType === 'run') && <RunningSvg />}
-              {filters.activityType === 'walking' && <WalkingSvg />}
-              {filters.activityType === 'hiking' && <HikingSvg />}
-              {filters.activityType === 'cycling' && <CyclingSvg />}
-              {filters.activityType === 'swimming' && <SwimmingSvg />}
-              {filters.activityType === 'skiing' && <SkiingSvg />}
-              {filters.activityType === 'all' && <AllSvg />}
-            </Suspense>
-          </div>
-        )}
+          <Suspense fallback={<div>Loading SVG...</div>}>
+            {(filters.activityType === 'running' ||
+              filters.activityType === 'run') && <RunningSvg />}
+            {filters.activityType === 'walking' && <WalkingSvg />}
+            {filters.activityType === 'hiking' && <HikingSvg />}
+            {filters.activityType === 'cycling' && <CyclingSvg />}
+            {filters.activityType === 'swimming' && <SwimmingSvg />}
+            {filters.activityType === 'skiing' && <SkiingSvg />}
+            {filters.activityType === 'all' && <AllSvg />}
+          </Suspense>
+        </div>
+      )}
 
       {interval !== 'life' && (
         <div className={styles.summaryContainer}>

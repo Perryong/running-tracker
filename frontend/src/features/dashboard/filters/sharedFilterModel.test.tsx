@@ -1,4 +1,10 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, expect, it } from 'vitest';
 import {
@@ -7,7 +13,8 @@ import {
 } from './useDashboardFilters';
 
 const ConsumerA = () => {
-  const { filters, setYear, setDateRange, setActivityType } = useDashboardFilters();
+  const { filters, setYear, setDateRange, setActivityType } =
+    useDashboardFilters();
   return (
     <div>
       <span data-testid="consumer-a-year">{filters.year}</span>
@@ -15,7 +22,9 @@ const ConsumerA = () => {
       <span data-testid="consumer-a-activity-type">{filters.activityType}</span>
       <button onClick={() => setYear('2024')}>set-year-2024</button>
       <button onClick={() => setDateRange('2023')}>set-date-2023</button>
-      <button onClick={() => setActivityType('walking')}>set-activity-walking</button>
+      <button onClick={() => setActivityType('walking')}>
+        set-activity-walking
+      </button>
     </div>
   );
 };
@@ -32,7 +41,9 @@ const ConsumerB = () => {
 };
 
 const renderWithProvider = (children: ReactNode) => {
-  return render(<DashboardFiltersProvider>{children}</DashboardFiltersProvider>);
+  return render(
+    <DashboardFiltersProvider>{children}</DashboardFiltersProvider>
+  );
 };
 
 describe('shared dashboard filter provider', () => {
@@ -77,8 +88,12 @@ describe('shared dashboard filter provider', () => {
     fireEvent.click(screen.getByText('set-date-2023'));
     fireEvent.click(screen.getByText('set-activity-walking'));
 
-    expect(screen.getByTestId('consumer-a-date-range').textContent).toBe('2023');
-    expect(screen.getByTestId('consumer-b-date-range').textContent).toBe('2023');
+    expect(screen.getByTestId('consumer-a-date-range').textContent).toBe(
+      '2023'
+    );
+    expect(screen.getByTestId('consumer-b-date-range').textContent).toBe(
+      '2023'
+    );
     expect(screen.getByTestId('consumer-a-activity-type').textContent).toBe(
       'walking'
     );

@@ -20,7 +20,9 @@ vi.mock('@/components/Layout', () => ({
 }));
 
 vi.mock('@/components/RunMap/TemplateMap', () => ({
-  default: () => <div data-testid="activity-detail-template-map">TemplateMap</div>,
+  default: () => (
+    <div data-testid="activity-detail-template-map">TemplateMap</div>
+  ),
 }));
 
 const readyActivity = {
@@ -58,7 +60,10 @@ describe('activity detail heart-rate zones', () => {
       refetch: vi.fn(),
     });
     getAnalyticsSummaryMock.mockResolvedValue({
-      freshness: { last_sync_at: '2026-01-01T00:00:00Z', completeness: 'complete' },
+      freshness: {
+        last_sync_at: '2026-01-01T00:00:00Z',
+        completeness: 'complete',
+      },
       summary: {
         total_activities: 1,
         total_distance: 10000,
@@ -113,7 +118,9 @@ describe('activity detail heart-rate zones', () => {
     const table = await screen.findByTestId('hr-zones-table');
     expect(table).toBeTruthy();
 
-    const zoneCells = screen.getAllByTestId(/^hr-zone-label-/).map((node) => node.textContent);
+    const zoneCells = screen
+      .getAllByTestId(/^hr-zone-label-/)
+      .map((node) => node.textContent);
     expect(zoneCells).toEqual(['Z1', 'Z2', 'Z3', 'Z4', 'Z5']);
     expect(screen.getByText('50 min')).toBeTruthy();
     expect(screen.getByText('100%')).toBeTruthy();
@@ -127,7 +134,10 @@ describe('activity detail heart-rate zones', () => {
       refetch: vi.fn(),
     });
     getAnalyticsSummaryMock.mockResolvedValue({
-      freshness: { last_sync_at: '2026-01-01T00:00:00Z', completeness: 'complete' },
+      freshness: {
+        last_sync_at: '2026-01-01T00:00:00Z',
+        completeness: 'complete',
+      },
       summary: {
         total_activities: 1,
         total_distance: 10000,
@@ -196,7 +206,10 @@ describe('activity detail heart-rate zones', () => {
       refetch: vi.fn(),
     });
     getAnalyticsSummaryMock.mockResolvedValue({
-      freshness: { last_sync_at: '2026-01-01T00:00:00Z', completeness: 'complete' },
+      freshness: {
+        last_sync_at: '2026-01-01T00:00:00Z',
+        completeness: 'complete',
+      },
       summary: {
         total_activities: 1,
         total_distance: 10000,

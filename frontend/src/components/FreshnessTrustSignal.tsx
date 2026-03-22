@@ -4,12 +4,14 @@ interface FreshnessTrustSignalProps {
   freshness: ApiFreshness;
 }
 
-const statusMessageByCompleteness: Record<ApiFreshness['completeness'], string> =
-  {
-    complete: 'Data is up to date.',
-    partial: 'Data may be incomplete.',
-    unavailable: 'Data freshness is currently unavailable.',
-  };
+const statusMessageByCompleteness: Record<
+  ApiFreshness['completeness'],
+  string
+> = {
+  complete: 'Data is up to date.',
+  partial: 'Data may be incomplete.',
+  unavailable: 'Data freshness is currently unavailable.',
+};
 
 export const FreshnessTrustSignal = ({
   freshness,

@@ -82,7 +82,9 @@ describe('HeartRateMethodologyPanel', () => {
 
     expect(screen.getByText('Trend context')).toBeTruthy();
     expect(screen.getByText('Methodology & Provenance')).toBeTruthy();
-    expect(screen.getByText('Zone basis: estimated_from_average_hr')).toBeTruthy();
+    expect(
+      screen.getByText('Zone basis: estimated_from_average_hr')
+    ).toBeTruthy();
     expect(screen.getByText('Estimated zones')).toBeTruthy();
   });
 });

@@ -18,11 +18,7 @@ interface IRunTableProperties {
 
 type SortFunc = (_a: Activity, _b: Activity) => number;
 
-const RunTable = ({
-  runs,
-  setActivity,
-  setRunIndex,
-}: IRunTableProperties) => {
+const RunTable = ({ runs, setActivity, setRunIndex }: IRunTableProperties) => {
   const [sortFuncInfo, setSortFuncInfo] = useState('');
 
   // Memoize sort functions to prevent recreating them on every render

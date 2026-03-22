@@ -48,17 +48,17 @@
     "file": "assets/activities-Bad-SvOX.js",
     "name": "activities"
   },
-  "_vendors-BzzahaZd.js": {
-    "file": "assets/vendors-BzzahaZd.js",
+  "_vendors-DfBo03MX.js": {
+    "file": "assets/vendors-DfBo03MX.js",
     "name": "vendors"
   },
   "index.html": {
-    "file": "assets/index-Ca2FCCgv.js",
+    "file": "assets/index-CbB6kV0N.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "imports": [
-      "_vendors-BzzahaZd.js",
+      "_vendors-DfBo03MX.js",
       "_activities-Bad-SvOX.js"
     ],
     "dynamicImports": [
@@ -69,7 +69,7 @@
       "../data/assets/mol.svg"
     ],
     "css": [
-      "assets/index-CIvg42k-.css"
+      "assets/index-fOfYzQUQ.css"
     ]
   }
 }

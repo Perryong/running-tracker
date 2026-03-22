@@ -4,307 +4,295 @@
  */
 
 export interface paths {
-    "/api/v1/activities": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List Activities */
-        get: operations["list_activities_api_v1_activities_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  '/api/v1/activities': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/api/v1/analytics/summary": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Analytics Summary */
-        get: operations["analytics_summary_api_v1_analytics_summary_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** List Activities */
+    get: operations['list_activities_api_v1_activities_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/analytics/summary': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    /** Analytics Summary */
+    get: operations['analytics_summary_api_v1_analytics_summary_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        /** ActivitiesResponse */
-        ActivitiesResponse: {
-            freshness: components["schemas"]["FreshnessMetadata"];
-            /** Items */
-            items: components["schemas"]["Activity"][];
-        };
-        /** Activity */
-        Activity: {
-            /** Average Heartrate */
-            average_heartrate?: number | null;
-            /** Average Speed */
-            average_speed: number;
-            /** Distance */
-            distance: number;
-            /** Elevation Gain */
-            elevation_gain?: number | null;
-            /** Location Country */
-            location_country?: string | null;
-            /** Moving Time */
-            moving_time: string;
-            /** Name */
-            name: string;
-            /** Run Id */
-            run_id: number;
-            /** Start Date */
-            start_date: string;
-            /** Start Date Local */
-            start_date_local: string;
-            /** Streak */
-            streak: number;
-            /** Subtype */
-            subtype: string;
-            /** Summary Polyline */
-            summary_polyline?: string | null;
-            /** Type */
-            type: string;
-        };
-        /** AnalyticsSummary */
-        AnalyticsSummary: {
-            /** Average Heartrate */
-            average_heartrate?: number | null;
-            heart_rate: components["schemas"]["HrAnalyticsEnvelope"];
-            /** Total Activities */
-            total_activities: number;
-            /** Total Distance */
-            total_distance: number;
-            /** Total Moving Time Seconds */
-            total_moving_time_seconds: number;
-        };
-        /** AnalyticsSummaryResponse */
-        AnalyticsSummaryResponse: {
-            freshness: components["schemas"]["FreshnessMetadata"];
-            summary: components["schemas"]["AnalyticsSummary"];
-        };
-        /** FreshnessMetadata */
-        FreshnessMetadata: {
-            /**
-             * Completeness
-             * @enum {string}
-             */
-            completeness: "complete" | "partial" | "unavailable";
-            /** Last Sync At */
-            last_sync_at: string;
-        };
-        /** HrAnalyticsEnvelope */
-        HrAnalyticsEnvelope: {
-            confidence: components["schemas"]["HrConfidence"];
-            coverage: components["schemas"]["HrCoverage"];
-            methodology: components["schemas"]["HrMethodology"];
-            /** Per Run */
-            per_run: components["schemas"]["HrPerRunAnalytics"][];
-            trend: components["schemas"]["HrTrendAnalytics"];
-        };
-        /** HrConfidence */
-        HrConfidence: {
-            /**
-             * Level
-             * @enum {string}
-             */
-            level: "high" | "medium" | "low" | "none";
-            /** Reason */
-            reason: string;
-        };
-        /** HrCoverage */
-        HrCoverage: {
-            /** Activities With Hr */
-            activities_with_hr: number;
-            /** Coverage Ratio */
-            coverage_ratio: number;
-            /** Has Enough Data */
-            has_enough_data: boolean;
-            /** Total Activities */
-            total_activities: number;
-        };
-        /** HrMethodology */
-        HrMethodology: {
-            /** Estimated */
-            estimated: boolean;
-            /**
-             * Max Hr Source
-             * @enum {string}
-             */
-            max_hr_source: "user_configured" | "default_fallback";
-            /** Max Hr Value */
-            max_hr_value: number;
-            /**
-             * Model
-             * @constant
-             */
-            model: "max_hr_percentage_5_zone";
-            zone_boundaries_pct: components["schemas"]["HrZoneBoundariesPct"];
-            /**
-             * Zone Time Basis
-             * @enum {string}
-             */
-            zone_time_basis: "hr_samples" | "estimated_from_average_hr" | "unavailable";
-        };
-        /** HrPerRunAnalytics */
-        HrPerRunAnalytics: {
-            /** Analyzed Duration Seconds */
-            analyzed_duration_seconds: number;
-            /**
-             * Confidence Level
-             * @enum {string}
-             */
-            confidence_level: "high" | "medium" | "low" | "none";
-            /** Confidence Reason */
-            confidence_reason: string;
-            /** Coverage Ratio */
-            coverage_ratio: number;
-            /** Has Hr Data */
-            has_hr_data: boolean;
-            /** Run Id */
-            run_id: number;
-            /** Total Duration Seconds */
-            total_duration_seconds: number;
-            /** Zones */
-            zones: components["schemas"]["HrZoneBreakdownEntry"][];
-        };
-        /** HrTrendAnalytics */
-        HrTrendAnalytics: {
-            /**
-             * Default Period
-             * @enum {string}
-             */
-            default_period: "weekly" | "monthly";
-            /** Low Sample Threshold */
-            low_sample_threshold: number;
-            periods: components["schemas"]["HrTrendPeriods"];
-        };
-        /** HrTrendPeriods */
-        HrTrendPeriods: {
-            /** Monthly */
-            monthly: components["schemas"]["HrTrendPoint"][];
-            /** Weekly */
-            weekly: components["schemas"]["HrTrendPoint"][];
-        };
-        /** HrTrendPoint */
-        HrTrendPoint: {
-            /** Average Heartrate */
-            average_heartrate?: number | null;
-            /** Confidence Reason */
-            confidence_reason: string;
-            /** Has Data */
-            has_data: boolean;
-            /** Is Low Confidence */
-            is_low_confidence: boolean;
-            /** Period Key */
-            period_key: string;
-            /** Period Label */
-            period_label: string;
-            /** Run Ids */
-            run_ids: number[];
-            /** Sample Count */
-            sample_count: number;
-        };
-        /** HrZoneBoundariesPct */
-        HrZoneBoundariesPct: {
-            /** Z1 */
-            z1: [
-                number,
-                number
-            ];
-            /** Z2 */
-            z2: [
-                number,
-                number
-            ];
-            /** Z3 */
-            z3: [
-                number,
-                number
-            ];
-            /** Z4 */
-            z4: [
-                number,
-                number
-            ];
-            /** Z5 */
-            z5: [
-                number,
-                number
-            ];
-        };
-        /** HrZoneBreakdownEntry */
-        HrZoneBreakdownEntry: {
-            /** Duration Seconds */
-            duration_seconds: number;
-            /** Percentage */
-            percentage: number;
-            /**
-             * Zone
-             * @enum {string}
-             */
-            zone: "Z1" | "Z2" | "Z3" | "Z4" | "Z5";
-        };
+  schemas: {
+    /** ActivitiesResponse */
+    ActivitiesResponse: {
+      freshness: components['schemas']['FreshnessMetadata'];
+      /** Items */
+      items: components['schemas']['Activity'][];
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    /** Activity */
+    Activity: {
+      /** Average Heartrate */
+      average_heartrate?: number | null;
+      /** Average Speed */
+      average_speed: number;
+      /** Distance */
+      distance: number;
+      /** Elevation Gain */
+      elevation_gain?: number | null;
+      /** Location Country */
+      location_country?: string | null;
+      /** Moving Time */
+      moving_time: string;
+      /** Name */
+      name: string;
+      /** Run Id */
+      run_id: number;
+      /** Start Date */
+      start_date: string;
+      /** Start Date Local */
+      start_date_local: string;
+      /** Streak */
+      streak: number;
+      /** Subtype */
+      subtype: string;
+      /** Summary Polyline */
+      summary_polyline?: string | null;
+      /** Type */
+      type: string;
+    };
+    /** AnalyticsSummary */
+    AnalyticsSummary: {
+      /** Average Heartrate */
+      average_heartrate?: number | null;
+      heart_rate: components['schemas']['HrAnalyticsEnvelope'];
+      /** Total Activities */
+      total_activities: number;
+      /** Total Distance */
+      total_distance: number;
+      /** Total Moving Time Seconds */
+      total_moving_time_seconds: number;
+    };
+    /** AnalyticsSummaryResponse */
+    AnalyticsSummaryResponse: {
+      freshness: components['schemas']['FreshnessMetadata'];
+      summary: components['schemas']['AnalyticsSummary'];
+    };
+    /** FreshnessMetadata */
+    FreshnessMetadata: {
+      /**
+       * Completeness
+       * @enum {string}
+       */
+      completeness: 'complete' | 'partial' | 'unavailable';
+      /** Last Sync At */
+      last_sync_at: string;
+    };
+    /** HrAnalyticsEnvelope */
+    HrAnalyticsEnvelope: {
+      confidence: components['schemas']['HrConfidence'];
+      coverage: components['schemas']['HrCoverage'];
+      methodology: components['schemas']['HrMethodology'];
+      /** Per Run */
+      per_run: components['schemas']['HrPerRunAnalytics'][];
+      trend: components['schemas']['HrTrendAnalytics'];
+    };
+    /** HrConfidence */
+    HrConfidence: {
+      /**
+       * Level
+       * @enum {string}
+       */
+      level: 'high' | 'medium' | 'low' | 'none';
+      /** Reason */
+      reason: string;
+    };
+    /** HrCoverage */
+    HrCoverage: {
+      /** Activities With Hr */
+      activities_with_hr: number;
+      /** Coverage Ratio */
+      coverage_ratio: number;
+      /** Has Enough Data */
+      has_enough_data: boolean;
+      /** Total Activities */
+      total_activities: number;
+    };
+    /** HrMethodology */
+    HrMethodology: {
+      /** Estimated */
+      estimated: boolean;
+      /**
+       * Max Hr Source
+       * @enum {string}
+       */
+      max_hr_source: 'user_configured' | 'default_fallback';
+      /** Max Hr Value */
+      max_hr_value: number;
+      /**
+       * Model
+       * @constant
+       */
+      model: 'max_hr_percentage_5_zone';
+      zone_boundaries_pct: components['schemas']['HrZoneBoundariesPct'];
+      /**
+       * Zone Time Basis
+       * @enum {string}
+       */
+      zone_time_basis:
+        | 'hr_samples'
+        | 'estimated_from_average_hr'
+        | 'unavailable';
+    };
+    /** HrPerRunAnalytics */
+    HrPerRunAnalytics: {
+      /** Analyzed Duration Seconds */
+      analyzed_duration_seconds: number;
+      /**
+       * Confidence Level
+       * @enum {string}
+       */
+      confidence_level: 'high' | 'medium' | 'low' | 'none';
+      /** Confidence Reason */
+      confidence_reason: string;
+      /** Coverage Ratio */
+      coverage_ratio: number;
+      /** Has Hr Data */
+      has_hr_data: boolean;
+      /** Run Id */
+      run_id: number;
+      /** Total Duration Seconds */
+      total_duration_seconds: number;
+      /** Zones */
+      zones: components['schemas']['HrZoneBreakdownEntry'][];
+    };
+    /** HrTrendAnalytics */
+    HrTrendAnalytics: {
+      /**
+       * Default Period
+       * @enum {string}
+       */
+      default_period: 'weekly' | 'monthly';
+      /** Low Sample Threshold */
+      low_sample_threshold: number;
+      periods: components['schemas']['HrTrendPeriods'];
+    };
+    /** HrTrendPeriods */
+    HrTrendPeriods: {
+      /** Monthly */
+      monthly: components['schemas']['HrTrendPoint'][];
+      /** Weekly */
+      weekly: components['schemas']['HrTrendPoint'][];
+    };
+    /** HrTrendPoint */
+    HrTrendPoint: {
+      /** Average Heartrate */
+      average_heartrate?: number | null;
+      /** Confidence Reason */
+      confidence_reason: string;
+      /** Has Data */
+      has_data: boolean;
+      /** Is Low Confidence */
+      is_low_confidence: boolean;
+      /** Period Key */
+      period_key: string;
+      /** Period Label */
+      period_label: string;
+      /** Run Ids */
+      run_ids: number[];
+      /** Sample Count */
+      sample_count: number;
+    };
+    /** HrZoneBoundariesPct */
+    HrZoneBoundariesPct: {
+      /** Z1 */
+      z1: [number, number];
+      /** Z2 */
+      z2: [number, number];
+      /** Z3 */
+      z3: [number, number];
+      /** Z4 */
+      z4: [number, number];
+      /** Z5 */
+      z5: [number, number];
+    };
+    /** HrZoneBreakdownEntry */
+    HrZoneBreakdownEntry: {
+      /** Duration Seconds */
+      duration_seconds: number;
+      /** Percentage */
+      percentage: number;
+      /**
+       * Zone
+       * @enum {string}
+       */
+      zone: 'Z1' | 'Z2' | 'Z3' | 'Z4' | 'Z5';
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    list_activities_api_v1_activities_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ActivitiesResponse"];
-                };
-            };
-        };
+  list_activities_api_v1_activities_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    analytics_summary_api_v1_analytics_summary_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AnalyticsSummaryResponse"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['ActivitiesResponse'];
         };
+      };
     };
+  };
+  analytics_summary_api_v1_analytics_summary_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AnalyticsSummaryResponse'];
+        };
+      };
+    };
+  };
 }

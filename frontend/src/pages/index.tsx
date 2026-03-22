@@ -31,7 +31,11 @@ import { KpiCards } from '@/features/dashboard/components/KpiCards';
 import { EmptyKpiState } from '@/features/dashboard/components/EmptyKpiState';
 import { HeartRateTrendPanel } from '@/features/dashboard/components/HeartRateTrendPanel';
 import { getAnalyticsSummary } from '@/api/analytics';
-import type { ApiHrMethodology, ApiHrTrendAnalytics, ApiHrPerRunAnalytics } from '@/api/types';
+import type {
+  ApiHrMethodology,
+  ApiHrTrendAnalytics,
+  ApiHrPerRunAnalytics,
+} from '@/api/types';
 
 export const shouldExitSingleRunFocus = (
   singleRunId: number | null,
@@ -45,7 +49,8 @@ export const shouldExitSingleRunFocus = (
 
 const Index = () => {
   const { siteTitle, siteUrl } = useSiteMetadata();
-  const { activities, years, cities, runPeriod, thisYear, freshness } = useActivities();
+  const { activities, years, cities, runPeriod, thisYear, freshness } =
+    useActivities();
   const {
     filters,
     setYear: setFilterYear,
@@ -59,11 +64,13 @@ const Index = () => {
   const [animationRuns, setAnimationRuns] = useState<Activity[]>([]);
   const [singleRunId, setSingleRunId] = useState<number | null>(null);
   const [_animationTrigger, setAnimationTrigger] = useState(0);
-  const [trendMethodology, setTrendMethodology] = useState<ApiHrMethodology | null>(
-    null
-  );
-  const [trendAnalytics, setTrendAnalytics] = useState<ApiHrTrendAnalytics | null>(null);
-  const [perRunAnalytics, setPerRunAnalytics] = useState<ApiHrPerRunAnalytics[] | null>(null);
+  const [trendMethodology, setTrendMethodology] =
+    useState<ApiHrMethodology | null>(null);
+  const [trendAnalytics, setTrendAnalytics] =
+    useState<ApiHrTrendAnalytics | null>(null);
+  const [perRunAnalytics, setPerRunAnalytics] = useState<
+    ApiHrPerRunAnalytics[] | null
+  >(null);
 
   const selectedRunIdRef = useRef<number | null>(null);
   const selectedRunDateRef = useRef<string | null>(null);
@@ -93,7 +100,10 @@ const Index = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const runs = useMemo(() => selectFilteredRuns(activities, filters), [activities, filters]);
+  const runs = useMemo(
+    () => selectFilteredRuns(activities, filters),
+    [activities, filters]
+  );
   const kpis = useMemo(() => selectKpis(runs), [runs]);
   const currentYear = filters.year === 'all' ? 'Total' : filters.year;
   const statYears = useMemo(
@@ -146,7 +156,8 @@ const Index = () => {
         setAnimatedGeoData(geoData);
         return;
       }
-      const sliceNum = runsToAnimate.length >= 8 ? Math.ceil(runsToAnimate.length / 8) : 1;
+      const sliceNum =
+        runsToAnimate.length >= 8 ? Math.ceil(runsToAnimate.length / 8) : 1;
       setAnimationRuns(runsToAnimate);
       setCurrentAnimationIndex(sliceNum);
       setIsAnimating(true);
@@ -156,7 +167,11 @@ const Index = () => {
 
   const clearSingleRunFocusHash = () => {
     if (window.location.hash) {
-      window.history.pushState(null, '', `${window.location.pathname}${window.location.search}`);
+      window.history.pushState(
+        null,
+        '',
+        `${window.location.pathname}${window.location.search}`
+      );
     }
   };
 
@@ -201,13 +216,17 @@ const Index = () => {
   );
 
   const setActivity = useCallback((_newRuns: Activity[]) => {
-    console.warn('setActivity called but runs are now computed from shared filters');
+    console.warn(
+      'setActivity called but runs are now computed from shared filters'
+    );
   }, []);
 
   const locateActivity = useCallback(
     (runIds: RunIds) => {
       const ids = new Set(runIds);
-      const selectedRuns = !runIds.length ? runs : runs.filter((r: any) => ids.has(r.run_id));
+      const selectedRuns = !runIds.length
+        ? runs
+        : runs.filter((r: any) => ids.has(r.run_id));
       if (!selectedRuns.length) {
         return;
       }
@@ -275,7 +294,11 @@ const Index = () => {
     }
     setSingleRunId(null);
     setRunIndex(-1);
-    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    window.history.replaceState(
+      null,
+      '',
+      `${window.location.pathname}${window.location.search}`
+    );
   }, [singleRunId, runs]);
 
   useEffect(() => {
@@ -349,7 +372,9 @@ const Index = () => {
         return;
       }
 
-      const [runDate] = titleEl.innerHTML.match(/\d{4}-\d{1,2}-\d{1,2}/) || [`${+thisYear + 1}`];
+      const [runDate] = titleEl.innerHTML.match(/\d{4}-\d{1,2}-\d{1,2}/) || [
+        `${+thisYear + 1}`,
+      ];
       const runIDsOnDate = runs
         .filter((r) => r.start_date_local.slice(0, 10) === runDate)
         .map((r) => r.run_id);
@@ -383,7 +408,11 @@ const Index = () => {
           <a href={siteUrl}>{siteTitle}</a>
         </h1>
         <div className="mb-8">
-          <RunMapButtons changeYear={changeYear} thisYear={currentYear} years={years} />
+          <RunMapButtons
+            changeYear={changeYear}
+            thisYear={currentYear}
+            years={years}
+          />
         </div>
         <FreshnessTrustSignal freshness={freshness} />
         {(viewState.zoom ?? 0) <= 3 && IS_CHINESE ? (

@@ -53,7 +53,9 @@ vi.mock('@/hooks/useActivities', () => ({
 }));
 
 vi.mock('recharts', () => ({
-  ResponsiveContainer: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  ResponsiveContainer: ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  ),
   BarChart: ({ children }: { children: ReactNode }) => <div>{children}</div>,
   Bar: () => null,
   XAxis: () => null,
@@ -85,16 +87,22 @@ describe('/summary shared filter continuity', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByTestId('summary-filtered-run-count').textContent).toBe('2');
+    expect(screen.getByTestId('summary-filtered-run-count').textContent).toBe(
+      '2'
+    );
 
     fireEvent.change(screen.getByLabelText('summary-activity-type'), {
       target: { value: 'running' },
     });
-    expect(screen.getByTestId('summary-filtered-run-count').textContent).toBe('1');
+    expect(screen.getByTestId('summary-filtered-run-count').textContent).toBe(
+      '1'
+    );
 
     fireEvent.change(screen.getByLabelText('summary-date-range'), {
       target: { value: '2023' },
     });
-    expect(screen.getByTestId('summary-filtered-run-count').textContent).toBe('1');
+    expect(screen.getByTestId('summary-filtered-run-count').textContent).toBe(
+      '1'
+    );
   });
 });

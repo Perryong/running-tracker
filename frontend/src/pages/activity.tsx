@@ -10,11 +10,19 @@ import { HeartRateZoneBreakdown } from '@/features/activity-detail/components/He
 import { useActivityDetail } from '@/features/activity-detail/hooks/useActivityDetail';
 import { getAnalyticsSummary } from '@/api/analytics';
 import type { ApiAnalyticsSummary } from '@/api/types';
-import { formatPace, formatRunTime, geoJsonForRuns, titleForRun } from '@/utils/utils';
+import {
+  formatPace,
+  formatRunTime,
+  geoJsonForRuns,
+  titleForRun,
+} from '@/utils/utils';
 
-const formatDistance = (distanceMeters: number): string => `${(distanceMeters / 1000).toFixed(2)} km`;
+const formatDistance = (distanceMeters: number): string =>
+  `${(distanceMeters / 1000).toFixed(2)} km`;
 
-const formatHeartRate = (heartRate: number | null | undefined): { value: string; helper: string | null } => {
+const formatHeartRate = (
+  heartRate: number | null | undefined
+): { value: string; helper: string | null } => {
   if (heartRate === null || heartRate === undefined) {
     return { value: '—', helper: 'No HR data' };
   }
@@ -33,9 +41,12 @@ const ActivityPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const parsedRunId = runId && /^\d+$/.test(runId) ? Number(runId) : null;
-  const fromDashboard = Boolean((location.state as { fromDashboard?: boolean } | null)?.fromDashboard);
+  const fromDashboard = Boolean(
+    (location.state as { fromDashboard?: boolean } | null)?.fromDashboard
+  );
 
-  const { activity, isLoading, isError, refetch } = useActivityDetail(parsedRunId);
+  const { activity, isLoading, isError, refetch } =
+    useActivityDetail(parsedRunId);
   const [hrSummary, setHrSummary] = useState<ApiAnalyticsSummary | null>(null);
 
   useEffect(() => {
@@ -86,7 +97,9 @@ const ActivityPage = () => {
   const heartRate = formatHeartRate(activity?.average_heartrate ?? null);
   const perRunHr =
     parsedRunId !== null
-      ? hrSummary?.heart_rate.per_run.find((entry) => entry.run_id === parsedRunId) ?? null
+      ? hrSummary?.heart_rate.per_run.find(
+          (entry) => entry.run_id === parsedRunId
+        ) ?? null
       : null;
 
   return (
@@ -102,17 +115,28 @@ const ActivityPage = () => {
           </button>
         </header>
 
-        <section className="w-full space-y-6" data-testid="activity-detail-content-shell">
+        <section
+          className="w-full space-y-6"
+          data-testid="activity-detail-content-shell"
+        >
           {state === 'loading' && <ActivityDetailSkeleton />}
 
           {state === 'error' && (
-            <ActivityDetailError onBack={handleBack} onRetry={() => void refetch()} />
+            <ActivityDetailError
+              onBack={handleBack}
+              onRetry={() => void refetch()}
+            />
           )}
 
-          {state === 'not-found' && <ActivityDetailNotFound onBack={handleBack} />}
+          {state === 'not-found' && (
+            <ActivityDetailNotFound onBack={handleBack} />
+          )}
 
           {state === 'ready' && activity && (
-            <div className="space-y-6" data-testid="activity-detail-state-ready">
+            <div
+              className="space-y-6"
+              data-testid="activity-detail-state-ready"
+            >
               <section
                 className="rounded-md border border-[var(--color-hr-primary)] bg-[var(--color-bg)] p-4"
                 data-testid="activity-detail-headline"
@@ -187,7 +211,10 @@ const ActivityPage = () => {
                 className="rounded-md border border-[var(--color-hr-primary)] bg-[var(--color-bg)] p-4"
                 data-testid="activity-detail-map"
               >
-                <TemplateMap title={titleForRun(activity)} geoData={geoJsonForRuns([activity])} />
+                <TemplateMap
+                  title={titleForRun(activity)}
+                  geoData={geoJsonForRuns([activity])}
+                />
               </section>
             </div>
           )}

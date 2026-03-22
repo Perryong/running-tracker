@@ -2,13 +2,17 @@ interface ActivityDetailNotFoundProps {
   onBack: () => void;
 }
 
-export const ActivityDetailNotFound = ({ onBack }: ActivityDetailNotFoundProps) => {
+export const ActivityDetailNotFound = ({
+  onBack,
+}: ActivityDetailNotFoundProps) => {
   return (
     <section
       className="rounded-md border border-dashed border-[var(--color-hr-primary)] bg-[var(--color-bg)] p-6"
       data-testid="activity-detail-state-not-found"
     >
-      <h2 className="text-2xl font-semibold text-[var(--color-brand)]">Activity not found</h2>
+      <h2 className="text-2xl font-semibold text-[var(--color-brand)]">
+        Activity not found
+      </h2>
       <p className="mt-2 text-sm text-[var(--color-secondary)]">
         We couldn&apos;t find an activity for this run ID.
       </p>

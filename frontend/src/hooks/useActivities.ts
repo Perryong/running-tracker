@@ -40,37 +40,35 @@ const processActivities = (
   runs: Activity[],
   freshness: ApiFreshness
 ): ActivitiesHookData => {
-    const cities: Record<string, number> = {};
-    const runPeriod: Record<string, number> = {};
-    const provinces: Set<string> = new Set();
-    const countries: Set<string> = new Set();
-    const years: Set<string> = new Set();
+  const cities: Record<string, number> = {};
+  const runPeriod: Record<string, number> = {};
+  const provinces: Set<string> = new Set();
+  const countries: Set<string> = new Set();
+  const years: Set<string> = new Set();
 
-    runs.forEach((run) => {
-      const location = locationForRun(run);
+  runs.forEach((run) => {
+    const location = locationForRun(run);
 
-      const periodName = titleForRun(run);
-      if (periodName) {
-        runPeriod[periodName] = runPeriod[periodName]
-          ? runPeriod[periodName] + 1
-          : 1;
-      }
+    const periodName = titleForRun(run);
+    if (periodName) {
+      runPeriod[periodName] = runPeriod[periodName]
+        ? runPeriod[periodName] + 1
+        : 1;
+    }
 
-      const { city, province, country } = location;
-      // drop only one char city
-      if (city.length > 1) {
-        cities[city] = cities[city]
-          ? cities[city] + run.distance
-          : run.distance;
-      }
-      if (province) provinces.add(province);
-      if (country) countries.add(standardizeCountryName(country));
-      const year = run.start_date_local.slice(0, 4);
-      years.add(year);
-    });
+    const { city, province, country } = location;
+    // drop only one char city
+    if (city.length > 1) {
+      cities[city] = cities[city] ? cities[city] + run.distance : run.distance;
+    }
+    if (province) provinces.add(province);
+    if (country) countries.add(standardizeCountryName(country));
+    const year = run.start_date_local.slice(0, 4);
+    years.add(year);
+  });
 
-    const yearsArray = [...years].sort().reverse();
-    const thisYear = yearsArray[0] || '';
+  const yearsArray = [...years].sort().reverse();
+  const thisYear = yearsArray[0] || '';
 
   return {
     activities: runs,
@@ -123,10 +121,10 @@ const useActivities = () => {
     };
   }, []);
 
-  const processedData = useMemo(() => processActivities(runs, freshness), [
-    runs,
-    freshness,
-  ]);
+  const processedData = useMemo(
+    () => processActivities(runs, freshness),
+    [runs, freshness]
+  );
 
   return processedData;
 };
