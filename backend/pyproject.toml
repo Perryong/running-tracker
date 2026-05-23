@@ -6,6 +6,8 @@ authors = [{ name = "yihong0618", email = "zouzou0208@gmail.com" }]
 dependencies = [
   "httpx",
   "gpxpy==1.6.2",
+  "fastapi>=0.104.0",
+  "uvicorn[standard]>=0.24.0",
   "appdirs>=1.4.0",
   "svgwrite>=1.1.9",
   "colour>=0.1.5",
