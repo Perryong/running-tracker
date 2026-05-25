@@ -9,6 +9,7 @@ import { HeartRateMethodologyPanel } from '@/features/activity-detail/components
 import { HeartRateZoneBreakdown } from '@/features/activity-detail/components/HeartRateZoneBreakdown';
 import { useActivityDetail } from '@/features/activity-detail/hooks/useActivityDetail';
 import { getAnalyticsSummary } from '@/api/analytics';
+import { USE_TYPED_API } from '@/api/config';
 import type { ApiAnalyticsSummary } from '@/api/types';
 import {
   formatPace,
@@ -52,6 +53,12 @@ const ActivityPage = () => {
   useEffect(() => {
     let cancelled = false;
     if (parsedRunId === null) {
+      setHrSummary(null);
+      return () => {
+        cancelled = true;
+      };
+    }
+    if (!USE_TYPED_API) {
       setHrSummary(null);
       return () => {
         cancelled = true;

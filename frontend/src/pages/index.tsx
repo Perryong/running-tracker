@@ -31,6 +31,7 @@ import { KpiCards } from '@/features/dashboard/components/KpiCards';
 import { EmptyKpiState } from '@/features/dashboard/components/EmptyKpiState';
 import { HeartRateTrendPanel } from '@/features/dashboard/components/HeartRateTrendPanel';
 import { getAnalyticsSummary } from '@/api/analytics';
+import { USE_TYPED_API } from '@/api/config';
 import type {
   ApiHrMethodology,
   ApiHrTrendAnalytics,
@@ -313,6 +314,13 @@ const Index = () => {
   }, [runs, startAnimation]);
 
   useEffect(() => {
+    if (!USE_TYPED_API) {
+      setTrendMethodology(null);
+      setTrendAnalytics(null);
+      setPerRunAnalytics(null);
+      return;
+    }
+
     let cancelled = false;
     void getAnalyticsSummary()
       .then((response) => {

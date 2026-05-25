@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import activities from '@data/activities.json';
 import { getActivities } from '@/api/activities';
+import { USE_TYPED_API } from '@/api/config';
 import type { Activity } from '@/utils/utils';
 
 interface UseActivityDetailResult {
@@ -16,6 +18,9 @@ export const useActivityDetail = (
   const query = useQuery({
     queryKey: ['activity-detail', runId],
     queryFn: async () => {
+      if (!USE_TYPED_API) {
+        return activities;
+      }
       const response = await getActivities();
       return response.activities;
     },

@@ -96,10 +96,20 @@ Track my running activities with beautiful visualizations including:
 ### Running Locally
 
 ```bash
-npm run dev
+cd backend
+python3 -m uvicorn api.main:app --host 0.0.0.0 --port 5001
 ```
 
-Visit `http://localhost:5173` to view your running page.
+In a second terminal:
+
+```bash
+cd frontend
+pnpm run dev
+```
+
+Visit `http://localhost:5000` to view your running page. Vite proxies `/api` requests to the backend on port `5001`.
+
+The frontend uses static generated data by default. To opt into the FastAPI endpoints during development, start the frontend with `VITE_USE_TYPED_API=true pnpm run dev`.
 
 ## ⚙️ Configuration
 
