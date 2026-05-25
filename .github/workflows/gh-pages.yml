@@ -1,5 +1,7 @@
 name: Publish GitHub Pages
 
+# Touch this workflow to manually refresh the deployed GitHub Pages artifact.
+
 # Controls when the action will run.
 on:
   push:
