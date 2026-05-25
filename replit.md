@@ -9,6 +9,7 @@ A personal running tracker application built with React, Vite, and Mapbox GL tha
 The application is successfully running on Replit with:
 - Clean separation of frontend and backend code
 - Development server running on port 5000 from `/frontend` directory
+- FastAPI server running on port 5001 from `/backend` for proxied `/api` requests
 - All dependencies installed via pnpm
 - Vite configured for Replit environment (0.0.0.0:5000)
 - Deployment configuration set for autoscale
@@ -20,7 +21,7 @@ The application is successfully running on Replit with:
 - **Maps**: Mapbox GL 2.15.0, react-map-gl 7.1.6
 - **Styling**: Tailwind CSS 4.1.10
 - **Package Manager**: pnpm 8.9.0
-- **Backend**: Python 3.x for data processing (Garmin sync, SVG generation)
+- **Backend**: FastAPI on port 5001 plus Python data processing (Garmin sync, SVG generation)
 
 ## Project Structure
 ```
@@ -154,9 +155,10 @@ Configured for Replit autoscale deployment:
 - Serves the built Vite app on port 5000
 
 ## Development Workflow
-1. **Frontend Development**: Run `cd frontend && pnpm run dev` to start the dev server
-2. **Backend Processing**: Run Python scripts from the root or backend directory to process activity data
-3. **Data Flow**: Backend generates `data/activities.json` and SVG files → Frontend imports and displays them
+1. **API Server**: Run `cd backend && python3 -m uvicorn api.main:app --host 0.0.0.0 --port 5001`
+2. **Frontend Development**: Run `cd frontend && pnpm run dev` to start the dev server on port 5000. Static generated data is the default; set `VITE_USE_TYPED_API=true` only when the FastAPI server is available.
+3. **Backend Processing**: Run Python scripts from the root or backend directory to process activity data
+4. **Data Flow**: Backend generates `data/activities.json` and SVG files → Frontend imports and displays them
 
 ## Notes
 - The project uses a monorepo structure with clear separation of concerns

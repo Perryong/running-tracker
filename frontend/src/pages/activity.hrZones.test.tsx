@@ -15,6 +15,10 @@ vi.mock('@/api/analytics', () => ({
   getAnalyticsSummary: getAnalyticsSummaryMock,
 }));
 
+vi.mock('@/api/config', () => ({
+  USE_TYPED_API: true,
+}));
+
 vi.mock('@/components/Layout', () => ({
   default: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));

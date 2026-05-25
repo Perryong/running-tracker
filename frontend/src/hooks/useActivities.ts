@@ -3,6 +3,7 @@ import { locationForRun, titleForRun } from '@/utils/utils';
 import type { Activity } from '@/utils/utils';
 import activities from '@data/activities.json';
 import { getActivities } from '@/api/activities';
+import { USE_TYPED_API } from '@/api/config';
 import type { ApiFreshness } from '@/api/types';
 
 const STATIC_FRESHNESS: ApiFreshness = {
@@ -81,8 +82,6 @@ const processActivities = (
     freshness,
   };
 };
-
-const USE_TYPED_API = import.meta.env.VITE_USE_TYPED_API !== 'false';
 
 const useActivities = () => {
   const [runs, setRuns] = useState<Activity[]>(activities);

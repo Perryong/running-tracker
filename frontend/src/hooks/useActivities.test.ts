@@ -13,6 +13,10 @@ vi.mock('@/api/activities', () => ({
   getActivities: getActivitiesMock,
 }));
 
+vi.mock('@/api/config', () => ({
+  USE_TYPED_API: true,
+}));
+
 describe('useActivities', () => {
   it('falls back to static activities json when api request fails', async () => {
     getActivitiesMock.mockRejectedValueOnce(new Error('network down'));
